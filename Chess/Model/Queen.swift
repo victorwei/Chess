@@ -11,8 +11,8 @@ import UIKit
 
 class Queen: Pieces {
  
-    convenience init(color: Pieces.Side) {
-        self.init()
+    convenience init(frame: CGRect, color: Pieces.Side) {
+        self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "queen_white")
         } else {
@@ -20,5 +20,6 @@ class Queen: Pieces {
         }
         
         self.title = PiecesType.Queen
+        imageView.image = image
     }
 }

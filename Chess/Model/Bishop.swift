@@ -11,14 +11,15 @@ import UIKit
 
 class Bishop: Pieces {
     
-    convenience init(color: Pieces.Side) {
-        self.init()
+    convenience init(frame: CGRect, color: Pieces.Side) {
+        self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "bishop_white")
         } else {
             image = UIImage(named: "bishop_black")
         }
         title = PiecesType.Bishop
+        imageView.image = image
         
     }
 }

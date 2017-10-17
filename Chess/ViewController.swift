@@ -10,44 +10,50 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
+    var chessboard: Chessboard!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let chessboard = Chessboard()
-        chessboard.setup(view: self.view)
-//        let horizontalPadding: CGFloat = 15.0
-//
-//        //original view dimensions
-//        let width = view.frame.width
-//        let height = view.frame.height
-//
-//        // get 8x8 frame with 15 frame
-//        let availableWidth = width - (2 * horizontalPadding)
-//
-//        let chessboardView = UIView()
-//        chessboardView.backgroundColor = UIColor.lightGray
-//        view.addSubview(chessboardView)
-//        let widthLayout = NSLayoutConstraint(item: chessboardView, attribute: .width,
-//                                             relatedBy: .equal, toItem: nil,
-//                                             attribute: .notAnAttribute, multiplier: 1.0,
-//                                             constant: availableWidth)
-//
-//        let heightLayout = NSLayoutConstraint(item: chessboardView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: availableWidth)
-//        let xCenterLayout = NSLayoutConstraint(item: chessboardView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 1.0)
-//        let YCenterLayout = NSLayoutConstraint(item: chessboardView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 1.0)
-//        NSLayoutConstraint.activate([widthLayout, heightLayout, xCenterLayout, YCenterLayout])
-//
-//        chessboardView.translatesAutoresizingMaskIntoConstraints = false
-//
-        
-        
+        chessboard = Chessboard()
+        chessboard.setup(viewController: self)
+        setupTapGestures()
         
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    @objc func tapSquare(_ sender: UITapGestureRecognizer) {
+        let view = sender.view?.tag
+        print("Touched", view)
+        
+        let arraxIndex = getArrayIndexFromTag(tag: view!)
+        chessboard.board[arraxIndex.0][arraxIndex.1].highlighted = true
+        print(chessboard.board[arraxIndex.0][arraxIndex.1].frame)
+    }
+    
+    func setupTapGestures() {
+        chessboard.board.flatMap{$0}.forEach { (square) in
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSquare(_:)))
+            square.tappableView.addGestureRecognizer(tapGesture)
+            square.tappableView.isUserInteractionEnabled = true
+            
+            let arrayNotation = square.boardNotation.returnTapArrayIndex()
+            square.tappableView.tag = arrayNotation
+        }
+    }
+    
+    func getArrayIndexFromTag(tag: Int)-> (Int, Int) {
+        
+        let row = tag % 8
+        let height = (tag - row) / 8
+        return (row, height)
     }
 
 

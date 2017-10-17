@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/Model/Bishop.swift"
-            timestampString = "529647870.630475"
+            timestampString = "529900288.201784"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
             endingLineNumber = "15"
-            landmarkName = "init(color:)"
+            landmarkName = "init(frame:color:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,14 +25,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Chess/Model/Square.swift"
-            timestampString = "529647870.630559"
+            filePath = "Chess/Model/Chessboard.swift"
+            timestampString = "529900288.201897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "chessPiece"
-            landmarkType = "24">
+            startingLineNumber = "232"
+            endingLineNumber = "232"
+            landmarkName = "addPiece(square:type:color:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

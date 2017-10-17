@@ -11,15 +11,15 @@ import UIKit
 
 class King: Pieces {
     
-    convenience init(color: Pieces.Side) {
-        self.init()
+    convenience init(frame: CGRect, color: Pieces.Side) {
+        self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "king_white")
         } else {
             image = UIImage(named: "king_black")
         }
         self.title = PiecesType.King
-        
+        imageView.image = image
     }
     
 }

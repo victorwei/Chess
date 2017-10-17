@@ -12,14 +12,14 @@ import UIKit
 
 class Rook: Pieces {
     
-    convenience init(color: Pieces.Side) {
-        self.init()
+    convenience init(frame: CGRect, color: Pieces.Side) {
+        self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "rook_white")
         } else {
             image = UIImage(named: "rook_black")
         }
         title = PiecesType.Rook
-        
+        imageView.image = image
     }
 }

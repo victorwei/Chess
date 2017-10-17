@@ -11,13 +11,17 @@ import UIKit
 
 class Knight: Pieces {
     
-    convenience init(color: Pieces.Side) {
-        self.init()
+    convenience init(frame: CGRect, color: Pieces.Side) {
+        self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "knight_white")
+            imageView.image = image
+            
         } else {
             image = UIImage(named: "knight_black")
+            imageView.image = image
         }
         self.title = PiecesType.Knight
+        imageView.image = image
     }
 }
