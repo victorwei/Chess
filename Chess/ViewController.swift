@@ -30,22 +30,24 @@ class ViewController: UIViewController {
     
     
     @objc func tapSquare(_ sender: UITapGestureRecognizer) {
-        let view = sender.view?.tag
-        print("Touched", view)
+       
+        guard let index = sender.view?.tag else {
+            return
+        }
+        chessboard.selectSquare(index: index)
         
-        let arraxIndex = getArrayIndexFromTag(tag: view!)
-        chessboard.board[arraxIndex.0][arraxIndex.1].highlighted = true
-        print(chessboard.board[arraxIndex.0][arraxIndex.1].frame)
+        
     }
     
     func setupTapGestures() {
         chessboard.board.flatMap{$0}.forEach { (square) in
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSquare(_:)))
-            square.tappableView.addGestureRecognizer(tapGesture)
-            square.tappableView.isUserInteractionEnabled = true
+            
+            square.interactableView.addGestureRecognizer(tapGesture)
+            square.interactableView.isUserInteractionEnabled = true
             
             let arrayNotation = square.boardNotation.returnTapArrayIndex()
-            square.tappableView.tag = arrayNotation
+            square.interactableView.tag = arrayNotation
         }
     }
     

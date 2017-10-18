@@ -22,7 +22,33 @@ class Pawn: Pieces {
         }
         
         self.title = PiecesType.Pawn
+        self.side = color
         imageView.image = image
     }
     
+    
+    func getPossiblePawnMoves() -> [(Int, Int)]? {
+        guard let square = self.square else {
+            return nil
+        }
+        let arrayNotation = square.boardNotation.returnArrayNotation()
+        
+        var height = arrayNotation.0
+        var row = arrayNotation.1
+        
+        var possibleMoves = [(Int, Int)]()
+        
+        // Go either one or two steps forward
+        for index in (1...2) {
+            let possibleHeight = height - index
+            if (possibleHeight > 0) || (height > 7) {
+                possibleMoves.append((possibleHeight, row))
+            }
+        }
+        
+        // Capture opponent pieces
+        
+        
+        return possibleMoves
+    }
 }

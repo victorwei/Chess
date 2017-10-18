@@ -64,17 +64,11 @@ struct BoardNotation {
 
 class Square: UIView {
     
-    var imageView: UIImageView?
     var boardNotation: BoardNotation!
-    var tappableView: UIView!
     var highlightView: UIView!
-    weak var chessPiece: Pieces? {
-        didSet {
-            if let image = chessPiece?.image {
-                self.imageView?.image = image
-            }
-        }
-    }
+    var interactableView: UIView!
+    
+    weak var chessPiece: Pieces?
     
     
     var highlighted: Bool = false {
@@ -97,9 +91,7 @@ class Square: UIView {
         
         self.init(frame: frame)
         setNotation(row: arrayIndex.0, height: arrayIndex.1)
-//        setupImageView()
         setupHighlightView()
-        setTappableView()
     }
     
     
@@ -113,134 +105,23 @@ class Square: UIView {
     }
     
     
-    private func setTappableView() {
-        tappableView = UIView()
-        self.addSubview(tappableView)
-        
-        let widthLayout = NSLayoutConstraint(item: tappableView,
-                                             attribute: .width,
-                                             relatedBy: .equal,
-                                             toItem: self,
-                                             attribute: .width ,
-                                             multiplier:  1.0,
-                                             constant: 0)
-        let heightLayout = NSLayoutConstraint(item: tappableView,
-                                              attribute: .height,
-                                              relatedBy: .equal,
-                                              toItem: self,
-                                              attribute: .height,
-                                              multiplier: 1.0,
-                                              constant: 0)
-        let xCenterLayout = NSLayoutConstraint(item: tappableView,
-                                               attribute: .centerX,
-                                               relatedBy: .equal,
-                                               toItem: self,
-                                               attribute: .centerX,
-                                               multiplier: 1.0,
-                                               constant: 1.0)
-        let YCenterLayout = NSLayoutConstraint(item: tappableView,
-                                               attribute: .centerY,
-                                               relatedBy: .equal,
-                                               toItem: self,
-                                               attribute: .centerY,
-                                               multiplier: 1.0,
-                                               constant: 1.0)
-        NSLayoutConstraint.activate([widthLayout, heightLayout, xCenterLayout, YCenterLayout])
-        tappableView.translatesAutoresizingMaskIntoConstraints = false
-        
-    }
-    
     private func setNotation(row: Int, height: Int) {
-        
         if let rowNotation = BoardNotation.RowNotation(rawValue: row) {
             boardNotation = BoardNotation(row: rowNotation, height: height)
         }
     }
     
     
-    
-    func setupImageView() {
-        imageView = UIImageView()
-        guard let imageView = imageView else {
-            return
-        }
-        self.addSubview(imageView)
-        let widthLayout = NSLayoutConstraint(item: imageView,
-                                             attribute: .width,
-                                             relatedBy: .equal,
-                                             toItem: self,
-                                             attribute: .width ,
-                                             multiplier:  0.9,
-                                             constant: 0)
-        let heightLayout = NSLayoutConstraint(item: imageView,
-                                             attribute: .height,
-                                             relatedBy: .equal,
-                                             toItem: self,
-                                             attribute: .height,
-                                             multiplier: 0.9,
-                                             constant: 0)
-        let xCenterLayout = NSLayoutConstraint(item: imageView,
-                                               attribute: .centerX,
-                                               relatedBy: .equal,
-                                               toItem: self,
-                                               attribute: .centerX,
-                                               multiplier: 1.0,
-                                               constant: 1.0)
-        let YCenterLayout = NSLayoutConstraint(item: imageView,
-                                               attribute: .centerY,
-                                               relatedBy: .equal,
-                                               toItem: self,
-                                               attribute: .centerY,
-                                               multiplier: 1.0,
-                                               constant: 1.0)
-        NSLayoutConstraint.activate([widthLayout, heightLayout, xCenterLayout, YCenterLayout])
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-    }
-    
     func setupHighlightView() {
-        highlightView = UIView()
+        highlightView = UIView(frame: CGRect(x: 0,
+                                             y: 0,
+                                             width: self.frame.width,
+                                             height: self.frame.height))
         highlightView.backgroundColor = UIColor.yellow
         highlightView.alpha = 0.5
         highlightView.isHidden = true
         self.addSubview(highlightView)
-        
-        let widthLayout = NSLayoutConstraint(item: highlightView,
-                                             attribute: .width,
-                                             relatedBy: .equal,
-                                             toItem: self,
-                                             attribute: .width ,
-                                             multiplier:  1.0,
-                                             constant: 0)
-        let heightLayout = NSLayoutConstraint(item: highlightView,
-                                              attribute: .height,
-                                              relatedBy: .equal,
-                                              toItem: self,
-                                              attribute: .height,
-                                              multiplier: 1.0,
-                                              constant: 0)
-        let xCenterLayout = NSLayoutConstraint(item: highlightView,
-                                               attribute: .centerX,
-                                               relatedBy: .equal,
-                                               toItem: self,
-                                               attribute: .centerX,
-                                               multiplier: 1.0,
-                                               constant: 1.0)
-        let YCenterLayout = NSLayoutConstraint(item: highlightView,
-                                               attribute: .centerY,
-                                               relatedBy: .equal,
-                                               toItem: self,
-                                               attribute: .centerY,
-                                               multiplier: 1.0,
-                                               constant: 1.0)
-        NSLayoutConstraint.activate([widthLayout, heightLayout, xCenterLayout, YCenterLayout])
-        highlightView.translatesAutoresizingMaskIntoConstraints = false
-        
     }
-    
-    
-    
     
     
     func removePieces() {

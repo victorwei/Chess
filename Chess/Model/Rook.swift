@@ -20,6 +20,7 @@ class Rook: Pieces {
             image = UIImage(named: "rook_black")
         }
         title = PiecesType.Rook
+        self.side = color
         imageView.image = image
     }
 }

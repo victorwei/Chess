@@ -19,6 +19,7 @@ class King: Pieces {
             image = UIImage(named: "king_black")
         }
         self.title = PiecesType.King
+        self.side = color
         imageView.image = image
     }
     

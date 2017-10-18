@@ -20,6 +20,7 @@ class Queen: Pieces {
         }
         
         self.title = PiecesType.Queen
+        self.side = color
         imageView.image = image
     }
 }

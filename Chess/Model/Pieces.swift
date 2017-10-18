@@ -20,6 +20,9 @@ class Pieces: UIView {
     var title: PiecesType!
     var square: Square!
     var imageView: UIImageView!
+    var possibleMoves: [(Int, Int)]?
+    var side: Side!
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,10 +34,16 @@ class Pieces: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func moveToSquare(square: Square) {
+        
+        self.square.removePieces()
+        self.square = square
+        UIView.animate(withDuration: 1.0, animations: {
+            self.frame = self.square.frame
+        }, completion: nil)
+        
+    }
     
-    
-    
-    private var side: Side!
     func setColor(side: Side) {
         self.side = side
     }

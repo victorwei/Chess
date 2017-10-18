@@ -17,11 +17,17 @@ class Chessboard: UIView {
     var availableWidth: CGFloat!
     var board: [[Square]] = []
     var chessboardView: UIView!
+    var tappableViews = [UIView]()
+    var selectedChessPiece: Pieces?
     
     func setup(viewController: UIViewController) {
         drawBoard(view: viewController.view)
         setupPiecesForNewGame()
+        setupTappableAreas()
     }
+    
+    
+    // MARK: SETUP Functions
     
     // Function to create the main chessboard view
     private func drawBoard(view: UIView) {
@@ -32,45 +38,7 @@ class Chessboard: UIView {
         
         // get 8x8 frame with 15 frame
         availableWidth = width - (2 * horizontalPadding)
-        
-//        chessboardView = UIView()
-//        chessboardView.backgroundColor = UIColor.lightGray
-//        view.addSubview(chessboardView)
-//        let widthLayout = NSLayoutConstraint(item: chessboardView,
-//                                             attribute: .width,
-//                                             relatedBy: .equal,
-//                                             toItem: nil,
-//                                             attribute: .notAnAttribute,
-//                                             multiplier: 1.0,
-//                                             constant: availableWidth)
-//        let heightLayout = NSLayoutConstraint(item: chessboardView,
-//                                              attribute: .height,
-//                                              relatedBy: .equal,
-//                                              toItem: nil,
-//                                              attribute: .notAnAttribute,
-//                                              multiplier: 1.0,
-//                                              constant: availableWidth)
-//        let xCenterLayout = NSLayoutConstraint(item: chessboardView,
-//                                               attribute: .centerX,
-//                                               relatedBy: .equal,
-//                                               toItem: view,
-//                                               attribute: .centerX,
-//                                               multiplier: 1.0,
-//                                               constant: 1.0)
-//        let YCenterLayout = NSLayoutConstraint(item: chessboardView,
-//                                               attribute: .centerY,
-//                                               relatedBy: .equal,
-//                                               toItem: view,
-//                                               attribute: .centerY,
-//                                               multiplier: 1.0,
-//                                               constant: 1.0)
-//        NSLayoutConstraint.activate([widthLayout, heightLayout, xCenterLayout, YCenterLayout])
-        
-        
-        
-        
-        
-        
+
         chessboardView = UIView(frame: CGRect(x: horizontalPadding,
                                               y: view.frame.height / 2 - availableWidth / 2,
                                               width: availableWidth,
@@ -111,42 +79,27 @@ class Chessboard: UIView {
                 } else {
                     newSquareView.backgroundColor = index % 2 == 0 ? UIColor.green  : UIColor.white
                 }
-//                let widthLayout = NSLayoutConstraint(item: newSquareView,
-//                                                     attribute: .width,
-//                                                     relatedBy: .equal,
-//                                                     toItem: nil,
-//                                                     attribute: .notAnAttribute,
-//                                                     multiplier: 1.0,
-//                                                     constant: squareWidth)
-//                let heightLayout = NSLayoutConstraint(item: newSquareView,
-//                                                      attribute: .height,
-//                                                      relatedBy: .equal,
-//                                                      toItem: nil,
-//                                                      attribute: .notAnAttribute,
-//                                                      multiplier: 1.0,
-//                                                      constant: squareWidth)
-//                let leadingLayout = NSLayoutConstraint(item: newSquareView,
-//                                                       attribute: .leading,
-//                                                       relatedBy: .equal,
-//                                                       toItem: chessboardView,
-//                                                       attribute: .leading,
-//                                                       multiplier: 1.0,
-//                                                       constant: CGFloat(index) * squareWidth)
-//                let topLayout = NSLayoutConstraint(item: newSquareView,
-//                                                   attribute: .top,
-//                                                   relatedBy: .equal,
-//                                                   toItem: chessboardView,
-//                                                   attribute: .top,
-//                                                   multiplier: 1.0,
-//                                                   constant: CGFloat(index2) * squareWidth)
-//                NSLayoutConstraint.activate([widthLayout, heightLayout, leadingLayout, topLayout])
-//                newSquareView.translatesAutoresizingMaskIntoConstraints = false
                 
                 row.append(newSquareView)
             }
             board.append(row)
         }
     }
+    
+    
+    private func setupTappableAreas () {
+        
+        board.flatMap{$0}.forEach { (square) in
+            
+            let tappableView = UIView(frame: square.frame)
+            chessboardView.addSubview(tappableView)
+            square.interactableView = tappableView
+            let arrayNotation = square.boardNotation.returnTapArrayIndex()
+            tappableView.tag = arrayNotation
+            
+        }
+    }
+    
     
     
     // Function to set pieces object at each square
@@ -203,37 +156,11 @@ class Chessboard: UIView {
         }
     }
     
-    
-    func possibleMoves(currentSquare: Square)-> [Square.Type]? {
-        guard let piece = currentSquare.chessPiece,
-        let pieceType = piece.title else {
-            return nil
-        }
-        
-        switch pieceType {
-            
-        case .Bishop:
-            break
-        case .Rook:
-            break
-        case .Knight:
-            break
-        case .Pawn:
-            break
-        case .King:
-            break
-        case .Queen:
-            break
-        }
-        return nil
-    }
-    
     private func addPiece(square: Square, type: PiecesType, color: Pieces.Side) {
         var chessPiece: Pieces!
         switch type {
         case .Rook:
             chessPiece = Rook(frame: square.frame, color: color)
-            
         case .King:
             chessPiece = King(frame: square.frame, color: color)
         case .Queen:
@@ -244,7 +171,6 @@ class Chessboard: UIView {
             chessPiece = Knight(frame: square.frame, color: color)
         case .Pawn:
             chessPiece = Pawn(frame: square.frame, color: color)
-            
         }
         square.chessPiece = chessPiece
         chessPiece.square = square
@@ -252,60 +178,110 @@ class Chessboard: UIView {
     }
     
     
-    private func getPossiblePawnMoves(square: BoardNotation) -> [(Int, Int)]? {
+    
+
+}
+
+extension Chessboard {
+    func selectSquare(index: Int) {
         
-        let arrayNotation = square.returnArrayNotation()
+        let arraxIndex = getArrayIndexFromTag(tag: index)
+        var selectedBoardSquare = board[arraxIndex.0][arraxIndex.1]
         
-        var row = arrayNotation.0
-        var height = arrayNotation.1
+        // If this is part 2 of a move
         
-        var possibleMoves = [(Int, Int)]()
-        for index in (1...2) {
-            let possibleHeight = height - index
-            if (possibleHeight > 0) || (height > 7) {
-                possibleMoves.append((row, possibleHeight))
-            }
+        if let selectedChessPiece = selectedChessPiece {
+    
+            selectedBoardSquare.chessPiece = selectedChessPiece
+            selectedChessPiece.moveToSquare(square: selectedBoardSquare)
+            
+            self.selectedChessPiece = nil
+            clearHighlightedSquares()
+            
+            return
         }
-        return possibleMoves
+        
+        
+        
+        // if there is a piece on the square
+        if let chessPiece = selectedBoardSquare.chessPiece {
+            selectedChessPiece = chessPiece
+            selectedBoardSquare.highlighted = true
+            getPossibleMoves()
+        }
+        
+        
+    }
+    
+    // Helper function to get correct array index from tag number
+    private func getArrayIndexFromTag(tag: Int)-> (Int, Int) {
+        
+        let row = tag % 8
+        let height = (tag - row) / 8
+        return (row, height)
+    }
+    
+    private func clearHighlightedSquares() {
+        board.flatMap{ $0 }.forEach { (square) in
+            square.highlighted = false
+        }
     }
     
     
     
-// func setupTapGestures(viewController: UIViewController) {
-//
-//        board.flatMap{$0}.forEach { (square) in
-//            let tapGesture = UITapGestureRecognizer(target: viewController, action: #selector(Chessboard.tapSquare(_:)))
-//            square.tappableView.addGestureRecognizer(tapGesture)
-//            square.tappableView.isUserInteractionEnabled = true
-//            print(square.boardNotation.returnBoardNotation())
-//            print(square.boardNotation.returnArrayNotation())
-//            print(square.boardNotation.returnTapArrayIndex())
-//        }
-//    }
-//
-//
-//    @objc func tapSquare(_ sender: UITapGestureRecognizer) {
-//
-////        guard let piece = square.chessPiece else {
-////            return
-////        }
-//
-//        print("Touched")
-////
-////        switch piece.title! {
-////        case .Pawn:
-////            if let possibleMoves = getPossiblePawnMoves(square: square.boardNotation) {
-////                for notation in possibleMoves {
-////                    board[notation.0][notation.1].highlighted = !board[notation.0][notation.1].highlighted
-////                }
-////            }
-////
-////
-////
-////
-////        default:
-////            break
-////        }
-//
-//    }
+    func getPossibleMoves()-> [Square.Type]? {
+        
+        guard let chessPiece = selectedChessPiece,
+            let chessPieceType = chessPiece.title else {
+            return nil
+        }
+        
+        switch chessPieceType {
+            
+        case .Bishop:
+            break
+        case .Knight:
+            let knight = chessPiece as! Knight
+            if var moves = knight.getPossibleKnightMoves() {
+                
+                moves = moves.filter({ (arrayIndex) -> Bool in
+                    let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
+                    guard let chesspieceOnSquare = possibleSquare.chessPiece else {
+                        return true
+                    }
+                    return chessPiece.getColor() != chesspieceOnSquare.getColor()
+                })
+                
+                knight.possibleMoves = moves
+                
+                for move in moves {
+                    board[move.0][move.1].highlighted = true
+                }
+            }
+        case .Rook:
+            break
+        case .King:
+            break
+        case .Queen:
+            break
+        case .Pawn:
+            let pawn = chessPiece as! Pawn
+            if let moves = pawn.getPossiblePawnMoves() {
+                for move in moves {
+                    board[move.0][move.1].highlighted = true
+                }
+            }
+            
+        }
+        
+        let chessboardSquare = chessPiece.square.boardNotation
+        return nil
+    }
+    
+    
+    
+    
+    
+    
+    
 }
