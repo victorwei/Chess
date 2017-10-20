@@ -28,9 +28,7 @@ class Knight: Pieces {
     
     
     
-    private func checkValidSquare(index: Int)-> Bool {
-        return (0...7).contains(index)
-    }
+
     
     func getPossibleKnightMoves() -> [(Int, Int)]? {
         guard let square = self.square else {

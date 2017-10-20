@@ -11,6 +11,7 @@ import UIKit
 
 class Chessboard: UIView {
     
+    
     var originFrame = CGRect.zero
     var boardFrame: CGRect?
     var horizontalPadding: CGFloat = 15.0
@@ -24,6 +25,7 @@ class Chessboard: UIView {
         drawBoard(view: viewController.view)
         setupPiecesForNewGame()
         setupTappableAreas()
+        setupBoardNotation()
     }
     
     
@@ -31,6 +33,8 @@ class Chessboard: UIView {
     
     // Function to create the main chessboard view
     private func drawBoard(view: UIView) {
+        
+        self.frame = view.frame
         
         //original view dimensions
         let width = view.frame.width
@@ -46,8 +50,8 @@ class Chessboard: UIView {
         chessboardView.backgroundColor = UIColor.lightGray
         chessboardView.layer.borderColor = UIColor.red.cgColor
         chessboardView.layer.borderWidth = 2.0
-        view.addSubview(chessboardView)
-        
+        self.addSubview(chessboardView)
+        view.addSubview(self)
         addSquares(chessboardView: chessboardView)
     }
     
@@ -64,7 +68,7 @@ class Chessboard: UIView {
             
             for index2 in (0..<8) {
                 
-                var boardSquareWidth = chessboardView.frame.width / 8
+                let boardSquareWidth = chessboardView.frame.width / 8
                 let boardCGPoint = CGPoint(x: (boardSquareWidth * CGFloat(index2)),
                                            y: (boardSquareWidth * CGFloat(index)))
                 let boardSize = CGSize(width: boardSquareWidth, height: boardSquareWidth)
@@ -156,6 +160,32 @@ class Chessboard: UIView {
         }
     }
     
+    private func setupBoardNotation() {
+        let squareSize = availableWidth / 8
+        let boardYPos = chessboardView.frame.minY
+        for index in (0..<8) {
+            let label = UILabel(frame: CGRect(x: 4,
+                                              y: boardYPos + (CGFloat(index) * squareSize) + (squareSize / 2.2),
+                                              width: 20.0,
+                                              height: 20.0))
+            label.text = String(8 - index)
+            self.addSubview(label)
+            
+            let rowLabel = UILabel(frame: CGRect(x: chessboardView.frame.minX +
+                (CGFloat(index) * squareSize) + (squareSize / 2.2),
+                                                 y: chessboardView.frame.maxY + 4,
+                                                 width: 20.0,
+                                                 height: 20.0))
+            if let rowUnicodeScalar = UnicodeScalar(97 + (index)) {
+                rowLabel.text = String(Character(rowUnicodeScalar))
+                self.addSubview(rowLabel)
+            }
+            
+        }
+        
+        
+    }
+    
     private func addPiece(square: Square, type: PiecesType, color: Pieces.Side) {
         var chessPiece: Pieces!
         switch type {
@@ -239,19 +269,21 @@ extension Chessboard {
         switch chessPieceType {
             
         case .Bishop:
-            break
+            let bishop = chessPiece as! Bishop
+            if var moves = bishop.getPossibleBishopMoves() {
+                
+                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
+                bishop.possibleMoves = moves
+                
+                for move in moves {
+                    board[move.0][move.1].highlighted = true
+                }
+            }
         case .Knight:
             let knight = chessPiece as! Knight
             if var moves = knight.getPossibleKnightMoves() {
                 
-                moves = moves.filter({ (arrayIndex) -> Bool in
-                    let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
-                    guard let chesspieceOnSquare = possibleSquare.chessPiece else {
-                        return true
-                    }
-                    return chessPiece.getColor() != chesspieceOnSquare.getColor()
-                })
-                
+                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 knight.possibleMoves = moves
                 
                 for move in moves {
@@ -261,12 +293,32 @@ extension Chessboard {
         case .Rook:
             break
         case .King:
-            break
+            let king = chessPiece as! King
+            if var moves = king.getPossibleKingMoves() {
+                
+                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
+                king.possibleMoves = moves
+                
+                for move in moves {
+                    board[move.0][move.1].highlighted = true
+                }
+            }
         case .Queen:
-            break
+            let queen = chessPiece as! Queen
+            if var moves = queen.getPossibleQueenMoves() {
+                
+                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
+                queen.possibleMoves = moves
+                
+                for move in moves {
+                    board[move.0][move.1].highlighted = true
+                }
+            }
         case .Pawn:
             let pawn = chessPiece as! Pawn
-            if let moves = pawn.getPossiblePawnMoves() {
+            if var moves = pawn.getPossiblePawnMoves() {
+                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
+                pawn.possibleMoves = moves
                 for move in moves {
                     board[move.0][move.1].highlighted = true
                 }
@@ -274,10 +326,19 @@ extension Chessboard {
             
         }
         
-        let chessboardSquare = chessPiece.square.boardNotation
         return nil
     }
     
+    private func getValidPossibleMoves(possibleMoves: [(Int, Int)], color: Pieces.Side)-> [(Int, Int)] {
+        
+        return possibleMoves.filter({ (arrayIndex) -> Bool in
+            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
+            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
+                return true
+            }
+            return color != chesspieceOnSquare.getColor()
+        })
+    }
     
     
     

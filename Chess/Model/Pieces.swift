@@ -53,4 +53,8 @@ class Pieces: UIView {
     }
     
     
+    func checkValidSquare(index: Int)-> Bool {
+        return (0...7).contains(index)
+    }
+    
 }
