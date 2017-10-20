@@ -291,7 +291,16 @@ extension Chessboard {
                 }
             }
         case .Rook:
-            break
+            let rook = chessPiece as! Rook
+            if var moves = rook.getPossibleRookMoves() {
+                
+                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
+                rook.possibleMoves = moves
+                
+                for move in moves {
+                    board[move.0][move.1].highlighted = true
+                }
+            }
         case .King:
             let king = chessPiece as! King
             if var moves = king.getPossibleKingMoves() {
