@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class Pieces: UIView {
+class ChessPiece: UIView {
     
     enum Side {
         case white, black
@@ -20,7 +20,7 @@ class Pieces: UIView {
     var title: PiecesType!
     var square: Square!
     var imageView: UIImageView!
-    var possibleMoves: [(Int, Int)]?
+    var possibleMoves: [BoardNotation]?
     var side: Side!
     
     

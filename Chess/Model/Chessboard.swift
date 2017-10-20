@@ -19,7 +19,7 @@ class Chessboard: UIView {
     var board: [[Square]] = []
     var chessboardView: UIView!
     var tappableViews = [UIView]()
-    var selectedChessPiece: Pieces?
+    var selectedChessPiece: ChessPiece?
     
     func setup(viewController: UIViewController) {
         drawBoard(view: viewController.view)
@@ -186,8 +186,8 @@ class Chessboard: UIView {
         
     }
     
-    private func addPiece(square: Square, type: PiecesType, color: Pieces.Side) {
-        var chessPiece: Pieces!
+    private func addPiece(square: Square, type: PiecesType, color: ChessPiece.Side) {
+        var chessPiece: ChessPiece!
         switch type {
         case .Rook:
             chessPiece = Rook(frame: square.frame, color: color)
@@ -215,19 +215,26 @@ class Chessboard: UIView {
 extension Chessboard {
     func selectSquare(index: Int) {
         
-        let arraxIndex = getArrayIndexFromTag(tag: index)
-        var selectedBoardSquare = board[arraxIndex.0][arraxIndex.1]
+        let arrayIndex = getArrayIndexFromTag(tag: index)
+        var selectedBoardSquare = board[arrayIndex.1][arrayIndex.0]
         
         // If this is part 2 of a move
         
-        if let selectedChessPiece = selectedChessPiece {
-    
-            selectedBoardSquare.chessPiece = selectedChessPiece
-            selectedChessPiece.moveToSquare(square: selectedBoardSquare)
+        if let selectedChessPiece = selectedChessPiece,
+            let possibleMovesChessPieceCanGo = selectedChessPiece.possibleMoves {
             
-            self.selectedChessPiece = nil
-            clearHighlightedSquares()
+            if selectedChessPiece.square.boardNotation.returnTapArrayIndex() == index {
+                self.selectedChessPiece = nil
+                clearHighlightedSquares()
+                return
+            }
             
+            if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
+                selectedBoardSquare.chessPiece = selectedChessPiece
+                selectedChessPiece.moveToSquare(square: selectedBoardSquare)
+                clearHighlightedSquares()
+                self.selectedChessPiece = nil
+            }
             return
         }
         
@@ -240,6 +247,17 @@ extension Chessboard {
             getPossibleMoves()
         }
         
+        
+    }
+    
+    
+    private func verifyValidSquareToGoTo(squares: [BoardNotation], selectedSquare: Int)-> Bool {
+        for square in squares {
+            if square.returnTapArrayIndex() == selectedSquare {
+                return true
+            }
+        }
+        return false
         
     }
     
@@ -274,10 +292,8 @@ extension Chessboard {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 bishop.possibleMoves = moves
+                highlightPossibleSquares(boardSquares: moves)
                 
-                for move in moves {
-                    board[move.0][move.1].highlighted = true
-                }
             }
         case .Knight:
             let knight = chessPiece as! Knight
@@ -285,10 +301,7 @@ extension Chessboard {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 knight.possibleMoves = moves
-                
-                for move in moves {
-                    board[move.0][move.1].highlighted = true
-                }
+                highlightPossibleSquares(boardSquares: moves)
             }
         case .Rook:
             let rook = chessPiece as! Rook
@@ -296,10 +309,7 @@ extension Chessboard {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 rook.possibleMoves = moves
-                
-                for move in moves {
-                    board[move.0][move.1].highlighted = true
-                }
+                highlightPossibleSquares(boardSquares: moves)
             }
         case .King:
             let king = chessPiece as! King
@@ -307,10 +317,7 @@ extension Chessboard {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 king.possibleMoves = moves
-                
-                for move in moves {
-                    board[move.0][move.1].highlighted = true
-                }
+                highlightPossibleSquares(boardSquares: moves)
             }
         case .Queen:
             let queen = chessPiece as! Queen
@@ -318,29 +325,53 @@ extension Chessboard {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 queen.possibleMoves = moves
-                
-                for move in moves {
-                    board[move.0][move.1].highlighted = true
-                }
+                highlightPossibleSquares(boardSquares: moves)
             }
         case .Pawn:
             let pawn = chessPiece as! Pawn
             if var moves = pawn.getPossiblePawnMoves() {
-                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
+                moves = getValidPawnMoves(possibleMoves: moves, pawn: pawn)
                 pawn.possibleMoves = moves
-                for move in moves {
-                    board[move.0][move.1].highlighted = true
-                }
+                highlightPossibleSquares(boardSquares: moves)
             }
-            
         }
         
         return nil
     }
     
-    private func getValidPossibleMoves(possibleMoves: [(Int, Int)], color: Pieces.Side)-> [(Int, Int)] {
+    private func highlightPossibleSquares(boardSquares: [BoardNotation]) {
+        for square in boardSquares {
+            let arrayIndex = square.returnArrayNotation()
+            board[arrayIndex.0][arrayIndex.1].highlighted = true
+        }
+    }
+    
+    private func getValidPawnMoves(possibleMoves: [BoardNotation], pawn: Pawn )-> [BoardNotation] {
+        let currentSquareNotation = pawn.square.boardNotation.returnArrayNotation()
+        return possibleMoves.filter({ (boardNotation) -> Bool in
+            let arrayIndex = boardNotation.returnArrayNotation()
+            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
+            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
+                return true
+            }
+            
+            if currentSquareNotation.1 == arrayIndex.1 {
+                return pawn.side == chesspieceOnSquare.getColor()
+            } else {
+                return pawn.side != chesspieceOnSquare.getColor()
+            }
+        })
+     
         
-        return possibleMoves.filter({ (arrayIndex) -> Bool in
+        
+        
+        
+        
+    }
+    private func getValidPossibleMoves(possibleMoves: [BoardNotation], color: ChessPiece.Side)-> [BoardNotation] {
+        
+        return possibleMoves.filter({ (boardNotation) -> Bool in
+            let arrayIndex = boardNotation.returnArrayNotation()
             let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
             guard let chesspieceOnSquare = possibleSquare.chessPiece else {
                 return true

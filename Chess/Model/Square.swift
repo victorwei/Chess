@@ -43,6 +43,7 @@ struct BoardNotation {
         }
     }
     
+    
     var row: RowNotation
     var height: Int
     
@@ -53,7 +54,7 @@ struct BoardNotation {
     }
     
     func returnArrayNotation() -> (Int, Int) {
-        return (row.rawValue, height)
+        return (height, row.rawValue)
     }
     
     func returnTapArrayIndex() -> Int {
@@ -68,7 +69,7 @@ class Square: UIView {
     var highlightView: UIView!
     var interactableView: UIView!
     
-    weak var chessPiece: Pieces?
+    weak var chessPiece: ChessPiece?
     
     
     var highlighted: Bool = false {
@@ -90,7 +91,7 @@ class Square: UIView {
     convenience init(frame: CGRect, arrayIndex: (Int, Int)) {
         
         self.init(frame: frame)
-        setNotation(row: arrayIndex.0, height: arrayIndex.1)
+        setNotation(row: arrayIndex.1, height: arrayIndex.0)
         setupHighlightView()
     }
     
@@ -128,7 +129,7 @@ class Square: UIView {
         chessPiece = nil
     }
     
-    func addPiece(type: PiecesType, color: Pieces.Side) {
+    func addPiece(type: PiecesType, color: ChessPiece.Side) {
         
         switch type {
             

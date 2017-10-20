@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class Knight: Pieces {
+class Knight: ChessPiece {
     
-    convenience init(frame: CGRect, color: Pieces.Side) {
+    convenience init(frame: CGRect, color: ChessPiece.Side) {
         self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "knight_white")
@@ -30,7 +30,7 @@ class Knight: Pieces {
     
 
     
-    func getPossibleKnightMoves() -> [(Int, Int)]? {
+    func getPossibleKnightMoves() -> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -39,7 +39,7 @@ class Knight: Pieces {
         var height = arrayNotation.0
         var row = arrayNotation.1
         
-        var possibleMoves = [(Int, Int)]()
+        var possibleMoves = [BoardNotation]()
         
         
         for index in (1...2) {
@@ -52,19 +52,19 @@ class Knight: Pieces {
             
             if checkValidSquare(index: moveHeight) {
                 if checkValidSquare(index: moveRow) {
-                    possibleMoves.append((moveHeight, moveRow))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight))
                 }
                 if checkValidSquare(index: moveRow2) {
-                    possibleMoves.append((moveHeight, moveRow2))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
                 }
             }
             
             if checkValidSquare(index: moveHeight2) {
                 if checkValidSquare(index: moveRow) {
-                    possibleMoves.append((moveHeight2, moveRow))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
                 }
                 if checkValidSquare(index: moveRow2) {
-                    possibleMoves.append((moveHeight2, moveRow2))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))
                 }
             }
         }

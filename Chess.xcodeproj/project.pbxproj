@@ -22,7 +22,7 @@
 		571307901F9034B80027CE2A /* Queen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5713078F1F9034B80027CE2A /* Queen.swift */; };
 		571307931F9034F90027CE2A /* Chessboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307921F9034F90027CE2A /* Chessboard.swift */; };
 		571307951F9182870027CE2A /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307941F9182870027CE2A /* Square.swift */; };
-		571307971F91898C0027CE2A /* Pieces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307961F91898C0027CE2A /* Pieces.swift */; };
+		571307971F91898C0027CE2A /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307961F91898C0027CE2A /* ChessPiece.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +55,7 @@
 		5713078F1F9034B80027CE2A /* Queen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queen.swift; sourceTree = "<group>"; };
 		571307921F9034F90027CE2A /* Chessboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chessboard.swift; sourceTree = "<group>"; };
 		571307941F9182870027CE2A /* Square.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
-		571307961F91898C0027CE2A /* Pieces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pieces.swift; sourceTree = "<group>"; };
+		571307961F91898C0027CE2A /* ChessPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiece.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +126,7 @@
 				5713078B1F90349C0027CE2A /* Knight.swift */,
 				571307871F90347B0027CE2A /* Pawn.swift */,
 				5713078F1F9034B80027CE2A /* Queen.swift */,
-				571307961F91898C0027CE2A /* Pieces.swift */,
+				571307961F91898C0027CE2A /* ChessPiece.swift */,
 				571307851F9034560027CE2A /* Rook.swift */,
 				571307921F9034F90027CE2A /* Chessboard.swift */,
 				571307941F9182870027CE2A /* Square.swift */,
@@ -241,7 +241,7 @@
 				571307651F90321D0027CE2A /* ViewController.swift in Sources */,
 				571307931F9034F90027CE2A /* Chessboard.swift in Sources */,
 				5713078A1F90348C0027CE2A /* Bishop.swift in Sources */,
-				571307971F91898C0027CE2A /* Pieces.swift in Sources */,
+				571307971F91898C0027CE2A /* ChessPiece.swift in Sources */,
 				571307951F9182870027CE2A /* Square.swift in Sources */,
 				571307901F9034B80027CE2A /* Queen.swift in Sources */,
 				5713076B1F90321D0027CE2A /* Chess.xcdatamodeld in Sources */,

@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class Bishop: Pieces {
+class Bishop: ChessPiece {
     
-    convenience init(frame: CGRect, color: Pieces.Side) {
+    convenience init(frame: CGRect, color: ChessPiece.Side) {
         self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "bishop_white")
@@ -24,7 +24,7 @@ class Bishop: Pieces {
     }
     
     
-    func getPossibleBishopMoves() -> [(Int, Int)]? {
+    func getPossibleBishopMoves() -> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -33,7 +33,7 @@ class Bishop: Pieces {
         var height = arrayNotation.0
         var row = arrayNotation.1
         
-        var possibleMoves = [(Int, Int)]()
+        var possibleMoves = [BoardNotation]()
         
         for index in (1...7) {
             let moveUp = height - index
@@ -43,19 +43,19 @@ class Bishop: Pieces {
             
             if checkValidSquare(index: moveUp) {
                 if checkValidSquare(index: moveRight) {
-                    possibleMoves.append((moveUp, moveRight))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveUp))
                 }
                 if checkValidSquare(index: moveLeft) {
-                    possibleMoves.append((moveUp, moveLeft))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
                 }
             }
             
             if checkValidSquare(index: moveDown) {
                 if checkValidSquare(index: moveRight) {
-                    possibleMoves.append((moveDown, moveRight))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
                 }
                 if checkValidSquare(index: moveLeft) {
-                    possibleMoves.append((moveDown, moveLeft))
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
                 }
             }
             

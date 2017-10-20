@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 
-class Rook: Pieces {
+class Rook: ChessPiece {
     
-    convenience init(frame: CGRect, color: Pieces.Side) {
+    convenience init(frame: CGRect, color: ChessPiece.Side) {
         self.init(frame: frame)
         if color == .white {
             image = UIImage(named: "rook_white")
@@ -24,7 +24,7 @@ class Rook: Pieces {
         imageView.image = image
     }
     
-    func getPossibleRookMoves() -> [(Int, Int)]? {
+    func getPossibleRookMoves() -> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -33,7 +33,7 @@ class Rook: Pieces {
         var height = arrayNotation.0
         var row = arrayNotation.1
         
-        var possibleMoves = [(Int, Int)]()
+        var possibleMoves = [BoardNotation]()
         
         for index in (1...7) {
             let moveUp = height - index
@@ -42,18 +42,18 @@ class Rook: Pieces {
             let moveLeft = row - index
             
             if checkValidSquare(index: moveUp) {
-                possibleMoves.append((moveUp, row))
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveUp)!, height: row))
             }
             
             if checkValidSquare(index: moveDown) {
-                possibleMoves.append((moveDown, row))
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveDown)!, height: row))
             }
             
             if checkValidSquare(index: moveRight) {
-                possibleMoves.append((height, moveRight))
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: height)!, height: moveRight))
             }
             if checkValidSquare(index: moveLeft) {
-                possibleMoves.append((height, moveLeft))
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: height)!, height: moveLeft))
             }
         }
         
