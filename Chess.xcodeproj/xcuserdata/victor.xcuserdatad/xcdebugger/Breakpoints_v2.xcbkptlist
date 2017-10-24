@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/Model/Bishop.swift"
-            timestampString = "530166028.503988"
+            timestampString = "530491403.199827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
@@ -44,12 +44,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/Model/Chessboard.swift"
-            timestampString = "530166028.504124"
+            timestampString = "530491403.199969"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "164"
             endingLineNumber = "164"
             landmarkName = "setupBoardNotation()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chess/Model/Rook.swift"
+            timestampString = "530491403.200487"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "getAllPossibleRookMoves(chessboard:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

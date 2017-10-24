@@ -57,4 +57,17 @@ class ChessPiece: UIView {
         return (0...7).contains(index)
     }
     
+    
+    // Helper function to check if a chessboard square has a chess piece and determine whether it is the same side as the current chess piece
+    // Used to help determine what moves are available for the chessPiece
+    func checkSquareForChesspieceAndColor(square: Square)-> (Bool, Bool) {
+        if let chesspiece = square.chessPiece {
+            if chesspiece.getColor() == self.getColor() {
+                return (true, true)
+            }
+            return(true, false)
+        }
+        return (false, false)
+    }
+    
 }

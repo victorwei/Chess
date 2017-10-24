@@ -250,7 +250,7 @@ extension Chessboard {
         
     }
     
-    
+    // Helper fucntion to verify the user's second selection (moving a piece to a valid square) is valid or not
     private func verifyValidSquareToGoTo(squares: [BoardNotation], selectedSquare: Int)-> Bool {
         for square in squares {
             if square.returnTapArrayIndex() == selectedSquare {
@@ -288,7 +288,9 @@ extension Chessboard {
             
         case .Bishop:
             let bishop = chessPiece as! Bishop
-            if var moves = bishop.getPossibleBishopMoves() {
+            
+            
+            if var moves = bishop.getAllPossibleBishopMoves(chessboard: board) {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 bishop.possibleMoves = moves
@@ -305,7 +307,7 @@ extension Chessboard {
             }
         case .Rook:
             let rook = chessPiece as! Rook
-            if var moves = rook.getPossibleRookMoves() {
+            if var moves = rook.getAllPossibleRookMoves(chessboard: board) {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 rook.possibleMoves = moves
@@ -321,12 +323,11 @@ extension Chessboard {
             }
         case .Queen:
             let queen = chessPiece as! Queen
-            if var moves = queen.getPossibleQueenMoves() {
-                
-                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
-                queen.possibleMoves = moves
+            queen.getAllPossibleQueenMoves(chessboard: board)
+            if let moves = queen.possibleMoves {
                 highlightPossibleSquares(boardSquares: moves)
             }
+            
         case .Pawn:
             let pawn = chessPiece as! Pawn
             if var moves = pawn.getPossiblePawnMoves() {
@@ -361,13 +362,14 @@ extension Chessboard {
                 return pawn.side != chesspieceOnSquare.getColor()
             }
         })
-     
-        
-        
-        
-        
-        
     }
+    
+    
+    
+    
+    
+    
+    
     private func getValidPossibleMoves(possibleMoves: [BoardNotation], color: ChessPiece.Side)-> [BoardNotation] {
         
         return possibleMoves.filter({ (boardNotation) -> Bool in
