@@ -24,9 +24,9 @@ class Queen: ChessPiece {
         imageView.image = image
     }
     
-    func getAllPossibleQueenMoves(chessboard: [[Square]]) -> [BoardNotation]? {
+    func getAllPossibleQueenMoves(chessboard: [[Square]]) {
         guard let square = self.square else {
-            return nil
+            return
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
@@ -154,6 +154,5 @@ class Queen: ChessPiece {
         }
         
         self.possibleMoves = possibleMoves
-        return possibleMoves
     }
 }

@@ -30,9 +30,9 @@ class Knight: ChessPiece {
     
 
     
-    func getAllPossibleKnightMoves(chessboard: [[Square]]) -> [BoardNotation]? {
+    func getAllPossibleKnightMoves(chessboard: [[Square]]) {
         guard let square = self.square else {
-            return nil
+            return
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
@@ -96,9 +96,6 @@ class Knight: ChessPiece {
                 }
             }
         }
-        
-        
         self.possibleMoves = possibleMoves
-        return possibleMoves
     }
 }

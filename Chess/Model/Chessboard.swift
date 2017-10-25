@@ -235,7 +235,6 @@ extension Chessboard {
             
             // User case if user selects the chess square where the selected chess piece should go.
             if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
-                
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare)
                 clearHighlightedSquares()
                 self.selectedChessPiece = nil
@@ -249,30 +248,12 @@ extension Chessboard {
         if let chessPiece = selectedBoardSquare.chessPiece {
             selectedChessPiece = chessPiece
             selectedBoardSquare.highlighted = true
-            getPossibleMoves()
+            highlightPossibleMovesForSelectedPiece()
         }
         
         
     }
-    
-    
-    
-    // Helper function to move a chesspiece to the proper square
-    private func moveChessPieceToSquare(chessPiece: ChessPiece, toSquare: Square) {
-        
-        if var chessPieceOnSquare = toSquare.chessPiece {
-            
-            UIView.animate(withDuration: 1.0, animations: {
-                chessPiece.frame = toSquare.frame
-                chessPieceOnSquare.alpha = 0
-            }, completion: nil)
-            
-            chessPieceOnSquare.removeFromSuperview()
-        }
-        chessPiece.moveToSquare(square: toSquare)
-        toSquare.chessPiece = chessPiece
-        
-    }
+
     
     
     
@@ -304,49 +285,43 @@ extension Chessboard {
     
     
     
-    func getPossibleMoves()-> [Square.Type]? {
+    func highlightPossibleMovesForSelectedPiece() {
         
         guard let chessPiece = selectedChessPiece,
             let chessPieceType = chessPiece.title else {
-            return nil
+            return
         }
         
         switch chessPieceType {
             
         case .Bishop:
             let bishop = chessPiece as! Bishop
-            
-            
-            if var moves = bishop.getAllPossibleBishopMoves(chessboard: board) {
-                
-                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
-                bishop.possibleMoves = moves
+            bishop.getAllPossibleBishopMoves(chessboard: board)
+            if let moves = bishop.possibleMoves {
                 highlightPossibleSquares(boardSquares: moves)
-                
             }
+
         case .Knight:
             let knight = chessPiece as! Knight
-            if var moves = knight.getAllPossibleKnightMoves(chessboard: board) {
-                
-                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
-                knight.possibleMoves = moves
+            knight.getAllPossibleKnightMoves(chessboard: board)
+            if let moves = knight.possibleMoves {
                 highlightPossibleSquares(boardSquares: moves)
             }
+
         case .Rook:
             let rook = chessPiece as! Rook
-            if var moves = rook.getAllPossibleRookMoves(chessboard: board) {
-                
-                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
-                rook.possibleMoves = moves
+            rook.getAllPossibleRookMoves(chessboard: board)
+            if let moves = rook.possibleMoves {
                 highlightPossibleSquares(boardSquares: moves)
             }
+            
         case .King:
             let king = chessPiece as! King
-            if var moves = king.getAllPossibleKingMoves(chessboard: board) {
-                moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
-                king.possibleMoves = moves
+            king.getAllPossibleKingMoves(chessboard: board)
+            if let moves = king.possibleMoves {
                 highlightPossibleSquares(boardSquares: moves)
             }
+
         case .Queen:
             let queen = chessPiece as! Queen
             queen.getAllPossibleQueenMoves(chessboard: board)
@@ -356,14 +331,11 @@ extension Chessboard {
             
         case .Pawn:
             let pawn = chessPiece as! Pawn
-            if var moves = pawn.getAllPossiblePawnMoves(chessboard: board) {
-                moves = getValidPawnMoves(possibleMoves: moves, pawn: pawn)
-                pawn.possibleMoves = moves
+            pawn.getAllPossiblePawnMoves(chessboard: board)
+            if let moves = pawn.possibleMoves {
                 highlightPossibleSquares(boardSquares: moves)
             }
         }
-        
-        return nil
     }
     
     private func highlightPossibleSquares(boardSquares: [BoardNotation]) {

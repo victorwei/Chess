@@ -27,9 +27,9 @@ class Pawn: ChessPiece {
     }
     
     
-    func getAllPossiblePawnMoves(chessboard: [[Square]]) -> [BoardNotation]? {
+    func getAllPossiblePawnMoves(chessboard: [[Square]]) {
         guard let square = self.square else {
-            return nil
+            return
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
@@ -74,6 +74,5 @@ class Pawn: ChessPiece {
         }
         
         self.possibleMoves = possibleMoves
-        return possibleMoves
     }
 }

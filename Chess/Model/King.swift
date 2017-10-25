@@ -24,9 +24,9 @@ class King: ChessPiece {
     }
     
     
-    func getAllPossibleKingMoves(chessboard: [[Square]]) -> [BoardNotation]? {
+    func getAllPossibleKingMoves(chessboard: [[Square]]) {
         guard let square = self.square else {
-            return nil
+            return
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
@@ -135,7 +135,6 @@ class King: ChessPiece {
         
         
         self.possibleMoves = possibleMoves
-        return possibleMoves
     }
     
 }

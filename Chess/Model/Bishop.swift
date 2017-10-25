@@ -66,9 +66,9 @@ class Bishop: ChessPiece {
     }
     
     
-    func getAllPossibleBishopMoves(chessboard: [[Square]]) -> [BoardNotation]? {
+    func getAllPossibleBishopMoves(chessboard: [[Square]]) {
         guard let square = self.square else {
-            return nil
+            return
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
@@ -144,7 +144,6 @@ class Bishop: ChessPiece {
         }
         // Capture opponent pieces
         self.possibleMoves = possibleMoves
-        return possibleMoves
     }
     
 }
