@@ -133,34 +133,7 @@ class King: ChessPiece {
             }
         }
         
-//        if checkValidSquare(index: moveUp) {
-//            if checkValidSquare(index: moveRight) {
-//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveUp))
-//            }
-//            if checkValidSquare(index: moveLeft) {
-//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
-//            }
-//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp))
-//        }
-//
-//        if checkValidSquare(index: moveDown) {
-//            if checkValidSquare(index: moveRight) {
-//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
-//            }
-//            if checkValidSquare(index: moveLeft) {
-//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
-//            }
-//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveDown))
-//        }
-//
-//        if checkValidSquare(index: moveRight) {
-//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: height))
-//        }
-//        if checkValidSquare(index: moveLeft) {
-//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: height))
-//        }
         
-        // Capture opponent pieces
         self.possibleMoves = possibleMoves
         return possibleMoves
     }

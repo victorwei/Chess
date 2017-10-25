@@ -36,8 +36,8 @@ class Knight: ChessPiece {
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
-        var height = arrayNotation.0
-        var row = arrayNotation.1
+        let height = arrayNotation.0
+        let row = arrayNotation.1
         
         var possibleMoves = [BoardNotation]()
         
@@ -60,7 +60,6 @@ class Knight: ChessPiece {
                     } else {
                         possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight))
                     }
-//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight))
                 }
                 if checkValidSquare(index: moveRow2) {
                     let potentialSquare = chessboard[moveHeight][moveRow]
@@ -71,7 +70,6 @@ class Knight: ChessPiece {
                     } else {
                         possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
                     }
-//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
                 }
             }
             
@@ -85,7 +83,6 @@ class Knight: ChessPiece {
                     } else {
                         possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
                     }
-//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
                 }
                 if checkValidSquare(index: moveRow2) {
                     let potentialSquare = chessboard[moveHeight][moveRow]
@@ -96,7 +93,6 @@ class Knight: ChessPiece {
                     } else {
                         possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))
                     }
-//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))
                 }
             }
         }

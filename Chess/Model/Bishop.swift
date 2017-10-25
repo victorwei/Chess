@@ -72,8 +72,8 @@ class Bishop: ChessPiece {
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
-        var height = arrayNotation.0
-        var row = arrayNotation.1
+        let height = arrayNotation.0
+        let row = arrayNotation.1
         
         var canMoveUpRight = true
         var canMoveUpLeft = true
