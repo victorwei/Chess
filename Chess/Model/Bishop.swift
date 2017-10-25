@@ -111,11 +111,11 @@ class Bishop: ChessPiece {
                     } else {
                         possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
                     }
-//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
                 }
             }
             
             if checkValidSquare(index: moveDown) {
+                
                 if checkValidSquare(index: moveRight) && canMoveDownRight {
                     let potentialSquare = chessboard[moveDown][moveRight]
                     if let chessPieceOnSquare = potentialSquare.chessPiece {
@@ -126,11 +126,10 @@ class Bishop: ChessPiece {
                     } else {
                         possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
                     }
-                    
-//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
                 }
+                
                 if checkValidSquare(index: moveLeft) && canMoveDownLeft{
-                    let potentialSquare = chessboard[moveDown][moveRight]
+                    let potentialSquare = chessboard[moveDown][moveLeft]
                     if let chessPieceOnSquare = potentialSquare.chessPiece {
                         canMoveDownLeft = false
                         if chessPieceOnSquare.getColor() != self.getColor() {
@@ -139,7 +138,6 @@ class Bishop: ChessPiece {
                     } else {
                         possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
                     }
-//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
                 }
             }
             

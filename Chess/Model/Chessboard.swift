@@ -213,24 +213,29 @@ class Chessboard: UIView {
 }
 
 extension Chessboard {
+    
+    
+    // Function used when user selects a chess square
     func selectSquare(index: Int) {
         
         let arrayIndex = getArrayIndexFromTag(tag: index)
-        var selectedBoardSquare = board[arrayIndex.1][arrayIndex.0]
+        let selectedBoardSquare = board[arrayIndex.1][arrayIndex.0]
         
-        // If this is part 2 of a move
-        
+        // If this is part 2 of a move (user has already selected a chesspiece to move)
+        // There are 2 options - if user selects the chess piece again, or if user selects the square where he wants the chessPiece to move to
         if let selectedChessPiece = selectedChessPiece,
             let possibleMovesChessPieceCanGo = selectedChessPiece.possibleMoves {
             
+            // Use case if user selects the same square as before. We want to remove any highlighted squares and remove the current chess piece selection
             if selectedChessPiece.square.boardNotation.returnTapArrayIndex() == index {
                 self.selectedChessPiece = nil
                 clearHighlightedSquares()
                 return
             }
             
+            // User case if user selects the chess square where the selected chess piece should go.
             if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
-                selectedBoardSquare.chessPiece = selectedChessPiece
+                
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare)
                 clearHighlightedSquares()
                 self.selectedChessPiece = nil
@@ -250,7 +255,29 @@ extension Chessboard {
         
     }
     
-    // Helper fucntion to verify the user's second selection (moving a piece to a valid square) is valid or not
+    
+    
+    // Helper function to move a chesspiece to the proper square
+    private func moveChessPieceToSquare(chessPiece: ChessPiece, toSquare: Square) {
+        
+        if var chessPieceOnSquare = toSquare.chessPiece {
+            
+            UIView.animate(withDuration: 1.0, animations: {
+                chessPiece.frame = toSquare.frame
+                chessPieceOnSquare.alpha = 0
+            }, completion: nil)
+            
+            chessPieceOnSquare.removeFromSuperview()
+        }
+        chessPiece.moveToSquare(square: toSquare)
+        toSquare.chessPiece = chessPiece
+        
+    }
+    
+    
+    
+    
+    // Helper function to verify the user's second selection (moving a piece to a valid square) is valid or not
     private func verifyValidSquareToGoTo(squares: [BoardNotation], selectedSquare: Int)-> Bool {
         for square in squares {
             if square.returnTapArrayIndex() == selectedSquare {
@@ -299,7 +326,7 @@ extension Chessboard {
             }
         case .Knight:
             let knight = chessPiece as! Knight
-            if var moves = knight.getPossibleKnightMoves() {
+            if var moves = knight.getAllPossibleKnightMoves(chessboard: board) {
                 
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 knight.possibleMoves = moves
@@ -315,8 +342,7 @@ extension Chessboard {
             }
         case .King:
             let king = chessPiece as! King
-            if var moves = king.getPossibleKingMoves() {
-                
+            if var moves = king.getAllPossibleKingMoves(chessboard: board) {
                 moves = getValidPossibleMoves(possibleMoves: moves, color: chessPiece.getColor())
                 king.possibleMoves = moves
                 highlightPossibleSquares(boardSquares: moves)
@@ -330,7 +356,7 @@ extension Chessboard {
             
         case .Pawn:
             let pawn = chessPiece as! Pawn
-            if var moves = pawn.getPossiblePawnMoves() {
+            if var moves = pawn.getAllPossiblePawnMoves(chessboard: board) {
                 moves = getValidPawnMoves(possibleMoves: moves, pawn: pawn)
                 pawn.possibleMoves = moves
                 highlightPossibleSquares(boardSquares: moves)

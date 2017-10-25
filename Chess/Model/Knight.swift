@@ -30,7 +30,7 @@ class Knight: ChessPiece {
     
 
     
-    func getPossibleKnightMoves() -> [BoardNotation]? {
+    func getAllPossibleKnightMoves(chessboard: [[Square]]) -> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -52,19 +52,51 @@ class Knight: ChessPiece {
             
             if checkValidSquare(index: moveHeight) {
                 if checkValidSquare(index: moveRow) {
-                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight))
+                    let potentialSquare = chessboard[moveHeight][moveRow]
+                    if let chessPieceOnSquare = potentialSquare.chessPiece {
+                        if chessPieceOnSquare.getColor() != self.getColor() {
+                            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight))
+                        }
+                    } else {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight))
+                    }
+//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight))
                 }
                 if checkValidSquare(index: moveRow2) {
-                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
+                    let potentialSquare = chessboard[moveHeight][moveRow]
+                    if let chessPieceOnSquare = potentialSquare.chessPiece {
+                        if chessPieceOnSquare.getColor() != self.getColor() {
+                            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
+                        }
+                    } else {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
+                    }
+//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
                 }
             }
             
             if checkValidSquare(index: moveHeight2) {
                 if checkValidSquare(index: moveRow) {
-                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
+                    let potentialSquare = chessboard[moveHeight][moveRow]
+                    if let chessPieceOnSquare = potentialSquare.chessPiece {
+                        if chessPieceOnSquare.getColor() != self.getColor() {
+                            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
+                        }
+                    } else {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
+                    }
+//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
                 }
                 if checkValidSquare(index: moveRow2) {
-                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))
+                    let potentialSquare = chessboard[moveHeight][moveRow]
+                    if let chessPieceOnSquare = potentialSquare.chessPiece {
+                        if chessPieceOnSquare.getColor() != self.getColor() {
+                            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))
+                        }
+                    } else {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))
+                    }
+//                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))
                 }
             }
         }

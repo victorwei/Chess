@@ -24,14 +24,14 @@ class King: ChessPiece {
     }
     
     
-    func getPossibleKingMoves() -> [BoardNotation]? {
+    func getAllPossibleKingMoves(chessboard: [[Square]]) -> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
         
-        var height = arrayNotation.0
-        var row = arrayNotation.1
+        let height = arrayNotation.0
+        let row = arrayNotation.1
         
         var possibleMoves = [BoardNotation]()
         
@@ -40,32 +40,125 @@ class King: ChessPiece {
         let moveRight = row + 1
         let moveLeft = row - 1
         
+        
         if checkValidSquare(index: moveUp) {
-            if checkValidSquare(index: moveRight) {
-                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveUp))
+            if checkValidSquare(index: moveRight){
+                let potentialSquare = chessboard[moveUp][moveRight]
+                if let chessPieceOnSquare = potentialSquare.chessPiece {
+                    if chessPieceOnSquare.getColor() != self.getColor() {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveUp))
+                    }
+                } else {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveUp))
+                }
             }
-            if checkValidSquare(index: moveLeft) {
-                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
+            if checkValidSquare(index: moveLeft){
+                let potentialSquare = chessboard[moveUp][moveLeft]
+                if let chessPieceOnSquare = potentialSquare.chessPiece {
+                    if chessPieceOnSquare.getColor() != self.getColor() {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
+                    }
+                } else {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
+                }
             }
-            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp))
+            
+            let potentialSquare = chessboard[moveUp][row]
+            if let chessPieceOnSquare = potentialSquare.chessPiece {
+                if chessPieceOnSquare.getColor() != self.getColor() {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp))
+                }
+            } else {
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp))
+            }
+            
         }
         
+        //Check squares that queen can move in the Down direction
         if checkValidSquare(index: moveDown) {
             if checkValidSquare(index: moveRight) {
-                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
+                let potentialSquare = chessboard[moveDown][moveRight]
+                if let chessPieceOnSquare = potentialSquare.chessPiece {
+                    if chessPieceOnSquare.getColor() != self.getColor() {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
+                    }
+                } else {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
+                }
             }
+            
             if checkValidSquare(index: moveLeft) {
-                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
+                let potentialSquare = chessboard[moveDown][moveLeft]
+                if let chessPieceOnSquare = potentialSquare.chessPiece {
+                    if chessPieceOnSquare.getColor() != self.getColor() {
+                        possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
+                    }
+                } else {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
+                }
             }
-            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveDown))
+            
+            let potentialSquare = chessboard[moveDown][row]
+            if let chessPieceOnSquare = potentialSquare.chessPiece {
+                if chessPieceOnSquare.getColor() != self.getColor() {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveDown))
+                }
+            } else {
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveDown))
+            }
+            
         }
         
+        //Check squares that queen can move to the right
         if checkValidSquare(index: moveRight) {
-            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: height))
+            let potentialSquare = chessboard[height][moveRight]
+            if let chessPieceOnSquare = potentialSquare.chessPiece {
+                if chessPieceOnSquare.getColor() != self.getColor() {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: height))
+                }
+            } else {
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: height))
+            }
         }
+        
+        //Check squares that queen can move to the left
         if checkValidSquare(index: moveLeft) {
-            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: height))
+            let potentialSquare = chessboard[height][moveLeft]
+            if let chessPieceOnSquare = potentialSquare.chessPiece {
+                if chessPieceOnSquare.getColor() != self.getColor() {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: height))
+                }
+            } else {
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: height))
+            }
         }
+        
+//        if checkValidSquare(index: moveUp) {
+//            if checkValidSquare(index: moveRight) {
+//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveUp))
+//            }
+//            if checkValidSquare(index: moveLeft) {
+//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
+//            }
+//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp))
+//        }
+//
+//        if checkValidSquare(index: moveDown) {
+//            if checkValidSquare(index: moveRight) {
+//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveDown))
+//            }
+//            if checkValidSquare(index: moveLeft) {
+//                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveDown))
+//            }
+//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveDown))
+//        }
+//
+//        if checkValidSquare(index: moveRight) {
+//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: height))
+//        }
+//        if checkValidSquare(index: moveLeft) {
+//            possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: height))
+//        }
         
         // Capture opponent pieces
         self.possibleMoves = possibleMoves

@@ -122,13 +122,13 @@
 			isa = PBXGroup;
 			children = (
 				571307891F90348C0027CE2A /* Bishop.swift */,
+				571307921F9034F90027CE2A /* Chessboard.swift */,
+				571307961F91898C0027CE2A /* ChessPiece.swift */,
 				5713078D1F9034A80027CE2A /* King.swift */,
 				5713078B1F90349C0027CE2A /* Knight.swift */,
 				571307871F90347B0027CE2A /* Pawn.swift */,
 				5713078F1F9034B80027CE2A /* Queen.swift */,
-				571307961F91898C0027CE2A /* ChessPiece.swift */,
 				571307851F9034560027CE2A /* Rook.swift */,
-				571307921F9034F90027CE2A /* Chessboard.swift */,
 				571307941F9182870027CE2A /* Square.swift */,
 			);
 			path = Model;
