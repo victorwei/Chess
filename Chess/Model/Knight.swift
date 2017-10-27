@@ -62,7 +62,7 @@ class Knight: ChessPiece {
                     }
                 }
                 if checkValidSquare(index: moveRow2) {
-                    let potentialSquare = chessboard[moveHeight][moveRow]
+                    let potentialSquare = chessboard[moveHeight][moveRow2]
                     if let chessPieceOnSquare = potentialSquare.chessPiece {
                         if chessPieceOnSquare.getColor() != self.getColor() {
                             possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight))
@@ -75,7 +75,7 @@ class Knight: ChessPiece {
             
             if checkValidSquare(index: moveHeight2) {
                 if checkValidSquare(index: moveRow) {
-                    let potentialSquare = chessboard[moveHeight][moveRow]
+                    let potentialSquare = chessboard[moveHeight2][moveRow]
                     if let chessPieceOnSquare = potentialSquare.chessPiece {
                         if chessPieceOnSquare.getColor() != self.getColor() {
                             possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow)!, height: moveHeight2))
@@ -85,7 +85,7 @@ class Knight: ChessPiece {
                     }
                 }
                 if checkValidSquare(index: moveRow2) {
-                    let potentialSquare = chessboard[moveHeight][moveRow]
+                    let potentialSquare = chessboard[moveHeight2][moveRow2]
                     if let chessPieceOnSquare = potentialSquare.chessPiece {
                         if chessPieceOnSquare.getColor() != self.getColor() {
                             possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRow2)!, height: moveHeight2))

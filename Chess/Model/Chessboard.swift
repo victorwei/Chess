@@ -21,6 +21,9 @@ class Chessboard: UIView {
     var tappableViews = [UIView]()
     var selectedChessPiece: ChessPiece?
     
+    var whiteChessPieces: [ChessPiece] = []
+    var blackChessPieces: [ChessPiece] = []
+    
     func setup(viewController: UIViewController) {
         drawBoard(view: viewController.view)
         setupPiecesForNewGame()
@@ -59,13 +62,9 @@ class Chessboard: UIView {
     // Helper function to add checkerboard squares
     // Set up board datasource 
     private func addSquares(chessboardView: UIView) {
-        
-        let squareWidth: CGFloat = availableWidth / 8.0
-        
+
         for index in (0..<8) {
-            
             var row = [Square]()
-            
             for index2 in (0..<8) {
                 
                 let boardSquareWidth = chessboardView.frame.width / 8
@@ -115,7 +114,7 @@ class Chessboard: UIView {
                 if height == (board.count - 1) || height == 0 {
                     switch row {
                     case 0, 7:
-                        
+
                         if height == 0 {
                             addPiece(square: boardSquare, type: .Rook, color: .black)
                         } else {
@@ -204,6 +203,13 @@ class Chessboard: UIView {
         }
         square.chessPiece = chessPiece
         chessPiece.square = square
+        
+        if color == .black {
+            self.blackChessPieces.append(chessPiece)
+        } else {
+            self.whiteChessPieces.append(chessPiece)
+        }
+        
         chessboardView.addSubview(chessPiece)
     }
     
@@ -235,14 +241,16 @@ extension Chessboard {
             
             // User case if user selects the chess square where the selected chess piece should go.
             if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
-                selectedChessPiece.moveToSquare(square: selectedBoardSquare)
-                clearHighlightedSquares()
-                self.selectedChessPiece = nil
+                selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
+                    self.clearHighlightedSquares()
+                    self.selectedChessPiece = nil
+                    
+                    self.swapSides()
+                })
+                
             }
             return
         }
-        
-        
         
         // if there is a piece on the square
         if let chessPiece = selectedBoardSquare.chessPiece {
@@ -250,11 +258,60 @@ extension Chessboard {
             selectedBoardSquare.highlighted = true
             highlightPossibleMovesForSelectedPiece()
         }
+    }
+    
+    
+    
+    private func swapSides() {
         
+        // Only need to swap half the board.
+        for height1 in 0..<(board.count / 2) {
+            for row1 in 0..<board[height1].count {
+                
+                let square1 = board[height1][row1]
+                let square2 = board[7 - height1][7 - row1]
+                
+                swapSquares(square1: square1, square2: square2)
+                
+
+            }
+        }
         
+//        self.board = newBoard
+        
+        self.setNeedsDisplay()
+        self.setNeedsLayout()
+        
+    }
+    
+    
+    private func swapSquares(square1: Square, square2: Square) {
+        
+        if square1.chessPiece == nil && square2.chessPiece == nil {
+            return
+        }
+        
+        var square10 = square1
+        var square20 = square2
+        
+        if let square1piece = square1.chessPiece {
+            square1piece.frame = square2.frame
+            square1piece.square = square2
+            
+        }
+        
+        if let square2piece = square2.chessPiece {
+            square2piece.frame = square1.frame
+            square2piece.square = square1
+        }
+        
+        swapSquaresPieces(square1: &square10, square2: &square20)
     }
 
     
+    private func swapSquaresPieces(square1: inout Square, square2: inout Square) {
+        swap(&square1.chessPiece, &square2.chessPiece)
+    }
     
     
     

@@ -12,6 +12,10 @@ import UIKit
 
 class ChessPiece: UIView {
     
+    
+    
+    
+    
     enum Side {
         case white, black
     }
@@ -34,11 +38,13 @@ class ChessPiece: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
     // Function for moving a piece to a certain square
     // When a piece moves, the original square no longer holds a chess piece anymore
     //  the new square should hold a new chesspiece object
     // If the square has a chessPiece on it, that piece should disappear
-    func moveToSquare(square: Square) {
+    func moveToSquare(square: Square, completion: @escaping ()-> ()) {
         self.square.removePieces()
         
         
@@ -49,12 +55,15 @@ class ChessPiece: UIView {
             }, completion: { (finished) in
                 if finished {
                     oldPiece.removeFromSuperview()
+                    completion()
                 }
             })
         } else {
             UIView.animate(withDuration: 1.0, animations: {
                 self.frame = square.frame
-            }, completion: nil)
+            }, completion: { (finished) in
+                completion()
+            })
         }
         square.chessPiece = self
         self.square = square
