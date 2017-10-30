@@ -35,6 +35,7 @@ class Bishop: ChessPiece {
         
         var possibleMoves = [BoardNotation]()
         
+        // a piece can only go up to 7 board squares away (max) and 1 board square away (minimum)
         for index in (1...7) {
             let moveUp = height - index
             let moveDown = height + index
@@ -71,7 +72,6 @@ class Bishop: ChessPiece {
             return
         }
         let arrayNotation = square.boardNotation.returnArrayNotation()
-        
         let height = arrayNotation.0
         let row = arrayNotation.1
         

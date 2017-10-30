@@ -13,9 +13,6 @@ enum PiecesType {
     case King, Queen, Bishop, Knight, Pawn, Rook
 }
 
-
-
-
 struct BoardNotation {
     
     enum RowNotation: Int {
@@ -48,7 +45,7 @@ struct BoardNotation {
     var height: Int
     
     func returnBoardNotation()-> (String, Int) {
-        let boardHeight = height + 1
+        let boardHeight = 8 - height
         let boardRow = row.description
         return (boardRow, boardHeight)
     }
@@ -68,7 +65,6 @@ class Square: UIView {
     var boardNotation: BoardNotation!
     var highlightView: UIView!
     var interactableView: UIView!
-    
     weak var chessPiece: ChessPiece?
     
     
@@ -125,30 +121,32 @@ class Square: UIView {
     }
     
     
+    
+    
     func removePieces() {
         chessPiece = nil
     }
     
-    func addPiece(type: PiecesType, color: ChessPiece.Side) {
-        
-        switch type {
-            
-        case .Rook:
-            chessPiece = Rook(frame: self.frame, color: color)
-            
-        case .King:
-            chessPiece = King(frame: self.frame, color: color)
-        case .Queen:
-            chessPiece = Queen(frame: self.frame, color: color)
-        case .Bishop:
-            chessPiece = Bishop(frame: self.frame, color: color)
-        case .Knight:
-            chessPiece = Knight(frame: self.frame, color: color)
-        case .Pawn:
-            chessPiece = Pawn(frame: self.frame, color: color)
-            
-        }
-    }
+//    func addPiece(type: PiecesType, color: ChessPiece.Side) {
+//
+//        switch type {
+//
+//        case .Rook:
+//            chessPiece = Rook(frame: self.frame, color: color)
+//
+//        case .King:
+//            chessPiece = King(frame: self.frame, color: color)
+//        case .Queen:
+//            chessPiece = Queen(frame: self.frame, color: color)
+//        case .Bishop:
+//            chessPiece = Bishop(frame: self.frame, color: color)
+//        case .Knight:
+//            chessPiece = Knight(frame: self.frame, color: color)
+//        case .Pawn:
+//            chessPiece = Pawn(frame: self.frame, color: color)
+//
+//        }
+//    }
     
     
 }

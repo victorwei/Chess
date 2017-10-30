@@ -24,6 +24,8 @@ class Chessboard: UIView {
     var whiteChessPieces: [ChessPiece] = []
     var blackChessPieces: [ChessPiece] = []
     
+    
+    
     func setup(viewController: UIViewController) {
         drawBoard(view: viewController.view)
         setupPiecesForNewGame()
@@ -60,7 +62,7 @@ class Chessboard: UIView {
     
     
     // Helper function to add checkerboard squares
-    // Set up board datasource 
+    // Set up board datasource.  
     private func addSquares(chessboardView: UIView) {
 
         for index in (0..<8) {
@@ -78,11 +80,10 @@ class Chessboard: UIView {
                 chessboardView.addSubview(newSquareView)
                 
                 if index2 % 2 == 0 {
-                    newSquareView.backgroundColor = index % 2 == 0 ? UIColor.white : UIColor.green
+                    newSquareView.backgroundColor = index % 2 == 0 ? UIColor.white : UIColor.brown
                 } else {
-                    newSquareView.backgroundColor = index % 2 == 0 ? UIColor.green  : UIColor.white
+                    newSquareView.backgroundColor = index % 2 == 0 ? UIColor.brown  : UIColor.white
                 }
-                
                 row.append(newSquareView)
             }
             board.append(row)
@@ -214,7 +215,6 @@ class Chessboard: UIView {
     }
     
     
-    
 
 }
 
@@ -226,6 +226,8 @@ extension Chessboard {
         
         let arrayIndex = getArrayIndexFromTag(tag: index)
         let selectedBoardSquare = board[arrayIndex.1][arrayIndex.0]
+        
+        print(selectedBoardSquare.boardNotation.returnBoardNotation())
         
         // If this is part 2 of a move (user has already selected a chesspiece to move)
         // There are 2 options - if user selects the chess piece again, or if user selects the square where he wants the chessPiece to move to
@@ -261,7 +263,8 @@ extension Chessboard {
     }
     
     
-    
+    // Helper function to switch black and white sides after each "turn".
+    // Swap half of the board with another in order to 'invert' the view.
     private func swapSides() {
         
         // Only need to swap half the board.
@@ -270,21 +273,12 @@ extension Chessboard {
                 
                 let square1 = board[height1][row1]
                 let square2 = board[7 - height1][7 - row1]
-                
-                swapSquares(square1: square1, square2: square2)
-                
-
-            }
+                swapSquares(square1: square1, square2: square2)            }
         }
-        
-//        self.board = newBoard
-        
-        self.setNeedsDisplay()
-        self.setNeedsLayout()
-        
     }
     
-    
+    // Helper function to swap chess pieces on a square
+    // The chesspieces should switch frames, and the squares reference to the chesspieces should be switched as well
     private func swapSquares(square1: Square, square2: Square) {
         
         if square1.chessPiece == nil && square2.chessPiece == nil {
@@ -420,26 +414,15 @@ extension Chessboard {
     }
     
     
-    
-    
-    
-    
-    
-    private func getValidPossibleMoves(possibleMoves: [BoardNotation], color: ChessPiece.Side)-> [BoardNotation] {
-        
-        return possibleMoves.filter({ (boardNotation) -> Bool in
-            let arrayIndex = boardNotation.returnArrayNotation()
-            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
-            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
-                return true
-            }
-            return color != chesspieceOnSquare.getColor()
-        })
-    }
-    
-    
-    
-    
-    
-    
+//    private func getValidPossibleMoves(possibleMoves: [BoardNotation], color: ChessPiece.Side)-> [BoardNotation] {
+//
+//        return possibleMoves.filter({ (boardNotation) -> Bool in
+//            let arrayIndex = boardNotation.returnArrayNotation()
+//            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
+//            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
+//                return true
+//            }
+//            return color != chesspieceOnSquare.getColor()
+//        })
+//    }
 }

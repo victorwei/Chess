@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         
         chessboard = Chessboard()
         chessboard.setup(viewController: self)
-        setupTapGestures()
+        setupTapGesturesForChessboard()
         
     }
 
@@ -30,34 +30,26 @@ class ViewController: UIViewController {
     
     
     @objc func tapSquare(_ sender: UITapGestureRecognizer) {
-       
+
         guard let index = sender.view?.tag else {
             return
         }
         chessboard.selectSquare(index: index)
-        
-        
+
+
     }
-    
-    func setupTapGestures() {
+
+    func setupTapGesturesForChessboard() {
         chessboard.board.flatMap{$0}.forEach { (square) in
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSquare(_:)))
-            
+
             square.interactableView.addGestureRecognizer(tapGesture)
             square.interactableView.isUserInteractionEnabled = true
-            
+
             let arrayNotation = square.boardNotation.returnTapArrayIndex()
             square.interactableView.tag = arrayNotation
         }
     }
-    
-    func getArrayIndexFromTag(tag: Int)-> (Int, Int) {
-        
-        let row = tag % 8
-        let height = (tag - row) / 8
-        return (row, height)
-    }
-
 
 }
 

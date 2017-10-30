@@ -12,10 +12,6 @@ import UIKit
 
 class ChessPiece: UIView {
     
-    
-    
-    
-    
     enum Side {
         case white, black
     }
@@ -45,9 +41,8 @@ class ChessPiece: UIView {
     //  the new square should hold a new chesspiece object
     // If the square has a chessPiece on it, that piece should disappear
     func moveToSquare(square: Square, completion: @escaping ()-> ()) {
+        
         self.square.removePieces()
-        
-        
         if let oldPiece = square.chessPiece {
             UIView.animate(withDuration: 1.0, animations: {
                 self.frame = square.frame
@@ -78,7 +73,7 @@ class ChessPiece: UIView {
         return side
     }
     
-    
+    // Helper function to make sure the index we are accessing is within the board indexes
     func checkValidSquare(index: Int)-> Bool {
         return (0...7).contains(index)
     }
