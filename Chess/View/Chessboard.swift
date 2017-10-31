@@ -21,9 +21,14 @@ class Chessboard: UIView {
     var tappableViews = [UIView]()
     var selectedChessPiece: ChessPiece?
     
+    var rowNotation: [UILabel] = []
+    var heightNotation: [UILabel] = []
+    
     var whiteChessPieces: [ChessPiece] = []
     var blackChessPieces: [ChessPiece] = []
     
+    
+    var whiteTurn: Bool = true
     
     
     func setup(viewController: UIViewController) {
@@ -164,13 +169,18 @@ class Chessboard: UIView {
         let squareSize = availableWidth / 8
         let boardYPos = chessboardView.frame.minY
         for index in (0..<8) {
+            // Height Notation
             let label = UILabel(frame: CGRect(x: 4,
                                               y: boardYPos + (CGFloat(index) * squareSize) + (squareSize / 2.2),
                                               width: 20.0,
                                               height: 20.0))
             label.text = String(8 - index)
             self.addSubview(label)
+            heightNotation.append(label)
             
+            
+            
+            // Row Notation
             let rowLabel = UILabel(frame: CGRect(x: chessboardView.frame.minX +
                 (CGFloat(index) * squareSize) + (squareSize / 2.2),
                                                  y: chessboardView.frame.maxY + 4,
@@ -179,6 +189,7 @@ class Chessboard: UIView {
             if let rowUnicodeScalar = UnicodeScalar(97 + (index)) {
                 rowLabel.text = String(Character(rowUnicodeScalar))
                 self.addSubview(rowLabel)
+                rowNotation.append(rowLabel)
             }
             
         }
@@ -187,6 +198,7 @@ class Chessboard: UIView {
     }
     
     private func addPiece(square: Square, type: PiecesType, color: ChessPiece.Side) {
+        
         var chessPiece: ChessPiece!
         switch type {
         case .Rook:
@@ -218,8 +230,10 @@ class Chessboard: UIView {
 
 }
 
+
+
+
 extension Chessboard {
-    
     
     // Function used when user selects a chess square
     func selectSquare(index: Int) {
@@ -227,7 +241,7 @@ extension Chessboard {
         let arrayIndex = getArrayIndexFromTag(tag: index)
         let selectedBoardSquare = board[arrayIndex.1][arrayIndex.0]
         
-        print(selectedBoardSquare.boardNotation.returnBoardNotation())
+        
         
         // If this is part 2 of a move (user has already selected a chesspiece to move)
         // There are 2 options - if user selects the chess piece again, or if user selects the square where he wants the chessPiece to move to
@@ -244,6 +258,8 @@ extension Chessboard {
             // User case if user selects the chess square where the selected chess piece should go.
             if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
+                    print(selectedChessPiece.title)
+                    print(selectedBoardSquare.boardNotation.returnBoardNotation())
                     self.clearHighlightedSquares()
                     self.selectedChessPiece = nil
                     
@@ -275,7 +291,32 @@ extension Chessboard {
                 let square2 = board[7 - height1][7 - row1]
                 swapSquares(square1: square1, square2: square2)            }
         }
+        
+        swapBoardNotation()
     }
+    
+    // Helper function to swap board notation
+    private func swapBoardNotation() {
+        
+        for index in 0..<(rowNotation.count / 2) {
+            
+            let opposingIndex = rowNotation.count - 1 - index
+            
+            let row1Text = rowNotation[index].text
+            let row2Text = rowNotation[opposingIndex].text
+            rowNotation[index].text = row2Text
+            rowNotation[opposingIndex].text = row1Text
+            
+            let height1Text = heightNotation[index].text
+            let height2Text = heightNotation[opposingIndex].text
+            heightNotation[index].text = height2Text
+            heightNotation[opposingIndex].text = height1Text
+            
+        }
+        
+    }
+    
+    
     
     // Helper function to swap chess pieces on a square
     // The chesspieces should switch frames, and the squares reference to the chesspieces should be switched as well
@@ -396,22 +437,22 @@ extension Chessboard {
         }
     }
     
-    private func getValidPawnMoves(possibleMoves: [BoardNotation], pawn: Pawn )-> [BoardNotation] {
-        let currentSquareNotation = pawn.square.boardNotation.returnArrayNotation()
-        return possibleMoves.filter({ (boardNotation) -> Bool in
-            let arrayIndex = boardNotation.returnArrayNotation()
-            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
-            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
-                return true
-            }
-            
-            if currentSquareNotation.1 == arrayIndex.1 {
-                return pawn.side == chesspieceOnSquare.getColor()
-            } else {
-                return pawn.side != chesspieceOnSquare.getColor()
-            }
-        })
-    }
+//    private func getValidPawnMoves(possibleMoves: [BoardNotation], pawn: Pawn )-> [BoardNotation] {
+//        let currentSquareNotation = pawn.square.boardNotation.returnArrayNotation()
+//        return possibleMoves.filter({ (boardNotation) -> Bool in
+//            let arrayIndex = boardNotation.returnArrayNotation()
+//            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
+//            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
+//                return true
+//            }
+//
+//            if currentSquareNotation.1 == arrayIndex.1 {
+//                return pawn.side == chesspieceOnSquare.getColor()
+//            } else {
+//                return pawn.side != chesspieceOnSquare.getColor()
+//            }
+//        })
+//    }
     
     
 //    private func getValidPossibleMoves(possibleMoves: [BoardNotation], color: ChessPiece.Side)-> [BoardNotation] {

@@ -50,6 +50,7 @@ class ChessPiece: UIView {
             }, completion: { (finished) in
                 if finished {
                     oldPiece.removeFromSuperview()
+                    oldPiece.square = nil
                     completion()
                 }
             })

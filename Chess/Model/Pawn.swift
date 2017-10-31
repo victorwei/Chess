@@ -65,7 +65,7 @@ class Pawn: ChessPiece {
             }
         }
         if checkValidSquare(index: moveLeft) {
-            let potentialSquare = chessboard[moveUp][moveRight]
+            let potentialSquare = chessboard[moveUp][moveLeft]
             if let chesspiece = potentialSquare.chessPiece,
                 chesspiece.getColor() != self.getColor() {
                 possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
