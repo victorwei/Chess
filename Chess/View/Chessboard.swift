@@ -249,7 +249,7 @@ extension Chessboard {
             let possibleMovesChessPieceCanGo = selectedChessPiece.possibleMoves {
             
             // Use case if user selects the same square as before. We want to remove any highlighted squares and remove the current chess piece selection
-            if selectedChessPiece.square.boardNotation.returnTapArrayIndex() == index {
+            if selectedChessPiece.square?.boardNotation.returnTapArrayIndex() == index {
                 self.selectedChessPiece = nil
                 clearHighlightedSquares()
                 return

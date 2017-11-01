@@ -18,7 +18,7 @@ class ChessPiece: UIView {
 
     var image: UIImage!
     var title: PiecesType!
-    var square: Square!
+    var square: Square?
     var imageView: UIImageView!
     var possibleMoves: [BoardNotation]?
     var side: Side!
@@ -41,8 +41,10 @@ class ChessPiece: UIView {
     //  the new square should hold a new chesspiece object
     // If the square has a chessPiece on it, that piece should disappear
     func moveToSquare(square: Square, completion: @escaping ()-> ()) {
-        
-        self.square.removePieces()
+        if self.square == nil {
+            return
+        }
+        self.square?.removePieces()
         if let oldPiece = square.chessPiece {
             UIView.animate(withDuration: 1.0, animations: {
                 self.frame = square.frame
