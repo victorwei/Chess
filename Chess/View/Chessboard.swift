@@ -24,6 +24,8 @@ class Chessboard: UIView {
     var rowNotation: [UILabel] = []
     var heightNotation: [UILabel] = []
     
+    var whiteKing: ChessPiece!
+    var blackKing: ChessPiece!
     var whiteChessPieces: [ChessPiece] = []
     var blackChessPieces: [ChessPiece] = []
     
@@ -199,34 +201,41 @@ class Chessboard: UIView {
     
     private func addPiece(square: Square, type: PiecesType, color: ChessPiece.Side) {
         
-        var chessPiece: ChessPiece!
-        switch type {
-        case .Rook:
-            chessPiece = Rook(frame: square.frame, color: color)
-        case .King:
-            chessPiece = King(frame: square.frame, color: color)
-        case .Queen:
-            chessPiece = Queen(frame: square.frame, color: color)
-        case .Bishop:
-            chessPiece = Bishop(frame: square.frame, color: color)
-        case .Knight:
-            chessPiece = Knight(frame: square.frame, color: color)
-        case .Pawn:
-            chessPiece = Pawn(frame: square.frame, color: color)
-        }
-        square.chessPiece = chessPiece
-        chessPiece.square = square
+//        var chessPiece: ChessPiece!
         
+//        switch type {
+//        case .Rook:
+//            chessPiece = ChessPiece(frame: square.frame, color: color, type: type)
+//            chessPiece = Rook(frame: square.frame, color: color)
+//        case .King:
+//            chessPiece = King(frame: square.frame, color: color)
+//        case .Queen:
+//            chessPiece = Queen(frame: square.frame, color: color)
+//        case .Bishop:
+//            chessPiece = Bishop(frame: square.frame, color: color)
+//        case .Knight:
+//            chessPiece = Knight(frame: square.frame, color: color)
+//        case .Pawn:
+//            chessPiece = Pawn(frame: square.frame, color: color)
+//        }
+        
+        var chessPiece = ChessPiece(frame: square.frame, color: color, type: type, square: square)
+        square.chessPiece = chessPiece
+    
         if color == .black {
             self.blackChessPieces.append(chessPiece)
+            if type == .King {
+                blackKing = chessPiece
+            }
         } else {
             self.whiteChessPieces.append(chessPiece)
+            if type == .King {
+                whiteKing = chessPiece
+            }
         }
         
         chessboardView.addSubview(chessPiece)
     }
-    
-    
 
 }
 
@@ -257,8 +266,18 @@ extension Chessboard {
             
             // User case if user selects the chess square where the selected chess piece should go.
             if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
+                
+                let side: ChessPiece.Side = whiteTurn ? .white : .black
+                // TODO: - still must simulate moving the chess piece to see if user is in check
+                
+                if (checkIfInCheck(side: side))! {
+                    print("can't move you in check!")
+                    return
+                }
+                
+                
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
-                    print(selectedChessPiece.title)
+                    print(selectedChessPiece.type)
                     print(selectedBoardSquare.boardNotation.returnBoardNotation())
                     self.clearHighlightedSquares()
                     self.selectedChessPiece = nil
@@ -291,7 +310,7 @@ extension Chessboard {
                 let square2 = board[7 - height1][7 - row1]
                 swapSquares(square1: square1, square2: square2)            }
         }
-        
+        whiteTurn = !whiteTurn
         swapBoardNotation()
     }
     
@@ -375,67 +394,103 @@ extension Chessboard {
         }
     }
     
-    
-    
-    func highlightPossibleMovesForSelectedPiece() {
+    // Helper function to display all possible moves for the selected piece
+    private func highlightPossibleMovesForSelectedPiece() {
         
         guard let chessPiece = selectedChessPiece,
-            let chessPieceType = chessPiece.title else {
+            let possibleMoves = chessPiece.getAllPossibleMoves(chessboard: board) else {
             return
         }
         
-        switch chessPieceType {
-            
-        case .Bishop:
-            let bishop = chessPiece as! Bishop
-            bishop.getAllPossibleBishopMoves(chessboard: board)
-            if let moves = bishop.possibleMoves {
-                highlightPossibleSquares(boardSquares: moves)
-            }
-
-        case .Knight:
-            let knight = chessPiece as! Knight
-            knight.getAllPossibleKnightMoves(chessboard: board)
-            if let moves = knight.possibleMoves {
-                highlightPossibleSquares(boardSquares: moves)
-            }
-
-        case .Rook:
-            let rook = chessPiece as! Rook
-            rook.getAllPossibleRookMoves(chessboard: board)
-            if let moves = rook.possibleMoves {
-                highlightPossibleSquares(boardSquares: moves)
-            }
-            
-        case .King:
-            let king = chessPiece as! King
-            king.getAllPossibleKingMoves(chessboard: board)
-            if let moves = king.possibleMoves {
-                highlightPossibleSquares(boardSquares: moves)
-            }
-
-        case .Queen:
-            let queen = chessPiece as! Queen
-            queen.getAllPossibleQueenMoves(chessboard: board)
-            if let moves = queen.possibleMoves {
-                highlightPossibleSquares(boardSquares: moves)
-            }
-            
-        case .Pawn:
-            let pawn = chessPiece as! Pawn
-            pawn.getAllPossiblePawnMoves(chessboard: board)
-            if let moves = pawn.possibleMoves {
-                highlightPossibleSquares(boardSquares: moves)
-            }
-        }
+        highlightPossibleSquares(boardSquares: possibleMoves)
+        
+//
+//
+//        switch chessPieceType {
+//
+//        case .Bishop:
+//            let bishop = chessPiece as! Bishop
+//            bishop.getAllPossibleBishopMoves(chessboard: board)
+//            if let moves = bishop.possibleMoves {
+//                highlightPossibleSquares(boardSquares: moves)
+//            }
+//
+//        case .Knight:
+//            let knight = chessPiece as! Knight
+//            knight.getAllPossibleKnightMoves(chessboard: board)
+//            if let moves = knight.possibleMoves {
+//                highlightPossibleSquares(boardSquares: moves)
+//            }
+//
+//        case .Rook:
+//            let rook = chessPiece as! Rook
+//            rook.getAllPossibleRookMoves(chessboard: board)
+//            if let moves = rook.possibleMoves {
+//                highlightPossibleSquares(boardSquares: moves)
+//            }
+//
+//        case .King:
+//            let king = chessPiece as! King
+//            king.getAllPossibleKingMoves(chessboard: board)
+//            if let moves = king.possibleMoves {
+//                highlightPossibleSquares(boardSquares: moves)
+//            }
+//
+//        case .Queen:
+//            let queen = chessPiece as! Queen
+//            queen.getAllPossibleQueenMoves(chessboard: board)
+//            if let moves = queen.possibleMoves {
+//                highlightPossibleSquares(boardSquares: moves)
+//            }
+//
+//        case .Pawn:
+//            let pawn = chessPiece as! Pawn
+//            pawn.getAllPossiblePawnMoves(chessboard: board)
+//            if let moves = pawn.possibleMoves {
+//                highlightPossibleSquares(boardSquares: moves)
+//            }
+//        }
     }
     
+    // Helper function to turn square highlighted var to true
     private func highlightPossibleSquares(boardSquares: [BoardNotation]) {
         for square in boardSquares {
             let arrayIndex = square.returnArrayNotation()
             board[arrayIndex.0][arrayIndex.1].highlighted = true
         }
     }
+    
+    
+    // Helper function to check if current user is in check
+    private func checkIfInCheck(side: ChessPiece.Side)-> Bool? {
+        
+        // TODO: - check King's position (find out the square).  Then iterate through other side's pieces and check all of their possible moves.  If one of their moves lands on the same square, then check is confirmed
+        
+        let currentKing: ChessPiece = side == .white ? whiteKing : blackKing
+        let opponentPieces: [ChessPiece] = side == .white ? blackChessPieces : whiteChessPieces
+        
+        guard let currentKingPosition = currentKing.square?.boardNotation.returnArrayNotation() else {
+            return nil
+        }
+
+        for piece in opponentPieces {
+            if let possibleMoves = piece.getAllPossibleMoves(chessboard: board) {
+                for possibleMove in possibleMoves {
+                    if possibleMove.returnArrayNotation() == currentKingPosition {
+                        return true
+                    }
+                }
+            }
+        }
+        
+        
+        return false
+    }
+    
+    
+    
+    
+    
     
 //    private func getValidPawnMoves(possibleMoves: [BoardNotation], pawn: Pawn )-> [BoardNotation] {
 //        let currentSquareNotation = pawn.square.boardNotation.returnArrayNotation()
