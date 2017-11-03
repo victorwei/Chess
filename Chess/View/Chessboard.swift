@@ -497,6 +497,7 @@ extension Chessboard {
         currentSquare.removePieces()
         if let chessSquareChessPiece = chessSquare.chessPiece {
             self.temporaryChessPiece = chessSquareChessPiece
+            self.temporaryChessPiece?.square = nil
             chessSquare.chessPiece = chessPiece
         } else {
             chessSquare.chessPiece = chessPiece
@@ -509,6 +510,9 @@ extension Chessboard {
         guard let currentSquare = chessPiece.square else {
             return
         }
+        
+        // Replace temporaryChessPiece's square
+        self.temporaryChessPiece?.square = chessSquare
         
         // replace chess piece on current square
         currentSquare.chessPiece = chessPiece

@@ -21,23 +21,17 @@ class ChessPiece: UIView {
     var square: Square?
     var imageView: UIImageView!
     var possibleMoves: [BoardNotation]?
-    var side: Side!
+    var side: Side
     var hasMoved: Bool = false
     
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, color: ChessPiece.Side, type: PiecesType, square: Square) {
+        self.type = type
+        self.side = color
+        self.square = square
         super.init(frame: frame)
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        self.addSubview(imageView)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    convenience init(frame: CGRect, color: ChessPiece.Side, type: PiecesType, square: Square) {
-        self.init(frame: frame)
+        
+        
         switch type {
         case .Pawn:
             image = color == .white ? UIImage(named: "pawn_white") : UIImage(named: "pawn_black")
@@ -53,11 +47,48 @@ class ChessPiece: UIView {
             image = color == .white ? UIImage(named: "rook_white") : UIImage(named: "rook_black")
         }
         
-        self.type = type
-        self.side = color
-        self.square = square
+        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        self.addSubview(imageView)
         imageView.image = image
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        self.addSubview(imageView)
+//    }
+//
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
+//
+//    convenience init(frame: CGRect, color: ChessPiece.Side, type: PiecesType, square: Square) {
+//        self.init(frame: frame)
+//        switch type {
+//        case .Pawn:
+//            image = color == .white ? UIImage(named: "pawn_white") : UIImage(named: "pawn_black")
+//        case .King:
+//            image = color == .white ? UIImage(named: "king_white") : UIImage(named: "king_black")
+//        case .Queen:
+//            image = color == .white ? UIImage(named: "queen_white") : UIImage(named: "queen_black")
+//        case .Bishop:
+//            image = color == .white ? UIImage(named: "bishop_white") : UIImage(named: "bishop_black")
+//        case .Knight:
+//            image = color == .white ? UIImage(named: "knight_white") : UIImage(named: "knight_black")
+//        case .Rook:
+//            image = color == .white ? UIImage(named: "rook_white") : UIImage(named: "rook_black")
+//        }
+//
+//        self.type = type
+//        self.side = color
+//        self.square = square
+//        imageView.image = image
+//    }
     
     
     
@@ -165,6 +196,15 @@ extension ChessPiece {
         let moveDown = height + 1
         let moveRight = row + 1
         let moveLeft = row - 1
+        
+        // TODO: - check if castle is available
+        switch self.side {
+        case .black:
+            break
+            
+        case .white:
+            break
+        }
         
         
         if checkValidSquare(index: moveUp) {
