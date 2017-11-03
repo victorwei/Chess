@@ -28,12 +28,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/View/Chessboard.swift"
-            timestampString = "531354076.066427"
+            timestampString = "531361815.66805"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "483"
-            endingLineNumber = "483"
-            landmarkName = "checkIfInCheck(side:)"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
+            landmarkName = "Chessboard"
+            landmarkType = "21">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chess/View/Chessboard.swift"
+            timestampString = "531361815.668409"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
+            landmarkName = "simulateMoveForCheck(chessPiece:to:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -44,13 +60,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/View/Chessboard.swift"
-            timestampString = "531354076.06802"
+            timestampString = "531361815.668661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "464"
-            endingLineNumber = "464"
-            landmarkName = "Chessboard"
-            landmarkType = "21">
+            startingLineNumber = "508"
+            endingLineNumber = "508"
+            landmarkName = "undoSimulateMoveForCheck(chessPiece:to:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

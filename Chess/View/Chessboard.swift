@@ -29,6 +29,8 @@ class Chessboard: UIView {
     var whiteChessPieces: [ChessPiece] = []
     var blackChessPieces: [ChessPiece] = []
     
+    var temporaryChessPiece: ChessPiece?
+    
     
     var whiteTurn: Bool = true
     
@@ -241,7 +243,7 @@ class Chessboard: UIView {
 
 
 
-
+// MARK: - Methods for handling user interaction
 extension Chessboard {
     
     // Function used when user selects a chess square
@@ -269,13 +271,15 @@ extension Chessboard {
                 
                 let side: ChessPiece.Side = whiteTurn ? .white : .black
                 // TODO: - still must simulate moving the chess piece to see if user is in check
+                simulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
                 
                 if (checkIfInCheck(side: side))! {
+                    undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
                     print("can't move you in check!")
                     return
                 }
                 
-                
+                undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
                     print(selectedChessPiece.type)
                     print(selectedBoardSquare.boardNotation.returnBoardNotation())
@@ -308,11 +312,13 @@ extension Chessboard {
                 
                 let square1 = board[height1][row1]
                 let square2 = board[7 - height1][7 - row1]
-                swapSquares(square1: square1, square2: square2)            }
+                swapSquares(square1: square1, square2: square2)
+            }
         }
         whiteTurn = !whiteTurn
         swapBoardNotation()
     }
+    
     
     // Helper function to swap board notation
     private func swapBoardNotation() {
@@ -330,11 +336,8 @@ extension Chessboard {
             let height2Text = heightNotation[opposingIndex].text
             heightNotation[index].text = height2Text
             heightNotation[opposingIndex].text = height1Text
-            
         }
-        
     }
-    
     
     
     // Helper function to swap chess pieces on a square
@@ -482,43 +485,35 @@ extension Chessboard {
                 }
             }
         }
-        
-        
         return false
     }
     
     
+    // Helper function to simulate moving a piece to a location to check for check
+    private func simulateMoveForCheck(chessPiece: ChessPiece, to chessSquare: Square) {
+        guard let currentSquare = chessPiece.square else {
+            return
+        }
+        currentSquare.removePieces()
+        if let chessSquareChessPiece = chessSquare.chessPiece {
+            self.temporaryChessPiece = chessSquareChessPiece
+            chessSquare.chessPiece = chessPiece
+        } else {
+            chessSquare.chessPiece = chessPiece
+        }
+        print("test finished")
+    }
     
     
+    private func undoSimulateMoveForCheck(chessPiece: ChessPiece, to chessSquare: Square) {
+        guard let currentSquare = chessPiece.square else {
+            return
+        }
+        
+        // replace chess piece on current square
+        currentSquare.chessPiece = chessPiece
+        chessSquare.chessPiece = self.temporaryChessPiece
+        self.temporaryChessPiece = nil
+    }
     
-    
-//    private func getValidPawnMoves(possibleMoves: [BoardNotation], pawn: Pawn )-> [BoardNotation] {
-//        let currentSquareNotation = pawn.square.boardNotation.returnArrayNotation()
-//        return possibleMoves.filter({ (boardNotation) -> Bool in
-//            let arrayIndex = boardNotation.returnArrayNotation()
-//            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
-//            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
-//                return true
-//            }
-//
-//            if currentSquareNotation.1 == arrayIndex.1 {
-//                return pawn.side == chesspieceOnSquare.getColor()
-//            } else {
-//                return pawn.side != chesspieceOnSquare.getColor()
-//            }
-//        })
-//    }
-    
-    
-//    private func getValidPossibleMoves(possibleMoves: [BoardNotation], color: ChessPiece.Side)-> [BoardNotation] {
-//
-//        return possibleMoves.filter({ (boardNotation) -> Bool in
-//            let arrayIndex = boardNotation.returnArrayNotation()
-//            let possibleSquare = self.board[arrayIndex.0][arrayIndex.1]
-//            guard let chesspieceOnSquare = possibleSquare.chessPiece else {
-//                return true
-//            }
-//            return color != chesspieceOnSquare.getColor()
-//        })
-//    }
 }

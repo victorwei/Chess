@@ -22,6 +22,7 @@ class ChessPiece: UIView {
     var imageView: UIImageView!
     var possibleMoves: [BoardNotation]?
     var side: Side!
+    var hasMoved: Bool = false
     
     
     override init(frame: CGRect) {
@@ -148,8 +149,8 @@ class ChessPiece: UIView {
 // MARK: - Possible Moves for each type of piece
 extension ChessPiece {
     
-    // Helper function get all King moves
-    func getAllPossibleKingMoves(chessboard: [[Square]])-> [BoardNotation]? {
+    // Helper function - return array of BoardNotation that a King can travel to
+    private func getAllPossibleKingMoves(chessboard: [[Square]])-> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -262,7 +263,7 @@ extension ChessPiece {
     
     
     
-    // Helper function to get Bishop Moves
+    // Helper function - return array of BoardNotation that a Bishop can travel to
     private func getAllPossibleBishopMoves(chessboard: [[Square]])-> [BoardNotation]? {
         guard let square = self.square else {
             return nil
@@ -343,8 +344,8 @@ extension ChessPiece {
         return possibleMoves
     }
     
-    
-    func getAllPossibleKnightMoves(chessboard: [[Square]])-> [BoardNotation]? {
+    // Helper function - return array of BoardNotation that a Knight can travel to
+    private func getAllPossibleKnightMoves(chessboard: [[Square]])-> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -415,8 +416,8 @@ extension ChessPiece {
     }
     
     
-    
-    func getAllPossiblePawnMoves(chessboard: [[Square]])-> [BoardNotation]? {
+    // Helper function - return array of BoardNotation that a Pawn can travel to
+    private func getAllPossiblePawnMoves(chessboard: [[Square]])-> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -467,8 +468,8 @@ extension ChessPiece {
     }
     
     
-    
-    func getAllPossibleQueenMoves(chessboard: [[Square]])-> [BoardNotation]? {
+    // Helper function - return array of BoardNotation that a Queen can travel to
+    private func getAllPossibleQueenMoves(chessboard: [[Square]])-> [BoardNotation]? {
         guard let square = self.square else {
             return nil
         }
@@ -601,7 +602,7 @@ extension ChessPiece {
         return possibleMoves
     }
     
-    
+    // Helper function - return array of BoardNotation that a Rook can travel to
     func getAllPossibleRookMoves(chessboard: [[Square]])-> [BoardNotation]? {
         guard let square = self.square else {
             return nil
