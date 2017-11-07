@@ -8,6 +8,9 @@
 
 import UIKit
 
+enum PiecesType {
+    case King, Queen, Bishop, Knight, Pawn, Rook
+}
 
 
 class ChessPiece: UIView {
@@ -17,7 +20,7 @@ class ChessPiece: UIView {
     }
 
     var image: UIImage!
-    var type: PiecesType!
+    var type: PiecesType
     var square: Square?
     var imageView: UIImageView!
     var possibleMoves: [BoardNotation]?
@@ -720,5 +723,8 @@ extension ChessPiece {
         self.possibleMoves = possibleMoves
         return possibleMoves
     }
+    
+    
+    
     
 }

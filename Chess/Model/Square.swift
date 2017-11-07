@@ -9,9 +9,7 @@
 import UIKit
 
 
-enum PiecesType {
-    case King, Queen, Bishop, Knight, Pawn, Rook
-}
+
 
 struct BoardNotation {
     

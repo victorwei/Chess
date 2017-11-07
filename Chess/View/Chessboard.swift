@@ -31,7 +31,7 @@ class Chessboard: UIView {
     
     var temporaryChessPiece: ChessPiece?
     
-    
+    var castleAvailable: Bool = false
     var whiteTurn: Bool = true
     
     
@@ -273,7 +273,7 @@ extension Chessboard {
                 // TODO: - still must simulate moving the chess piece to see if user is in check
                 simulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
                 
-                if (checkIfInCheck(side: side))! {
+                if checkIfInCheck() {
                     undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
                     print("can't move you in check!")
                     return
@@ -298,6 +298,11 @@ extension Chessboard {
             selectedChessPiece = chessPiece
             selectedBoardSquare.highlighted = true
             highlightPossibleMovesForSelectedPiece()
+            
+            
+            let isCastlePossible = isCastleAvailable()
+            highlightCastleSquares(kingCastle: isCastlePossible.0, queenCastle: isCastlePossible.1)
+            
         }
     }
     
@@ -406,53 +411,7 @@ extension Chessboard {
         }
         
         highlightPossibleSquares(boardSquares: possibleMoves)
-        
-//
-//
-//        switch chessPieceType {
-//
-//        case .Bishop:
-//            let bishop = chessPiece as! Bishop
-//            bishop.getAllPossibleBishopMoves(chessboard: board)
-//            if let moves = bishop.possibleMoves {
-//                highlightPossibleSquares(boardSquares: moves)
-//            }
-//
-//        case .Knight:
-//            let knight = chessPiece as! Knight
-//            knight.getAllPossibleKnightMoves(chessboard: board)
-//            if let moves = knight.possibleMoves {
-//                highlightPossibleSquares(boardSquares: moves)
-//            }
-//
-//        case .Rook:
-//            let rook = chessPiece as! Rook
-//            rook.getAllPossibleRookMoves(chessboard: board)
-//            if let moves = rook.possibleMoves {
-//                highlightPossibleSquares(boardSquares: moves)
-//            }
-//
-//        case .King:
-//            let king = chessPiece as! King
-//            king.getAllPossibleKingMoves(chessboard: board)
-//            if let moves = king.possibleMoves {
-//                highlightPossibleSquares(boardSquares: moves)
-//            }
-//
-//        case .Queen:
-//            let queen = chessPiece as! Queen
-//            queen.getAllPossibleQueenMoves(chessboard: board)
-//            if let moves = queen.possibleMoves {
-//                highlightPossibleSquares(boardSquares: moves)
-//            }
-//
-//        case .Pawn:
-//            let pawn = chessPiece as! Pawn
-//            pawn.getAllPossiblePawnMoves(chessboard: board)
-//            if let moves = pawn.possibleMoves {
-//                highlightPossibleSquares(boardSquares: moves)
-//            }
-//        }
+
     }
     
     // Helper function to turn square highlighted var to true
@@ -465,21 +424,17 @@ extension Chessboard {
     
     
     // Helper function to check if current user is in check
-    private func checkIfInCheck(side: ChessPiece.Side)-> Bool? {
+    private func checkIfInCheck()-> Bool {
         
         // TODO: - check King's position (find out the square).  Then iterate through other side's pieces and check all of their possible moves.  If one of their moves lands on the same square, then check is confirmed
         
-        let currentKing: ChessPiece = side == .white ? whiteKing : blackKing
-        let opponentPieces: [ChessPiece] = side == .white ? blackChessPieces : whiteChessPieces
+        let currentKing: ChessPiece = whiteTurn ? whiteKing : blackKing
+        let opponentPieces: [ChessPiece] = whiteTurn ? blackChessPieces : whiteChessPieces
         
-        guard let currentKingPosition = currentKing.square?.boardNotation.returnArrayNotation() else {
-            return nil
-        }
-
         for piece in opponentPieces {
             if let possibleMoves = piece.getAllPossibleMoves(chessboard: board) {
                 for possibleMove in possibleMoves {
-                    if possibleMove.returnArrayNotation() == currentKingPosition {
+                    if possibleMove.returnArrayNotation() ==  (currentKing.square?.boardNotation.returnArrayNotation())! {
                         return true
                     }
                 }
@@ -520,4 +475,112 @@ extension Chessboard {
         self.temporaryChessPiece = nil
     }
     
+    
+    // Check if castle is available
+    private func isCastleAvailable()-> (Bool, Bool) {
+        return (checkIfKingSideCastleAvailable(), checkIfQueenSideCastleAvailable())
+    }
+    
+    
+    private func highlightCastleSquares(kingCastle: Bool, queenCastle: Bool) {
+        
+        var kingSideCastleIndex = whiteTurn ? 6 : 1
+        var queenSideCastleIndex = whiteTurn ? 2 : 5
+        
+        if kingCastle {
+            board[7][kingSideCastleIndex].highlighted = true
+        }
+        if queenCastle {
+            board[7][queenSideCastleIndex].highlighted = true
+        }
+    }
+    
+    
+    // Helper function to determine if a King side castle is available
+    private func checkIfKingSideCastleAvailable() -> Bool {
+        
+        let king = whiteTurn ? whiteKing : blackKing
+    
+        if checkIfInCheck() || (king?.hasMoved)! {
+            return false
+        }
+        
+        // Set array indices based on whiteTurn
+        let kingSideRookIndex = whiteTurn ? 7: 0
+        let kingSideIndex = whiteTurn ? 5 : 1
+        let kingSideIndex2 = whiteTurn ? 6 : 2
+        
+        // Check if the rook is at the correct board position, if it has moved, and if there are any pieces in the way of a castle
+        guard let kingSideRook = board[7][kingSideRookIndex].chessPiece,
+            !kingSideRook.hasMoved,
+            !board[7][kingSideIndex].checkIfPieceIsThere,
+            !board[7][kingSideIndex2].checkIfPieceIsThere,
+            kingSideRook.type == .Rook else {
+                return false
+        }
+        
+        // Get the squares to check if a king will castle through check
+        let kingSideCastleSquares = [ board[7][kingSideIndex].boardNotation.returnArrayNotation(),
+                                      board[7][kingSideIndex2].boardNotation.returnArrayNotation()]
+        
+        // Go through each of the opponent pieces and see if they will cause a check if the king castles
+        let opponentPieces = whiteTurn ? blackChessPieces : whiteChessPieces
+        for piece in opponentPieces {
+            if let possibleMoves = piece.getAllPossibleMoves(chessboard: board) {
+                for possibleMove in possibleMoves {
+                    if kingSideCastleSquares.contains(where: { (arrayNotation) -> Bool in
+                        return arrayNotation == possibleMove.returnArrayNotation()
+                    }) {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+
+    }
+    
+    private func checkIfQueenSideCastleAvailable() -> Bool {
+        
+        let king = whiteTurn ? whiteKing : blackKing
+        
+        if checkIfInCheck() || (king?.hasMoved)! {
+            return false
+        }
+        
+        // Set array indices based on whiteTurn
+        let queenSideRookIndex = whiteTurn ? 0: 7
+        let queenSideIndex = whiteTurn ? 1 : 6
+        let queenSideIndex2 = whiteTurn ? 2 : 5
+        let queenSideIndex3 = whiteTurn ? 3: 4
+        
+        // Check if the rook is at the correct board position, if it has moved, and if there are any pieces in the way of a castle
+        guard let queenSideRook = board[7][queenSideRookIndex].chessPiece,
+            !queenSideRook.hasMoved,
+            !board[7][queenSideIndex].checkIfPieceIsThere,
+            !board[7][queenSideIndex2].checkIfPieceIsThere,
+            !board[7][queenSideIndex3].checkIfPieceIsThere,
+            queenSideRook.type == .Rook else {
+                return false
+        }
+        
+        // Get the squares to check if a king will castle through check
+        let queenSideCastleSquares = [ board[7][queenSideIndex2].boardNotation.returnArrayNotation(),
+                                      board[7][queenSideIndex3].boardNotation.returnArrayNotation()]
+        
+        // Go through each of the opponent pieces and see if they will cause a check if the king castles
+        let opponentPieces = whiteTurn ? blackChessPieces : whiteChessPieces
+        for piece in opponentPieces {
+            if let possibleMoves = piece.getAllPossibleMoves(chessboard: board) {
+                for possibleMove in possibleMoves {
+                    if queenSideCastleSquares.contains(where: { (arrayNotation) -> Bool in
+                        return arrayNotation == possibleMove.returnArrayNotation()
+                    }) {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
 }
