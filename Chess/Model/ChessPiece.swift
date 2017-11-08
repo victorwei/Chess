@@ -127,10 +127,6 @@ class ChessPiece: UIView {
         
     }
     
-    func setColor(side: Side) {
-        self.side = side
-    }
-    
     func getColor()-> Side {
         return side
     }
@@ -475,18 +471,20 @@ extension ChessPiece {
         let moveUp = height - 1
         let moveUp2 = height - 2
         
-        // Go up two steps forward
-        if height == 6 {
-            let potentialSquare = chessboard[moveUp2][row]
-            if !potentialSquare.checkIfPieceIsThere {
-                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp2))
-            }
-        }
+        
         
         //check going up 1 step
         let potentialSquare = chessboard[moveUp][row]
         if !potentialSquare.checkIfPieceIsThere {
             possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp))
+            
+            // Go up two steps forward
+            if height == 6 {
+                let potentialSquare = chessboard[moveUp2][row]
+                if !potentialSquare.checkIfPieceIsThere {
+                    possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp2))
+                }
+            }
         }
         
         //check to see if there is a piece to capture on the right

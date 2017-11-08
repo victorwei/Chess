@@ -24,32 +24,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/View/Chessboard.swift"
-            timestampString = "531717548.746498"
+            timestampString = "531796423.371987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "502"
-            endingLineNumber = "502"
-            landmarkName = "checkIfKingSideCastleAvailable()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chess/View/Chessboard.swift"
-            timestampString = "531717548.746909"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
-            landmarkName = "highlightCastleSquares(kingCastle:queenCastle:)"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "selectSquare(index:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

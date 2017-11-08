@@ -31,7 +31,12 @@ class Chessboard: UIView {
     
     var temporaryChessPiece: ChessPiece?
     
-    var castleAvailable: Bool = false
+    var castleAvailable: Bool {
+        get {
+            let castles = isCastleAvailable()
+            return castles.0 || castles.1
+        }
+    }
     var whiteTurn: Bool = true
     
     
@@ -203,25 +208,7 @@ class Chessboard: UIView {
     
     private func addPiece(square: Square, type: PiecesType, color: ChessPiece.Side) {
         
-//        var chessPiece: ChessPiece!
-        
-//        switch type {
-//        case .Rook:
-//            chessPiece = ChessPiece(frame: square.frame, color: color, type: type)
-//            chessPiece = Rook(frame: square.frame, color: color)
-//        case .King:
-//            chessPiece = King(frame: square.frame, color: color)
-//        case .Queen:
-//            chessPiece = Queen(frame: square.frame, color: color)
-//        case .Bishop:
-//            chessPiece = Bishop(frame: square.frame, color: color)
-//        case .Knight:
-//            chessPiece = Knight(frame: square.frame, color: color)
-//        case .Pawn:
-//            chessPiece = Pawn(frame: square.frame, color: color)
-//        }
-        
-        var chessPiece = ChessPiece(frame: square.frame, color: color, type: type, square: square)
+        let chessPiece = ChessPiece(frame: square.frame, color: color, type: type, square: square)
         square.chessPiece = chessPiece
     
         if color == .black {
@@ -266,6 +253,38 @@ extension Chessboard {
                 return
             }
             
+            // TODO: add Castle
+            if selectedChessPiece.type == .King && castleAvailable {
+                let isCastlePossible = isCastleAvailable()
+                
+                if isCastlePossible.0 {
+                    let kingSideSquareNotation = getKingSideCastleHighlightSquare()
+                    if selectedBoardSquare.boardNotation.returnArrayNotation() == kingSideSquareNotation.returnArrayNotation() {
+                        // perform King Side Castle
+                        performKingSideCastle {
+                            self.finishMoveAndUpdateBoard()
+                        }
+                    }
+                } else if isCastlePossible.1 {
+                    let queenSideSquareNotation = getQueenSideCastleHighlightSquare()
+                    if selectedBoardSquare.boardNotation.returnArrayNotation() == queenSideSquareNotation.returnArrayNotation() {
+                        // perform Queen Side Castle
+                        performQueenSideCastle {
+                            self.finishMoveAndUpdateBoard()
+                        }
+                    }
+                }
+                
+                return
+                
+                
+                
+                
+                
+            }
+            
+            
+            
             // User case if user selects the chess square where the selected chess piece should go.
             if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
                 
@@ -283,12 +302,11 @@ extension Chessboard {
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
                     print(selectedChessPiece.type)
                     print(selectedBoardSquare.boardNotation.returnBoardNotation())
-                    self.clearHighlightedSquares()
-                    self.selectedChessPiece = nil
-                    
-                    self.swapSides()
+//                    self.clearHighlightedSquares()
+//                    self.selectedChessPiece = nil
+//                    self.swapSides()
+                    self.finishMoveAndUpdateBoard()
                 })
-                
             }
             return
         }
@@ -300,11 +318,22 @@ extension Chessboard {
             highlightPossibleMovesForSelectedPiece()
             
             
-            let isCastlePossible = isCastleAvailable()
-            highlightCastleSquares(kingCastle: isCastlePossible.0, queenCastle: isCastlePossible.1)
-            
+            // Check if castle is available.  Called only if the chessPiece selected is a king
+            if chessPiece.type == .King {
+                let isCastlePossible = isCastleAvailable()
+                let possibleCastleMoves = getCastleSquares(kingCastle: isCastlePossible.0, queenCastle: isCastlePossible.1)
+                highlightPossibleSquares(boardSquares: possibleCastleMoves)
+            }
         }
     }
+    
+    // Helper function used after player moves a chess piece
+    private func finishMoveAndUpdateBoard() {
+        self.clearHighlightedSquares()
+        self.selectedChessPiece = nil
+        self.swapSides()
+    }
+    
     
     
     // Helper function to switch black and white sides after each "turn".
@@ -481,21 +510,31 @@ extension Chessboard {
         return (checkIfKingSideCastleAvailable(), checkIfQueenSideCastleAvailable())
     }
     
-    
-    private func highlightCastleSquares(kingCastle: Bool, queenCastle: Bool) {
+    // Helper function to get which squares to highlight if castle is available
+    // Returns an array of BoardNotation
+    private func getCastleSquares(kingCastle: Bool, queenCastle: Bool)-> [BoardNotation] {
         
-        var kingSideCastleIndex = whiteTurn ? 6 : 1
-        var queenSideCastleIndex = whiteTurn ? 2 : 5
-        
+        var castleSquares = [BoardNotation]()
         if kingCastle {
-            board[7][kingSideCastleIndex].highlighted = true
+            castleSquares.append(getKingSideCastleHighlightSquare())
         }
         if queenCastle {
-            board[7][queenSideCastleIndex].highlighted = true
+            castleSquares.append(getQueenSideCastleHighlightSquare())
         }
+        return castleSquares
     }
     
+    private func getKingSideCastleHighlightSquare()-> BoardNotation {
+        let kingSideCastleIndex = whiteTurn ? 6 : 1
+        return board[7][kingSideCastleIndex].boardNotation
+    }
     
+    private func getQueenSideCastleHighlightSquare() -> BoardNotation {
+        let queenSideCastleIndex = whiteTurn ? 2 : 5
+        return board[7][queenSideCastleIndex].boardNotation
+    }
+    
+
     // Helper function to determine if a King side castle is available
     private func checkIfKingSideCastleAvailable() -> Bool {
         
@@ -582,5 +621,49 @@ extension Chessboard {
             }
         }
         return true
+    }
+    
+    
+    // Helper function to perform King Side Castle
+    private func performKingSideCastle(completion: @escaping ()-> Void) {
+        
+        let king: ChessPiece = whiteTurn ? whiteKing : blackKing
+        let rookIndex = whiteTurn ?  7: 0
+        let kingSideRook = board[7][rookIndex].chessPiece
+        
+        let newKingIndex = whiteTurn ? 6: 1
+        let newRookIndex = whiteTurn ? 5: 2
+        
+        let newKingSquare = board[7][newKingIndex]
+        let newRookSquare = board[7][newRookIndex]
+        
+        // Move King to correct position
+        king.moveToSquare(square: newKingSquare) {
+            kingSideRook?.moveToSquare(square: newRookSquare, completion: {
+                completion()
+            })
+        }
+    }
+    
+    
+    // Helper function to perform Queen Side Castle
+    private func performQueenSideCastle(completion: @escaping ()-> Void) {
+        
+        let king: ChessPiece = whiteTurn ? whiteKing : blackKing
+        let rookIndex = whiteTurn ? 0 : 7
+        let kingSideRook = board[7][rookIndex].chessPiece
+        
+        let newKingIndex = whiteTurn ? 2: 5
+        let newRookIndex = whiteTurn ? 3: 4
+        
+        let newKingSquare = board[7][newKingIndex]
+        let newRookSquare = board[7][newRookIndex]
+        
+        // Move King to correct position
+        king.moveToSquare(square: newKingSquare) {
+            kingSideRook?.moveToSquare(square: newRookSquare, completion: {
+                completion()
+            })
+        }
     }
 }
