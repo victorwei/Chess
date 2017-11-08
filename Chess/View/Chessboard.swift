@@ -274,13 +274,7 @@ extension Chessboard {
                         }
                     }
                 }
-                
                 return
-                
-                
-                
-                
-                
             }
             
             
@@ -302,9 +296,6 @@ extension Chessboard {
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
                     print(selectedChessPiece.type)
                     print(selectedBoardSquare.boardNotation.returnBoardNotation())
-//                    self.clearHighlightedSquares()
-//                    self.selectedChessPiece = nil
-//                    self.swapSides()
                     self.finishMoveAndUpdateBoard()
                 })
             }
@@ -313,6 +304,12 @@ extension Chessboard {
         
         // if there is a piece on the square
         if let chessPiece = selectedBoardSquare.chessPiece {
+            
+            if (whiteTurn && blackChessPieces.contains(chessPiece)) ||
+                (!whiteTurn && whiteChessPieces.contains(chessPiece)) {
+                    return
+            }
+            
             selectedChessPiece = chessPiece
             selectedBoardSquare.highlighted = true
             highlightPossibleMovesForSelectedPiece()
