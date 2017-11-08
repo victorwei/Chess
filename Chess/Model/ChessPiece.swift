@@ -166,8 +166,25 @@ class ChessPiece: UIView {
             return getAllPossibleKnightMoves(chessboard: chessboard)
         case .Rook:
             return getAllPossibleRookMoves(chessboard: chessboard)
-        default:
-            return nil
+        }
+    }
+    
+    
+    func getAllPossibleOpponentMoves(chessboard: [[Square]])-> [BoardNotation]? {
+        
+        switch self.type {
+        case .Pawn:
+            return getAllPossibleOpponentPawnMoves(chessboard: chessboard)
+        case .King:
+            return getAllPossibleKingMoves(chessboard: chessboard)
+        case .Queen:
+            return getAllPossibleQueenMoves(chessboard: chessboard)
+        case .Bishop:
+            return getAllPossibleBishopMoves(chessboard: chessboard)
+        case .Knight:
+            return getAllPossibleKnightMoves(chessboard: chessboard)
+        case .Rook:
+            return getAllPossibleRookMoves(chessboard: chessboard)
         }
     }
     
@@ -486,6 +503,43 @@ extension ChessPiece {
                 }
             }
         }
+        
+        //check to see if there is a piece to capture on the right
+        if checkValidSquare(index: moveRight) {
+            let potentialSquare = chessboard[moveUp][moveRight]
+            if let chesspiece = potentialSquare.chessPiece,
+                chesspiece.getColor() != self.getColor() {
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveRight)!, height: moveUp))
+            }
+        }
+        if checkValidSquare(index: moveLeft) {
+            let potentialSquare = chessboard[moveUp][moveLeft]
+            if let chesspiece = potentialSquare.chessPiece,
+                chesspiece.getColor() != self.getColor() {
+                possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: moveLeft)!, height: moveUp))
+            }
+            
+        }
+        
+        self.possibleMoves = possibleMoves
+        return possibleMoves
+    }
+    
+    
+    // Helper function - return array of BoardNotation that a Pawn can travel to
+    private func getAllPossibleOpponentPawnMoves(chessboard: [[Square]])-> [BoardNotation]? {
+        guard let square = self.square else {
+            return nil
+        }
+        let arrayNotation = square.boardNotation.returnArrayNotation()
+        
+        let height = arrayNotation.0
+        let row = arrayNotation.1
+        
+        var possibleMoves = [BoardNotation]()
+        let moveRight = row + 1
+        let moveLeft = row - 1
+        let moveUp = height + 1
         
         //check to see if there is a piece to capture on the right
         if checkValidSquare(index: moveRight) {
