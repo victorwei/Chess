@@ -28,6 +28,9 @@ class Chessboard: UIView {
     var blackKing: ChessPiece!
     var whiteChessPieces: [ChessPiece] = []
     var blackChessPieces: [ChessPiece] = []
+    var canEnPassant: [ChessPiece] = []
+    var enPassantableSquare: Square?
+    var enPassantablePawn: ChessPiece?
     
     var temporaryChessPiece: ChessPiece?
     
@@ -278,6 +281,37 @@ extension Chessboard {
             }
             
             
+            // Check to see if EnPassant was selected
+            if let enPassanteSquare = enPassantableSquare,
+                selectedBoardSquare == enPassanteSquare,
+                canEnPassant.contains(selectedChessPiece) {
+            
+                simulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
+                if checkIfInCheck() {
+                    undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
+                    print("can't move you in check!")
+                    return
+                }
+                undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
+                
+                if let capturedPawn = enPassantablePawn {
+                    capturedPawn.square?.chessPiece = nil
+                    capturedPawn.square = nil
+                    UIView.animate(withDuration: 0.5) {
+                        capturedPawn.alpha = 0
+                    }
+                    
+                    selectedChessPiece.moveToSquare(square: enPassanteSquare) {
+                        self.removeEnPassantableProperties()
+                        self.finishMoveAndUpdateBoard()
+                        return
+                    }
+                }
+            } else {
+                self.removeEnPassantableProperties()
+            }
+            
+            
             
             // User case if user selects the chess square where the selected chess piece should go.
             if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
@@ -293,7 +327,13 @@ extension Chessboard {
                 }
                 
                 undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
+                
+                // Check to see if En Passant is available.  Triggered only when a pawn moves from its starting location 2 squares up.
+                checkIfEnPassantWillBeAvailable(selectedSquare: selectedBoardSquare)
+                
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
+                    
+                    
                     print(selectedChessPiece.type)
                     print(selectedBoardSquare.boardNotation.returnBoardNotation())
                     self.finishMoveAndUpdateBoard()
@@ -321,6 +361,14 @@ extension Chessboard {
                 let possibleCastleMoves = getCastleSquares(kingCastle: isCastlePossible.0, queenCastle: isCastlePossible.1)
                 highlightPossibleSquares(boardSquares: possibleCastleMoves)
             }
+            
+            // Check if EnPassant is available
+            if canEnPassant.contains(chessPiece),
+                let highlightedSquare = enPassantableSquare {
+                let highlightBoardNotation = [highlightedSquare.boardNotation!]
+                highlightPossibleSquares(boardSquares: highlightBoardNotation)
+            }
+            
         }
     }
     
@@ -330,7 +378,6 @@ extension Chessboard {
         self.selectedChessPiece = nil
         self.swapSides()
     }
-    
     
     
     // Helper function to switch black and white sides after each "turn".
@@ -458,7 +505,7 @@ extension Chessboard {
         let opponentPieces: [ChessPiece] = whiteTurn ? blackChessPieces : whiteChessPieces
         
         for piece in opponentPieces {
-            if let possibleMoves = piece.getAllPossibleMoves(chessboard: board) {
+            if let possibleMoves = piece.getAllPossibleOpponentMoves(chessboard: board) {
                 for possibleMove in possibleMoves {
                     if possibleMove.returnArrayNotation() ==  (currentKing.square?.boardNotation.returnArrayNotation())! {
                         return true
@@ -562,7 +609,7 @@ extension Chessboard {
         // Go through each of the opponent pieces and see if they will cause a check if the king castles
         let opponentPieces = whiteTurn ? blackChessPieces : whiteChessPieces
         for piece in opponentPieces {
-            if let possibleMoves = piece.getAllPossibleMoves(chessboard: board) {
+            if let possibleMoves = piece.getAllPossibleOpponentMoves(chessboard: board) {
                 for possibleMove in possibleMoves {
                     if kingSideCastleSquares.contains(where: { (arrayNotation) -> Bool in
                         return arrayNotation == possibleMove.returnArrayNotation()
@@ -607,7 +654,7 @@ extension Chessboard {
         // Go through each of the opponent pieces and see if they will cause a check if the king castles
         let opponentPieces = whiteTurn ? blackChessPieces : whiteChessPieces
         for piece in opponentPieces {
-            if let possibleMoves = piece.getAllPossibleMoves(chessboard: board) {
+            if let possibleMoves = piece.getAllPossibleOpponentMoves(chessboard: board) {
                 for possibleMove in possibleMoves {
                     if queenSideCastleSquares.contains(where: { (arrayNotation) -> Bool in
                         return arrayNotation == possibleMove.returnArrayNotation()
@@ -661,6 +708,55 @@ extension Chessboard {
             kingSideRook?.moveToSquare(square: newRookSquare, completion: {
                 completion()
             })
+        }
+    }
+    
+    // Helper function used to remove all properties used with En Passant
+    private func removeEnPassantableProperties() {
+        canEnPassant.removeAll()
+        enPassantablePawn = nil
+        enPassantableSquare = nil
+    }
+    
+    // Helper function to see if there are pawns on either side of the square
+    // Used in conjunction with En Passant
+    private func checkIfEnPassantWillBeAvailable(selectedSquare: Square){
+        guard let selectedChessPiece = selectedChessPiece,
+            selectedChessPiece.type == .Pawn else {
+                return
+        }
+        let currentPawnSquare = selectedChessPiece.square?.boardNotation.returnArrayNotation()
+        
+        // Check if the pawn is moving up 2 squares to avoid capture
+        guard (currentPawnSquare?.0)! - selectedSquare.boardNotation.returnArrayNotation().0  == 2  else {
+            return
+        }
+        let currentSide: ChessPiece.Side = whiteTurn ? .white : .black
+        let squareArrayNotation = selectedSquare.boardNotation.returnArrayNotation()
+        let squareRow = squareArrayNotation.1
+        let squareHeight = squareArrayNotation.0
+        
+        var enPassantAvailable = false
+        
+        if squareRow + 1 < 8,
+            let otherPawn = board[squareHeight][squareRow + 1].chessPiece,
+            otherPawn.type == .Pawn,
+            currentSide != otherPawn.getColor() {
+            canEnPassant.append(otherPawn)
+            enPassantAvailable = true
+        }
+        
+        if squareRow - 1 >= 0,
+            let otherPawn = board[squareHeight][squareRow - 1].chessPiece,
+            otherPawn.type == .Pawn,
+            currentSide != otherPawn.getColor() {
+            canEnPassant.append(otherPawn)
+            enPassantAvailable = true
+        }
+        
+        if enPassantAvailable {
+            enPassantableSquare = board[7 - (squareHeight + 1)][7 - squareRow]
+            enPassantablePawn = selectedChessPiece
         }
     }
 }
