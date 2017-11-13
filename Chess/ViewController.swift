@@ -17,6 +17,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        
+        //let imageView = UIImageView(frame: self.view.frame)
+        //imageView.image = UIImage(named: "woodBackground")
+        //self.view.addSubview(imageView)
+        
         chessboard = Chessboard()
         chessboard.setup(viewController: self)
         setupTapGesturesForChessboard()

@@ -151,6 +151,30 @@ class ChessPiece: UIView {
     
     
     
+    func changePieceType(type: PiecesType) {
+        
+        switch type {
+            
+        case .Pawn:
+            image = getColor() == .white ? UIImage(named: "pawn_white") : UIImage(named: "pawn_black")
+        case .King:
+            image = getColor() == .white ? UIImage(named: "king_white") : UIImage(named: "king_black")
+        case .Queen:
+            image = getColor() == .white ? UIImage(named: "queen_white") : UIImage(named: "queen_black")
+        case .Bishop:
+            image = getColor() == .white ? UIImage(named: "bishop_white") : UIImage(named: "bishop_black")
+        case .Knight:
+            image = getColor() == .white ? UIImage(named: "knight_white") : UIImage(named: "knight_black")
+        case .Rook:
+            image = getColor() == .white ? UIImage(named: "rook_white") : UIImage(named: "rook_black")
+        }
+        imageView.image = image
+        self.type = type
+        
+    }
+    
+    
+    
     func getAllPossibleMoves(chessboard: [[Square]])-> [BoardNotation]? {
         
         switch self.type {

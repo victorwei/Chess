@@ -23,6 +23,7 @@
 		571307931F9034F90027CE2A /* Chessboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307921F9034F90027CE2A /* Chessboard.swift */; };
 		571307951F9182870027CE2A /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307941F9182870027CE2A /* Square.swift */; };
 		571307971F91898C0027CE2A /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307961F91898C0027CE2A /* ChessPiece.swift */; };
+		577E3A8A1FB6798400EA08B8 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577E3A891FB6798400EA08B8 /* WelcomeVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		571307921F9034F90027CE2A /* Chessboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chessboard.swift; sourceTree = "<group>"; };
 		571307941F9182870027CE2A /* Square.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
 		571307961F91898C0027CE2A /* ChessPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiece.swift; sourceTree = "<group>"; };
+		577E3A891FB6798400EA08B8 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				572808051FA7DDFE00C0E47A /* View */,
 				571307911F9034CA0027CE2A /* Model */,
 				571307621F90321D0027CE2A /* AppDelegate.swift */,
+				577E3A891FB6798400EA08B8 /* WelcomeVC.swift */,
 				571307641F90321D0027CE2A /* ViewController.swift */,
 				571307661F90321D0027CE2A /* Main.storyboard */,
 				5713076C1F90321D0027CE2A /* Assets.xcassets */,
@@ -257,6 +260,7 @@
 				571307651F90321D0027CE2A /* ViewController.swift in Sources */,
 				571307931F9034F90027CE2A /* Chessboard.swift in Sources */,
 				5713078A1F90348C0027CE2A /* Bishop.swift in Sources */,
+				577E3A8A1FB6798400EA08B8 /* WelcomeVC.swift in Sources */,
 				571307971F91898C0027CE2A /* ChessPiece.swift in Sources */,
 				571307951F9182870027CE2A /* Square.swift in Sources */,
 				571307901F9034B80027CE2A /* Queen.swift in Sources */,

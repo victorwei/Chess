@@ -333,6 +333,10 @@ extension Chessboard {
                 
                 selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: {
                     
+                    // Check if pawn reached the end of the square
+                    if selectedChessPiece.type == .Pawn && selectedBoardSquare.boardNotation.returnArrayNotation().0 == 0 {
+                        selectedChessPiece.changePieceType(type: PiecesType.Queen)
+                    }
                     
                     print(selectedChessPiece.type)
                     print(selectedBoardSquare.boardNotation.returnBoardNotation())
