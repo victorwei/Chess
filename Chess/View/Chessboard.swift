@@ -288,6 +288,8 @@ extension Chessboard {
           if selectedBoardSquare.boardNotation.returnArrayNotation() == kingSideSquareNotation.returnArrayNotation() {
             // perform King Side Castle
             performKingSideCastle {
+              self.gameNotation.append("0-0")
+              print("0-0")
               self.finishMoveAndUpdateBoard()
             }
           }
@@ -296,6 +298,8 @@ extension Chessboard {
           if selectedBoardSquare.boardNotation.returnArrayNotation() == queenSideSquareNotation.returnArrayNotation() {
             // perform Queen Side Castle
             performQueenSideCastle {
+              self.gameNotation.append("0-0-0")
+              print("0-0-0")
               self.finishMoveAndUpdateBoard()
             }
           }
@@ -326,6 +330,15 @@ extension Chessboard {
           }
           
           selectedChessPiece.moveToSquare(square: enPassanteSquare) { captured in
+            
+            let originalPawnRowNotation = originalSquare.boardNotation.returnBoardNotation(whitesTurn: self.whiteTurn).first!
+            let enPasssantSquareNotation = enPassanteSquare.boardNotation.returnBoardNotation(whitesTurn: self.whiteTurn)
+            
+            let chessNotation = String(originalPawnRowNotation) + enPasssantSquareNotation
+            
+            self.gameNotation.append(chessNotation)
+            print(chessNotation)
+            
             self.removeEnPassantableProperties()
             self.finishMoveAndUpdateBoard()
             return
@@ -363,24 +376,26 @@ extension Chessboard {
         //Make a check for pawn to see if it capturing another piece
         let currentRowForSelectedPiece = selectedChessPiece.square?.boardNotation.returnBoardNotation(whitesTurn: whiteTurn)
         
-        selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: { captured in
+        selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: { [weak self] captured in
           
           // Check if pawn reached the end of the square
           if selectedChessPiece.type == .Pawn && selectedBoardSquare.boardNotation.returnArrayNotation().0 == 0 {
             selectedChessPiece.changePieceType(type: PiecesType.Queen)
           }
           
-          print(selectedChessPiece.type)
-          
+          // Used for getting game notation
+          var chessNotation = ""
           if selectedChessPiece.type == .Pawn && captured {
             let pawnRow = currentRowForSelectedPiece?.first
-            print(self.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation, pawnSquare: String(describing: pawnRow!)))
+            chessNotation = (self?.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation, pawnSquare: String(describing: pawnRow!)))!
           } else {
-            print(self.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation, pawnSquare: nil))
+            chessNotation = (self?.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation, pawnSquare: nil))!
           }
+          print(chessNotation)
+          self?.gameNotation.append(chessNotation)
           
 //          print(self.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation))
-          self.finishMoveAndUpdateBoard()
+          self?.finishMoveAndUpdateBoard()
         })
       }
       return
