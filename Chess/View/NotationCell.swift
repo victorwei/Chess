@@ -15,8 +15,16 @@ class NotationCell: UITableViewCell {
   @IBOutlet weak var whiteLabel: UILabel!
   @IBOutlet weak var blackLabel: UILabel!
   
+  @IBOutlet weak var moveView: UIView!
+  @IBOutlet weak var whiteView: UIView!
+  @IBOutlet weak var blackView: UIView!
+  
   override func awakeFromNib() {
     super.awakeFromNib()
+    
+//    moveView.layer.borderWidth = 1.0
+//    moveView.layer.borderColor = UIColor.black.cgColor
+    
     
   }
   

@@ -48,6 +48,7 @@ class NotationVC: UIViewController {
     
     let notationNib = UINib(nibName: "NotationCell", bundle: nil)
     tableView.register(notationNib, forCellReuseIdentifier: "notationCell")
+    tableView.separatorColor = UIColor.darkGray
   }
   
   
@@ -61,19 +62,21 @@ extension NotationVC: UITableViewDelegate, UITableViewDataSource {
     return 1
   }
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return whiteMoves.count
+    return (whiteMoves.count < 15) ? 15: whiteMoves.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "notationCell", for: indexPath) as! NotationCell
     
-    let whitesMove = whiteMoves[indexPath.row]
+    if let whitesMove = whiteMoves[safe: indexPath.row] {
+      cell.whiteLabel.text = whitesMove
+    }
     if let blacksMove = blackMoves[safe: indexPath.row] {
       cell.blackLabel.text = blacksMove
     }
     
     cell.moveLabel.text = String(indexPath.row)
-    cell.whiteLabel.text = whitesMove
+    
     
     return cell
   }
