@@ -432,9 +432,58 @@ extension Chessboard {
   
   // Helper function used after player moves a chess piece
   private func finishMoveAndUpdateBoard() {
+    
     self.clearHighlightedSquares()
+    if checkIfCheckmate() {
+      print("CHECKMATE")
+      return
+    }
+    
     self.selectedChessPiece = nil
     self.swapSides()
+  }
+  
+  
+  // Function to determine if there is a checkmate.
+  // Iterate through all of the pieces to see if other side is in check.  If so, iterate through all the other pieces on the other side to see if any move will prevent check.
+  private func checkIfCheckmate()-> Bool {
+    
+    
+    if checkIfOpponentInCheck() {
+      
+      var noLongerInCheck = false
+      
+      let chessPieces = whiteTurn ? blackChessPieces : whiteChessPieces
+      for piece in chessPieces {
+        if piece.square == nil {
+          continue
+        }
+        
+        if let moves = piece.getAllPossibleOpponentMoves(chessboard: board) {
+          
+          var originalSquare = piece.square!
+          
+          for move in moves {
+            
+            let selectedSquareNotation = move.returnArrayNotation()
+            let selectedSquare = board[selectedSquareNotation.0][selectedSquareNotation.1]
+            
+            simulateMoveForCheck(chessPiece: piece, to: selectedSquare)
+            if !checkIfOpponentInCheck() {
+              noLongerInCheck = true
+            }
+            undoSimulateMoveForCheck(chessPiece: piece, to: originalSquare)
+            
+            if noLongerInCheck {
+              return false
+            }
+          }
+        }
+      }
+    } else {
+      return false
+    }
+    return true
   }
   
   
@@ -564,6 +613,27 @@ extension Chessboard {
     
     for piece in opponentPieces {
       if let possibleMoves = piece.getAllPossibleOpponentMoves(chessboard: board) {
+        for possibleMove in possibleMoves {
+          if possibleMove.returnArrayNotation() ==  (currentKing.square?.boardNotation.returnArrayNotation())! {
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }
+  
+  
+  // Helper function to check if the other sideis in check
+  private func checkIfOpponentInCheck()-> Bool {
+    
+    // TODO: - check King's position (find out the square).  Then iterate through other side's pieces and check all of their possible moves.  If one of their moves lands on the same square, then check is confirmed
+    
+    let currentKing: ChessPiece = whiteTurn ? blackKing : whiteKing
+    let opponentPieces: [ChessPiece] = whiteTurn ? whiteChessPieces : blackChessPieces
+    
+    for piece in opponentPieces {
+      if let possibleMoves = piece.getAllPossibleMoves(chessboard: board){
         for possibleMove in possibleMoves {
           if possibleMove.returnArrayNotation() ==  (currentKing.square?.boardNotation.returnArrayNotation())! {
             return true
