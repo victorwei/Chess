@@ -41,7 +41,7 @@ class NotationVC: UIViewController {
   
   func tableViewSetup() {
     
-    tableView = UITableView(frame: self.view.frame)
+    tableView = UITableView(frame: self.view.frame, style: .grouped)
     tableView.delegate = self
     tableView.dataSource = self
     self.view.addSubview(tableView)
@@ -49,6 +49,7 @@ class NotationVC: UIViewController {
     let notationNib = UINib(nibName: "NotationCell", bundle: nil)
     tableView.register(notationNib, forCellReuseIdentifier: "notationCell")
     tableView.separatorColor = UIColor.darkGray
+    
   }
   
   
@@ -85,6 +86,15 @@ extension NotationVC: UITableViewDelegate, UITableViewDataSource {
     return self.view.frame.height / 15
   }
   
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let headerView = tableView.dequeueReusableCell(withIdentifier: "notationCell") as! NotationCell
+    headerView.setForHeaderView()
+    return headerView
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return self.view.frame.height / 13
+  }
 }
 
 

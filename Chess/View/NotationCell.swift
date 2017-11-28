@@ -22,15 +22,18 @@ class NotationCell: UITableViewCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     
-//    moveView.layer.borderWidth = 1.0
-//    moveView.layer.borderColor = UIColor.black.cgColor
-    
-    
   }
   
   override func setSelected(_ selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)
-    
+  }
+  
+  
+  func setForHeaderView() {
+    whiteView.backgroundColor = UIColor.yellow
+    blackView.backgroundColor = UIColor.yellow
+    whiteLabel.text = "WHITE"
+    blackLabel.text = "BLACK"
     
   }
   

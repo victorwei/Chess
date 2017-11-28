@@ -28,11 +28,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/View/Chessboard.swift"
-            timestampString = "532474244.144153"
+            timestampString = "533528674.843554"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "382"
-            endingLineNumber = "382"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "selectSquare(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -44,12 +44,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/Model/ChessPiece.swift"
-            timestampString = "532474244.145138"
+            timestampString = "532476104.129652"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "183"
             endingLineNumber = "183"
             landmarkName = "getAllPossibleMoves(chessboard:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chess/View/Chessboard.swift"
+            timestampString = "533528674.843974"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "403"
+            endingLineNumber = "403"
+            landmarkName = "selectSquare(index:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

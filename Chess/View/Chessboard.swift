@@ -279,7 +279,8 @@ extension Chessboard {
         return
       }
       
-      // TODO: add Castle
+      
+      // Castle functions
       if selectedChessPiece.type == .King && castleAvailable {
         let isCastlePossible = isCastleAvailable()
         
@@ -397,6 +398,40 @@ extension Chessboard {
 //          print(self.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation))
           self?.finishMoveAndUpdateBoard()
         })
+      } else {
+        
+        // if there is a piece on the square
+        if let chessPiece = selectedBoardSquare.chessPiece {
+          
+          if (whiteTurn && blackChessPieces.contains(chessPiece)) ||
+            (!whiteTurn && whiteChessPieces.contains(chessPiece)) {
+            return
+          }
+          
+          clearHighlightedSquares()
+          self.selectedChessPiece = chessPiece
+          selectedBoardSquare.highlighted = true
+          highlightPossibleMovesForSelectedPiece()
+          
+          
+          // Check if castle is available.  Called only if the chessPiece selected is a king
+          if chessPiece.type == .King {
+            let isCastlePossible = isCastleAvailable()
+            let possibleCastleMoves = getCastleSquares(kingCastle: isCastlePossible.0, queenCastle: isCastlePossible.1)
+            highlightPossibleSquares(boardSquares: possibleCastleMoves)
+          }
+          
+          // Check if EnPassant is available
+          if canEnPassant.contains(chessPiece),
+            let highlightedSquare = enPassantableSquare {
+            let highlightBoardNotation = [highlightedSquare.boardNotation!]
+            highlightPossibleSquares(boardSquares: highlightBoardNotation)
+          }
+        } else {
+          self.selectedChessPiece = nil
+          clearHighlightedSquares()
+        }
+        
       }
       return
     }
