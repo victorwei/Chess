@@ -12,18 +12,40 @@ class WelcomeVC: UIViewController {
   
   // MARK: - Properties
   
+  @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var btn1: UIButton!
   @IBOutlet weak var btn2: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Do any additional setup after loading the view.
+    setTitleShdadow()
+    setGradientBackground()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     self.navigationController?.isNavigationBarHidden = true
+  }
+  
+  func setTitleShdadow() {
+    titleLabel.layer.shadowColor = UIColor.black.cgColor
+    titleLabel.layer.shadowRadius = 2.5
+    titleLabel.layer.shadowOpacity = 1.0
+    titleLabel.layer.shadowOffset = CGSize(width: 3, height: 3)
+    titleLabel.layer.masksToBounds = false
+  }
+  
+  func setGradientBackground() {
+    let topColor = UIColor(red: 170.0/255.0, green: 100.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
+    let bottomColor = UIColor(red: 100.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
+    
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.colors = [ topColor, bottomColor]
+    gradientLayer.locations = [ 0.0, 2.0]
+    gradientLayer.frame = self.view.bounds
+    
+    self.view.layer.insertSublayer(gradientLayer, at: 0)
   }
   
   
@@ -42,7 +64,13 @@ class WelcomeVC: UIViewController {
   
   @IBAction func onClickBtn1(_ sender: Any) {
     let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC")
-    self.navigationController?.pushViewController(gameVC, animated: true)
+    
+    let transition = CATransition()
+    transition.duration = 0.5
+    transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+    transition.type = kCATransitionFade
+    self.navigationController?.view.layer.add(transition, forKey: nil)
+    self.navigationController?.pushViewController(gameVC, animated: false)
   }
   
   @IBAction func onClickBtn2(_ sender: Any) {

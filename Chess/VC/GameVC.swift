@@ -15,25 +15,11 @@ class GameVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-    
-    
-    //let imageView = UIImageView(frame: self.view.frame)
-    //imageView.image = UIImage(named: "woodBackground")
-    //self.view.addSubview(imageView)
     navBarSetup()
     addNotationBtn()
     chessboard = Chessboard()
     chessboard.setup(viewController: self)
     setupTapGesturesForChessboard()
-    
-  }
-  
-  func navBarSetup() {
-    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-    self.navigationController?.navigationBar.shadowImage = UIImage()
-    self.navigationController?.navigationBar.isTranslucent = true
-    self.navigationController?.view.backgroundColor = .clear
   }
   
   
@@ -73,5 +59,17 @@ class GameVC: UIViewController {
     }
   }
   
+}
+
+
+extension UIViewController {
+  
+  func navBarSetup() {
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    self.navigationController?.navigationBar.shadowImage = UIImage()
+    self.navigationController?.navigationBar.isTranslucent = true
+    self.navigationController?.view.backgroundColor = .clear
+    self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+  }
 }
 

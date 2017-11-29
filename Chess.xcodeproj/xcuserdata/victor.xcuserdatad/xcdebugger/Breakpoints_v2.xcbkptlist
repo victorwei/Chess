@@ -28,11 +28,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/View/Chessboard.swift"
-            timestampString = "533528674.843554"
+            timestampString = "533617004.88763"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "selectSquare(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -60,11 +60,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/View/Chessboard.swift"
-            timestampString = "533528674.843974"
+            timestampString = "533617004.887741"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
             landmarkName = "selectSquare(index:)"
             landmarkType = "7">
          </BreakpointContent>

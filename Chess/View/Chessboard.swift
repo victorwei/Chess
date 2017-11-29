@@ -30,7 +30,6 @@ class Chessboard: UIView {
   var enPassantablePawn: ChessPiece?
   
   var temporaryChessPiece: ChessPiece?
-  
   var gameNotation: [String] = []
   
   var castleAvailable: Bool {
@@ -69,13 +68,39 @@ class Chessboard: UIView {
                                           width: availableWidth,
                                           height: availableWidth))
     chessboardView.backgroundColor = UIColor.lightGray
-    chessboardView.layer.borderColor = UIColor.red.cgColor
-    chessboardView.layer.borderWidth = 2.0
+    chessboardView.layer.borderColor = UIColor.black.cgColor
+    chessboardView.layer.borderWidth = 1.5
+
+    let boardView = UIView(frame: CGRect(x: 0.0,
+                                         y: (view.frame.height / 2 - availableWidth / 2) - 22,
+                                         width: view.frame.width,
+                                         height: availableWidth + 44))
+    boardView.backgroundColor = UIColor.brown
+    boardView.layer.borderColor = UIColor.black.cgColor
+    boardView.layer.borderWidth = 1.0
+    self.addSubview(boardView)
+    
+    
     self.addSubview(chessboardView)
     view.addSubview(self)
     addSquares(chessboardView: chessboardView)
+    
+    
+    setGradientBackground()
+    
   }
   
+  func setGradientBackground() {
+    let topColor = UIColor(red: 170.0/255.0, green: 100.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
+    let bottomColor = UIColor(red: 100.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
+    
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.colors = [ topColor, bottomColor]
+    gradientLayer.locations = [ 0.0, 2.0]
+    gradientLayer.frame = self.bounds
+    
+    self.layer.insertSublayer(gradientLayer, at: 0)
+  }
   
   // Helper function to add checkerboard squares
   // Set up board datasource.

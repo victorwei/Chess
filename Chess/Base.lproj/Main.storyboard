@@ -30,47 +30,62 @@
         <scene sceneID="ocf-gm-1qK">
             <objects>
                 <viewController id="7AT-Vb-Cve" customClass="WelcomeVC" customModule="Chess" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Izj-4W-aex" customClass="Welco">
+                    <view key="view" contentMode="scaleToFill" id="Izj-4W-aex">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chessBg1" translatesAutoresizingMaskIntoConstraints="NO" id="dAZ-9R-rqu">
+                                <rect key="frame" x="0.0" y="202" width="375" height="195"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="dAZ-9R-rqu" secondAttribute="height" multiplier="998:518" id="kgf-9d-bqv"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CHESS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BHN-Xg-dzx">
-                                <rect key="frame" x="94" y="167.5" width="173.5" height="66"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="55"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="98" y="167.5" width="179" height="66"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="55"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJr-dt-WYs">
-                                <rect key="frame" x="94" y="336.5" width="173.5" height="58"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="98" y="397" width="179" height="59.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jJr-dt-WYs" secondAttribute="height" multiplier="3:1" id="Fw9-qq-RAa"/>
                                 </constraints>
-                                <state key="normal" title="Local Player"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Local Player">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="onClickBtn1:" destination="7AT-Vb-Cve" eventType="touchUpInside" id="3x8-Co-Ots"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQx-aA-NJX">
-                                <rect key="frame" x="94" y="438" width="173.5" height="58"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="98" y="466.5" width="179" height="59.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Settings">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="onClickBtn2:" destination="7AT-Vb-Cve" eventType="touchUpInside" id="ObK-Bn-9YR"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.66666666666666663" green="0.39215686274509803" blue="0.0013547390007533347" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="TQx-aA-NJX" firstAttribute="leading" secondItem="jJr-dt-WYs" secondAttribute="leading" id="9hX-Jz-KBZ"/>
-                            <constraint firstItem="BHN-Xg-dzx" firstAttribute="leading" secondItem="Izj-4W-aex" secondAttribute="trailing" multiplier="0.25" id="Ck0-ae-zBf"/>
+                            <constraint firstItem="BHN-Xg-dzx" firstAttribute="centerX" secondItem="Izj-4W-aex" secondAttribute="centerX" id="FTl-Kz-wkM"/>
                             <constraint firstItem="BHN-Xg-dzx" firstAttribute="bottom" secondItem="Izj-4W-aex" secondAttribute="bottom" multiplier="0.35" id="H20-ew-6Zv"/>
                             <constraint firstItem="TQx-aA-NJX" firstAttribute="height" secondItem="jJr-dt-WYs" secondAttribute="height" id="Hki-xe-tRH"/>
-                            <constraint firstItem="jJr-dt-WYs" firstAttribute="leading" secondItem="BHN-Xg-dzx" secondAttribute="leading" id="SbP-ef-Fyd"/>
+                            <constraint firstItem="dAZ-9R-rqu" firstAttribute="centerY" secondItem="Izj-4W-aex" secondAttribute="bottom" multiplier="0.45" id="IyF-h7-m5i"/>
+                            <constraint firstItem="dAZ-9R-rqu" firstAttribute="trailing" secondItem="Qbg-X4-FjH" secondAttribute="trailing" id="OHg-at-Jca"/>
                             <constraint firstItem="TQx-aA-NJX" firstAttribute="width" secondItem="jJr-dt-WYs" secondAttribute="width" id="hZW-b9-fbA"/>
                             <constraint firstItem="jJr-dt-WYs" firstAttribute="width" secondItem="BHN-Xg-dzx" secondAttribute="width" id="ip5-3g-zrX"/>
-                            <constraint firstItem="jJr-dt-WYs" firstAttribute="centerY" secondItem="Qbg-X4-FjH" secondAttribute="centerY" id="nGU-xy-e1V"/>
-                            <constraint firstItem="TQx-aA-NJX" firstAttribute="centerY" secondItem="Qbg-X4-FjH" secondAttribute="bottom" multiplier="0.7" id="z4Y-bp-QcK"/>
+                            <constraint firstItem="TQx-aA-NJX" firstAttribute="top" secondItem="jJr-dt-WYs" secondAttribute="bottom" constant="10" id="kz7-2e-lDx"/>
+                            <constraint firstItem="jJr-dt-WYs" firstAttribute="centerX" secondItem="Izj-4W-aex" secondAttribute="centerX" id="lpw-SP-dkm"/>
+                            <constraint firstItem="dAZ-9R-rqu" firstAttribute="leading" secondItem="Qbg-X4-FjH" secondAttribute="leading" id="mZL-vQ-jQh"/>
+                            <constraint firstItem="jJr-dt-WYs" firstAttribute="top" secondItem="dAZ-9R-rqu" secondAttribute="bottom" id="yR5-qS-cUH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Qbg-X4-FjH"/>
                     </view>
@@ -78,11 +93,12 @@
                     <connections>
                         <outlet property="btn1" destination="jJr-dt-WYs" id="wob-0Z-VEi"/>
                         <outlet property="btn2" destination="TQx-aA-NJX" id="5qU-cA-cJY"/>
+                        <outlet property="titleLabel" destination="BHN-Xg-dzx" id="qiv-7E-IQa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dH0-vV-8fk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1585" y="129"/>
+            <point key="canvasLocation" x="1584.8" y="128.18590704647679"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="XK2-C4-XrT">
@@ -103,4 +119,7 @@
             <point key="canvasLocation" x="852.79999999999995" y="129.53523238380811"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="chessBg1" width="998" height="518"/>
+    </resources>
 </document>

@@ -24,6 +24,7 @@
 		571307951F9182870027CE2A /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307941F9182870027CE2A /* Square.swift */; };
 		571307971F91898C0027CE2A /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307961F91898C0027CE2A /* ChessPiece.swift */; };
 		577E3A8A1FB6798400EA08B8 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577E3A891FB6798400EA08B8 /* WelcomeVC.swift */; };
+		57C646641FCD106B00766805 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C646631FCD106B00766805 /* SettingsVC.swift */; };
 		57F30A3F1FBBC2C7008463DA /* NotationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F30A3E1FBBC2C7008463DA /* NotationVC.swift */; };
 		57F30A431FBBCC8E008463DA /* NotationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F30A411FBBCC8E008463DA /* NotationCell.swift */; };
 		57F30A441FBBCC8E008463DA /* NotationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57F30A421FBBCC8E008463DA /* NotationCell.xib */; };
@@ -61,6 +62,7 @@
 		571307941F9182870027CE2A /* Square.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
 		571307961F91898C0027CE2A /* ChessPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiece.swift; sourceTree = "<group>"; };
 		577E3A891FB6798400EA08B8 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
+		57C646631FCD106B00766805 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		57F30A3E1FBBC2C7008463DA /* NotationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotationVC.swift; sourceTree = "<group>"; };
 		57F30A411FBBCC8E008463DA /* NotationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotationCell.swift; sourceTree = "<group>"; };
 		57F30A421FBBCC8E008463DA /* NotationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotationCell.xib; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				577E3A891FB6798400EA08B8 /* WelcomeVC.swift */,
 				57F30A3E1FBBC2C7008463DA /* NotationVC.swift */,
 				571307641F90321D0027CE2A /* GameVC.swift */,
+				57C646631FCD106B00766805 /* SettingsVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				571307931F9034F90027CE2A /* Chessboard.swift in Sources */,
 				5713078A1F90348C0027CE2A /* Bishop.swift in Sources */,
 				577E3A8A1FB6798400EA08B8 /* WelcomeVC.swift in Sources */,
+				57C646641FCD106B00766805 /* SettingsVC.swift in Sources */,
 				571307971F91898C0027CE2A /* ChessPiece.swift in Sources */,
 				571307951F9182870027CE2A /* Square.swift in Sources */,
 				571307901F9034B80027CE2A /* Queen.swift in Sources */,

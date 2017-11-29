@@ -19,29 +19,30 @@ class NotationVC: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navBarSetup()
     tableViewSetup()
     splitGameNotation()
-    
   }
+  
   
   func splitGameNotation() {
     
     var whiteTurn = true
     for notation in gameNotation {
-      if whiteTurn {
-        whiteMoves.append(notation)
-      } else {
-        blackMoves.append(notation)
-      }
+      whiteTurn ? whiteMoves.append(notation) : blackMoves.append(notation)
       whiteTurn = !whiteTurn
     }
-    
-    
   }
   
   func tableViewSetup() {
     
-    tableView = UITableView(frame: self.view.frame, style: .grouped)
+    
+    guard let navBarHeight = self.navigationController?.navigationBar.frame.height else {
+      return
+    }
+    
+    tableView = UITableView(frame: self.view.frame,
+                            style: .grouped)
     tableView.delegate = self
     tableView.dataSource = self
     self.view.addSubview(tableView)
@@ -49,7 +50,7 @@ class NotationVC: UIViewController {
     let notationNib = UINib(nibName: "NotationCell", bundle: nil)
     tableView.register(notationNib, forCellReuseIdentifier: "notationCell")
     tableView.separatorColor = UIColor.darkGray
-    
+    tableView.contentInset = UIEdgeInsetsMake(-(navBarHeight + UIApplication.shared.statusBarFrame.height), 0, 0, 0)
   }
   
   
@@ -63,7 +64,7 @@ extension NotationVC: UITableViewDelegate, UITableViewDataSource {
     return 1
   }
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return (whiteMoves.count < 15) ? 15: whiteMoves.count
+    return (whiteMoves.count < 15) ? 15 : whiteMoves.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,7 +94,7 @@ extension NotationVC: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return self.view.frame.height / 13
+    return self.view.frame.height / 12
   }
 }
 
