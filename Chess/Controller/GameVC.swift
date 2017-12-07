@@ -16,23 +16,55 @@ class GameVC: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     navBarSetup()
-    addNotationBtn()
+    addNavigationBtns()
     chessboard = Chessboard()
     chessboard.setup(viewController: self)
     setupTapGesturesForChessboard()
   }
   
-  
-  func addNotationBtn() {
-    let button = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(onTapNotationBtn(_:)))
-    self.navigationItem.setRightBarButton(button, animated: true)
+  func addNavigationBtns() {
+    addBackBtn()
+    addNotationBtn()
   }
+  
+  private func addBackBtn() {
+    let button1 = UIBarButtonItem(barButtonSystemItem: .stop , target: self, action: #selector(onTapBackBtn(_:)))
+    self.navigationItem.setLeftBarButton(button1, animated: true)
+  }
+  
+  
+  private func addNotationBtn() {
+    let button2 = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(onTapNotationBtn(_:)))
+    self.navigationItem.setRightBarButton(button2, animated: true)
+  }
+  
+  
+  @objc func onTapBackBtn(_ sender: UIBarButtonItem) {
+//    dismiss(animated: true, completion: nil)
+    let settingsVC = SettingsVC()
+    self.navigationController?.pushViewController(settingsVC, animated: false)
+  }
+  
   
   @objc func onTapNotationBtn(_ sender: UIBarButtonItem) {
     
     let notationVC = NotationVC()
     notationVC.gameNotation = chessboard.gameNotation
-    self.navigationController?.pushViewController(notationVC, animated: true)
+
+    if let navController = self.navigationController {
+      UIView.transition(with: navController.view, duration: 0.75, options: .transitionFlipFromLeft, animations: {
+        self.navigationController?.pushViewController(notationVC, animated: false)
+      }, completion: nil)
+    }
+    
+    
+//    let transition = CATransition()
+//    transition.duration = 0.5
+//    transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+//    transition.type = "flip"
+//    transition.subtype = kCATransitionFromLeft
+//    self.navigationController?.view.layer.add(transition, forKey: nil)
+//    self.navigationController?.pushViewController(notationVC, animated: true)
     
   }
   

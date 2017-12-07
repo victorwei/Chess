@@ -42,7 +42,7 @@ class WelcomeVC: UIViewController {
     
     let gradientLayer = CAGradientLayer()
     gradientLayer.colors = [ topColor, bottomColor]
-    gradientLayer.locations = [ 0.0, 2.0]
+    gradientLayer.locations = [ 0.0, 3.0]
     gradientLayer.frame = self.view.bounds
     
     self.view.layer.insertSublayer(gradientLayer, at: 0)
@@ -64,16 +64,24 @@ class WelcomeVC: UIViewController {
   
   @IBAction func onClickBtn1(_ sender: Any) {
     let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC")
+    let gameNC = UINavigationController(rootViewController: gameVC)
     
-    let transition = CATransition()
-    transition.duration = 0.5
-    transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-    transition.type = kCATransitionFade
-    self.navigationController?.view.layer.add(transition, forKey: nil)
-    self.navigationController?.pushViewController(gameVC, animated: false)
+//    var modalStyle = UIModalTransitionStyle.crossDissolve
+//    gameNC.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+    present(gameNC, animated: true, completion: nil)
+    
+//    let transition = CATransition()
+//    transition.duration = 0.5
+//    transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+//    transition.type = kCATransitionFade
+//    self.navigationController?.view.layer.add(transition, forKey: nil)
+//    self.navigationController?.pushViewController(gameVC, animated: false)
   }
   
   @IBAction func onClickBtn2(_ sender: Any) {
+    
+    let settingsVC = SettingsVC()
+    self.navigationController?.pushViewController(settingsVC, animated: false)
   }
   
   

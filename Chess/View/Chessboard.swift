@@ -15,6 +15,7 @@ class Chessboard: UIView {
   var availableWidth: CGFloat!
   var board: [[Square]] = []
   var chessboardView: UIView!
+  var boardBorderView: UIView!
   var tappableViews = [UIView]()
   var selectedChessPiece: ChessPiece?
   
@@ -46,8 +47,24 @@ class Chessboard: UIView {
     setupPiecesForNewGame()
     setupTappableAreas()
     setupBoardNotation()
+    
+    
+    Settings.shared.addObserver(self, forKeyPath: #keyPath(Settings.boardColor), options: [.old, .new], context: nil)
   }
   
+  
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    if keyPath == #keyPath(Settings.boardColor) {
+      self.updateBoardColor()
+    }
+  }
+  
+  
+  //MARK: - Deinitialization
+  
+  deinit {
+    Settings.shared.removeObserver(self, forKeyPath: #keyPath(Settings.boardColor))
+  }
   
   // MARK: SETUP Functions
   
@@ -71,14 +88,14 @@ class Chessboard: UIView {
     chessboardView.layer.borderColor = UIColor.black.cgColor
     chessboardView.layer.borderWidth = 1.5
 
-    let boardView = UIView(frame: CGRect(x: 0.0,
+    boardBorderView = UIView(frame: CGRect(x: 0.0,
                                          y: (view.frame.height / 2 - availableWidth / 2) - 22,
                                          width: view.frame.width,
                                          height: availableWidth + 44))
-    boardView.backgroundColor = UIColor.brown
-    boardView.layer.borderColor = UIColor.black.cgColor
-    boardView.layer.borderWidth = 1.0
-    self.addSubview(boardView)
+    boardBorderView.backgroundColor = Settings.shared.boardColor
+    boardBorderView.layer.borderColor = UIColor.black.cgColor
+    boardBorderView.layer.borderWidth = 1.0
+    self.addSubview(boardBorderView)
     
     
     self.addSubview(chessboardView)
@@ -86,7 +103,7 @@ class Chessboard: UIView {
     addSquares(chessboardView: chessboardView)
     
     
-    setGradientBackground()
+    self.backgroundColor = UIColor.lightGray
     
   }
   
@@ -121,9 +138,9 @@ class Chessboard: UIView {
         chessboardView.addSubview(newSquareView)
         
         if index2 % 2 == 0 {
-          newSquareView.backgroundColor = index % 2 == 0 ? UIColor.white : UIColor.brown
+          newSquareView.backgroundColor = index % 2 == 0 ? UIColor.white : Settings.shared.boardColor
         } else {
-          newSquareView.backgroundColor = index % 2 == 0 ? UIColor.brown  : UIColor.white
+          newSquareView.backgroundColor = index % 2 == 0 ? Settings.shared.boardColor  : UIColor.white
         }
         row.append(newSquareView)
       }
@@ -277,6 +294,25 @@ class Chessboard: UIView {
     chessboardView.addSubview(chessPiece)
   }
   
+  
+  // Change the board color of chessboard
+  private func updateBoardColor() {
+    if board.count == 0 {
+      return
+    }
+    for index in (0..<8) {
+      for index2 in (0..<8) {
+        
+        if index2 % 2 != 0 && index % 2 == 0{
+          board[index][index2].backgroundColor = Settings.shared.boardColor
+        } else if index2 % 2 == 0 && index % 2 != 0 {
+          board[index][index2].backgroundColor = Settings.shared.boardColor
+        }
+      }
+    }
+    boardBorderView.backgroundColor = Settings.shared.boardColor
+  }
+  
 }
 
 
@@ -303,7 +339,6 @@ extension Chessboard {
         clearHighlightedSquares()
         return
       }
-      
       
       // Castle functions
       if selectedChessPiece.type == .King && castleAvailable {
@@ -376,7 +411,7 @@ extension Chessboard {
       
       
       
-      // User case if user selects the chess square where the selected chess piece should go.
+      // Use case if user selects the chess square where the selected chess piece should go.
       if verifyValidSquareToGoTo(squares: possibleMovesChessPieceCanGo, selectedSquare: index) {
         
         let side: ChessPiece.Side = whiteTurn ? .white : .black
@@ -390,6 +425,13 @@ extension Chessboard {
         if checkIfInCheck() {
           undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: originalSquare)
           print("can't move you in check!")
+          
+//          UIView.animate(withDuration: 1.0, animations: {
+//
+//          }, completion: { (<#Bool#>) in
+//            <#code#>
+//          })
+          
           return
         }
         

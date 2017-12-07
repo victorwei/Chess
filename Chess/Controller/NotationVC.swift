@@ -25,6 +25,16 @@ class NotationVC: UIViewController {
   }
   
   
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    if let navController = self.navigationController {
+      UIView.transition(with: navController.view, duration: 0.75, options: .transitionFlipFromRight, animations: {
+        self.navigationController?.popViewController(animated: false)
+      }, completion: nil)
+    }
+  }
+  
   func splitGameNotation() {
     
     var whiteTurn = true
