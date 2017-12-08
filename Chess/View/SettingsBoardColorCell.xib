@@ -31,17 +31,17 @@
                         <rect key="frame" x="274" y="0.5" width="263" height="90.5"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1gX-87-jSW">
-                                <rect key="frame" x="105.5" y="19" width="52.5" height="52.5"/>
+                                <rect key="frame" x="26.5" y="19" width="52.5" height="52.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z9c-6X-vPL">
-                                        <rect key="frame" x="26.5" y="0.0" width="26" height="26"/>
+                                        <rect key="frame" x="27" y="0.0" width="26" height="26"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="z9c-6X-vPL" secondAttribute="height" multiplier="1:1" id="RI0-ME-Sqy"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LHq-j5-eJ5">
-                                        <rect key="frame" x="0.5" y="26" width="26" height="26"/>
+                                        <rect key="frame" x="0.0" y="26" width="26" height="26"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="LHq-j5-eJ5" secondAttribute="height" multiplier="1:1" id="z3h-h2-cfa"/>
@@ -60,7 +60,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MVw-ok-ZL3">
-                                <rect key="frame" x="171" y="19" width="53" height="52.5"/>
+                                <rect key="frame" x="105" y="19" width="53" height="52.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kuF-AC-I61">
                                         <rect key="frame" x="27" y="0.0" width="26" height="26"/>
@@ -89,17 +89,17 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSl-1i-wea">
-                                <rect key="frame" x="6.5" y="19" width="53" height="52.5"/>
+                                <rect key="frame" x="184" y="19" width="53" height="52.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5hC-fP-hKb">
-                                        <rect key="frame" x="27" y="0.0" width="26.5" height="26"/>
+                                        <rect key="frame" x="26.5" y="0.0" width="26.5" height="26"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="5hC-fP-hKb" secondAttribute="height" multiplier="1:1" id="MRD-Dg-deR"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7lE-r3-wpa">
-                                        <rect key="frame" x="0.0" y="26" width="26" height="26"/>
+                                        <rect key="frame" x="0.5" y="26" width="26" height="26"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="7lE-r3-wpa" secondAttribute="height" multiplier="1:1" id="ugM-Og-RCP"/>
@@ -118,17 +118,16 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="nSl-1i-wea" firstAttribute="centerY" secondItem="aeu-NP-a3u" secondAttribute="centerY" id="8II-Rc-X3m"/>
                             <constraint firstItem="MVw-ok-ZL3" firstAttribute="centerY" secondItem="1gX-87-jSW" secondAttribute="centerY" id="Ady-Iq-xZt"/>
-                            <constraint firstItem="nSl-1i-wea" firstAttribute="centerX" secondItem="aeu-NP-a3u" secondAttribute="centerX" multiplier="0.25" id="INL-dr-gfk"/>
-                            <constraint firstItem="1gX-87-jSW" firstAttribute="centerX" secondItem="aeu-NP-a3u" secondAttribute="centerX" id="R6K-cm-frl"/>
+                            <constraint firstItem="nSl-1i-wea" firstAttribute="centerX" secondItem="aeu-NP-a3u" secondAttribute="trailing" multiplier="0.8" id="INL-dr-gfk"/>
+                            <constraint firstItem="1gX-87-jSW" firstAttribute="centerX" secondItem="aeu-NP-a3u" secondAttribute="trailing" multiplier="0.2" id="R6K-cm-frl"/>
                             <constraint firstItem="nSl-1i-wea" firstAttribute="width" secondItem="aeu-NP-a3u" secondAttribute="width" multiplier="0.2" id="UDI-aD-0Va"/>
                             <constraint firstItem="1gX-87-jSW" firstAttribute="width" secondItem="nSl-1i-wea" secondAttribute="width" id="bc0-Hd-nj3"/>
                             <constraint firstItem="1gX-87-jSW" firstAttribute="centerY" secondItem="nSl-1i-wea" secondAttribute="centerY" id="c0q-0x-wYP"/>
                             <constraint firstItem="MVw-ok-ZL3" firstAttribute="width" secondItem="1gX-87-jSW" secondAttribute="width" id="hid-jF-5WQ"/>
-                            <constraint firstItem="MVw-ok-ZL3" firstAttribute="centerX" secondItem="aeu-NP-a3u" secondAttribute="trailing" multiplier="0.75" id="jHg-id-szm"/>
+                            <constraint firstItem="MVw-ok-ZL3" firstAttribute="centerX" secondItem="aeu-NP-a3u" secondAttribute="trailing" multiplier="0.5" id="jHg-id-szm"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -142,6 +141,11 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="colorView1" destination="1gX-87-jSW" id="xGN-uC-NrX"/>
+                <outlet property="colorView2" destination="MVw-ok-ZL3" id="zVQ-KB-ASb"/>
+                <outlet property="colorView3" destination="nSl-1i-wea" id="AI9-Ye-4Ap"/>
+            </connections>
             <point key="canvasLocation" x="73" y="30.5"/>
         </tableViewCell>
     </objects>

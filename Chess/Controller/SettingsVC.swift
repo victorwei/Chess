@@ -25,6 +25,8 @@ class SettingsVC: UIViewController {
     tableView.dataSource = self
     self.view.addSubview(tableView)
     
+    tableView.allowsSelection = false
+    
     let highlightNib = UINib(nibName: "SettingHighlightCell", bundle: nil)
     tableView.register(highlightNib, forCellReuseIdentifier: "highlightCell")
     let boardColorNib = UINib(nibName: "SettingsBoardColorCell", bundle: nil)
@@ -67,7 +69,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    Settings.shared.boardColor = UIColor.yellow
+//    Settings.shared.boardColor = UIColor.yellow
     
   }
   

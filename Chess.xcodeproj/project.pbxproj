@@ -109,7 +109,6 @@
 				572808051FA7DDFE00C0E47A /* View */,
 				571307911F9034CA0027CE2A /* Model */,
 				571307621F90321D0027CE2A /* AppDelegate.swift */,
-				571307661F90321D0027CE2A /* Main.storyboard */,
 				5713076C1F90321D0027CE2A /* Assets.xcassets */,
 				5713076E1F90321D0027CE2A /* LaunchScreen.storyboard */,
 				571307711F90321D0027CE2A /* Info.plist */,
@@ -147,6 +146,7 @@
 				572357281FD7A0D100D959E3 /* SettingHighlightCell.xib */,
 				578301A01FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift */,
 				578301A11FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib */,
+				571307661F90321D0027CE2A /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";

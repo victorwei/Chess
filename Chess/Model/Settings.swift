@@ -18,9 +18,8 @@ class Settings: NSObject {
   // Properties
   
   var showMoves: Bool = true
-  
   @objc dynamic var boardColor = Colors.brown
-  
+  let colorChoices = [Colors.blue, Colors.green, Colors.brown]
 }
 
 

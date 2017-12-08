@@ -16,8 +16,13 @@ class SettingHighlightCell: UITableViewCell {
     super.awakeFromNib()
     
     highlightSwitch.isOn = Settings.shared.showMoves
+    highlightSwitch.addTarget(self, action: #selector(onSwitchChange(_:)), for: .touchUpInside)
   }
 
+  @objc func onSwitchChange(_ sender: UISwitch) {
+    Settings.shared.showMoves = highlightSwitch.isOn
+  }
+  
   override func setSelected(_ selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)
 

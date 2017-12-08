@@ -698,6 +698,11 @@ extension Chessboard {
   
   // Helper function to turn square highlighted var to true
   private func highlightPossibleSquares(boardSquares: [BoardNotation]) {
+    
+    if !Settings.shared.showMoves {
+      return
+    }
+    
     for square in boardSquares {
       let arrayIndex = square.returnArrayNotation()
       board[arrayIndex.0][arrayIndex.1].highlighted = true
