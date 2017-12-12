@@ -17,6 +17,8 @@ class SettingsVC: UIViewController {
     super.viewDidLoad()
     
     setupTableView()
+    setupNavBar()
+    self.view.backgroundColor = UIColor.gray
   }
   
   func setupTableView() {
@@ -26,12 +28,32 @@ class SettingsVC: UIViewController {
     self.view.addSubview(tableView)
     
     tableView.allowsSelection = false
+    tableView.isScrollEnabled = false
+    tableView.separatorStyle = .none
+    tableView.backgroundColor = nil
     
     let highlightNib = UINib(nibName: "SettingHighlightCell", bundle: nil)
     tableView.register(highlightNib, forCellReuseIdentifier: "highlightCell")
     let boardColorNib = UINib(nibName: "SettingsBoardColorCell", bundle: nil)
     tableView.register(boardColorNib, forCellReuseIdentifier: "colorCell")
     
+  }
+  
+  func setupNavBar() {
+    self.navigationController?.navigationBar.tintColor = UIColor.white
+    self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+    self.title = "Options"
+
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    if let navController = self.navigationController {
+      UIView.transition(with: navController.view, duration: 0.75, options: .transitionCrossDissolve, animations: {
+        self.navigationController?.popViewController(animated: false)
+      }, completion: nil)
+    }
   }
   
 
@@ -74,6 +96,6 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return self.view.frame.height / 5
+    return self.view.frame.height / 9
   }
 }

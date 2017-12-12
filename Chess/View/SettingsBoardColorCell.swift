@@ -21,6 +21,7 @@ class SettingsBoardColorCell: UITableViewCell {
     
     setupViews()
     setupTapGestures()
+    backgroundColor = UIColor.clear
   }
   
   private func setupViewTags() {

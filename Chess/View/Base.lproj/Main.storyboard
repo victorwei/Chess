@@ -100,6 +100,82 @@
             </objects>
             <point key="canvasLocation" x="1584.8" y="128.18590704647679"/>
         </scene>
+        <!--Custom AlertVC-->
+        <scene sceneID="8t2-TX-oqS">
+            <objects>
+                <viewController storyboardIdentifier="CustomAlertVC" id="xIL-To-Hjh" customClass="CustomAlertVC" customModule="Chess" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" id="maN-el-3ti">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PV5-mX-4UJ">
+                                <rect key="frame" x="56" y="235" width="262.5" height="197"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OaM-y6-tsB">
+                                        <rect key="frame" x="39.5" y="130.5" width="183.5" height="35"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Main Menu">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OQx-ev-nGp">
+                                        <rect key="frame" x="39.5" y="32" width="183.5" height="35"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Restart Game">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdZ-g7-VFb">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="X"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UTu-tR-hsi">
+                                        <rect key="frame" x="39.5" y="81" width="183.5" height="35"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Options">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="PV5-mX-4UJ" secondAttribute="height" multiplier="4:3" id="2id-Dw-Iaj"/>
+                                    <constraint firstItem="mdZ-g7-VFb" firstAttribute="leading" secondItem="PV5-mX-4UJ" secondAttribute="leading" id="5FK-J2-BX9"/>
+                                    <constraint firstItem="UTu-tR-hsi" firstAttribute="centerX" secondItem="PV5-mX-4UJ" secondAttribute="centerX" id="5c4-Dg-Hgv"/>
+                                    <constraint firstItem="OaM-y6-tsB" firstAttribute="width" secondItem="UTu-tR-hsi" secondAttribute="width" id="8qs-hf-Qvz"/>
+                                    <constraint firstItem="mdZ-g7-VFb" firstAttribute="top" secondItem="PV5-mX-4UJ" secondAttribute="top" id="J5B-ne-R4l"/>
+                                    <constraint firstItem="OaM-y6-tsB" firstAttribute="centerY" secondItem="PV5-mX-4UJ" secondAttribute="baseline" multiplier="0.75" id="LsI-L4-tx8"/>
+                                    <constraint firstItem="OQx-ev-nGp" firstAttribute="centerX" secondItem="PV5-mX-4UJ" secondAttribute="centerX" id="Qeo-y4-h2v"/>
+                                    <constraint firstItem="OaM-y6-tsB" firstAttribute="height" secondItem="UTu-tR-hsi" secondAttribute="height" id="cIc-Eo-VYs"/>
+                                    <constraint firstItem="OQx-ev-nGp" firstAttribute="height" secondItem="UTu-tR-hsi" secondAttribute="height" id="kYd-5f-Z1x"/>
+                                    <constraint firstItem="OQx-ev-nGp" firstAttribute="centerY" secondItem="PV5-mX-4UJ" secondAttribute="bottom" multiplier="0.25" id="nSY-GA-WNW"/>
+                                    <constraint firstItem="UTu-tR-hsi" firstAttribute="centerY" secondItem="PV5-mX-4UJ" secondAttribute="centerY" id="oYz-tE-UuP"/>
+                                    <constraint firstItem="OQx-ev-nGp" firstAttribute="width" secondItem="UTu-tR-hsi" secondAttribute="width" id="q3I-vs-gZu"/>
+                                    <constraint firstItem="UTu-tR-hsi" firstAttribute="height" secondItem="PV5-mX-4UJ" secondAttribute="height" multiplier="0.18" id="rjc-zz-iqS"/>
+                                    <constraint firstItem="UTu-tR-hsi" firstAttribute="width" secondItem="PV5-mX-4UJ" secondAttribute="width" multiplier="0.7" id="yYA-bX-WME"/>
+                                    <constraint firstItem="OaM-y6-tsB" firstAttribute="centerX" secondItem="PV5-mX-4UJ" secondAttribute="centerX" id="zfc-Aa-tsa"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="PV5-mX-4UJ" firstAttribute="centerY" secondItem="maN-el-3ti" secondAttribute="centerY" id="HhW-xU-n6n"/>
+                            <constraint firstItem="PV5-mX-4UJ" firstAttribute="centerX" secondItem="maN-el-3ti" secondAttribute="centerX" id="NUm-O9-qtZ"/>
+                            <constraint firstItem="PV5-mX-4UJ" firstAttribute="width" secondItem="maN-el-3ti" secondAttribute="width" multiplier="0.7" id="cWm-J3-0Nh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tYH-X5-gAe"/>
+                    </view>
+                    <connections>
+                        <outlet property="btn1" destination="OQx-ev-nGp" id="1l4-kM-0Zf"/>
+                        <outlet property="btn2" destination="UTu-tR-hsi" id="Q0y-f7-D9o"/>
+                        <outlet property="btn3" destination="OaM-y6-tsB" id="RVg-UF-kd7"/>
+                        <outlet property="closeBtn" destination="mdZ-g7-VFb" id="SfF-L2-mnc"/>
+                        <outlet property="containerView" destination="PV5-mX-4UJ" id="9hn-mS-Ovh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="clX-Bz-LEM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1572" y="818.14092953523243"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="XK2-C4-XrT">
             <objects>

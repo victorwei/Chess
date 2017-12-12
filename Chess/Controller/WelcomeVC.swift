@@ -21,6 +21,7 @@ class WelcomeVC: UIViewController {
     
     setTitleShdadow()
     setGradientBackground()
+    navBarSetup()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -69,18 +70,16 @@ class WelcomeVC: UIViewController {
 //    var modalStyle = UIModalTransitionStyle.crossDissolve
 //    gameNC.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
     present(gameNC, animated: true, completion: nil)
-    
-//    let transition = CATransition()
-//    transition.duration = 0.5
-//    transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-//    transition.type = kCATransitionFade
-//    self.navigationController?.view.layer.add(transition, forKey: nil)
-//    self.navigationController?.pushViewController(gameVC, animated: false)
   }
   
   @IBAction func onClickBtn2(_ sender: Any) {
     
     let settingsVC = SettingsVC()
+    let transition = CATransition()
+    transition.duration = 0.5
+    transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+    transition.type = kCATransitionFade
+    self.navigationController?.view.layer.add(transition, forKey: nil)
     self.navigationController?.pushViewController(settingsVC, animated: false)
   }
   

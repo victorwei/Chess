@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="88" id="KGk-i7-Jjw" customClass="SettingHighlightCell" customModule="Chess" customModuleProvider="target">
+        <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="88" id="KGk-i7-Jjw" customClass="SettingHighlightCell" customModule="Chess" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="457" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -20,18 +20,18 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Moves" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Akz-pw-Vzw">
-                        <rect key="frame" x="63" y="33" width="97" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                        <rect key="frame" x="53.5" y="33" width="106.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cge-j1-y1G">
-                        <rect key="frame" x="365.5" y="28" width="51" height="31"/>
+                        <rect key="frame" x="374.5" y="28" width="51" height="31"/>
                         <color key="onTintColor" red="0.25098040700000002" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                     </switch>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="cge-j1-y1G" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="trailing" multiplier="0.8" id="DMQ-wJ-sgh"/>
+                    <constraint firstItem="cge-j1-y1G" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="trailing" multiplier="0.82" id="DMQ-wJ-sgh"/>
                     <constraint firstItem="Akz-pw-Vzw" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Tn9-KI-EjW"/>
                     <constraint firstItem="cge-j1-y1G" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="d6A-VX-7mB"/>
                     <constraint firstItem="Akz-pw-Vzw" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailing" multiplier="0.35" id="fy6-ae-DDN"/>

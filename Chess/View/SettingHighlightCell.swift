@@ -17,6 +17,7 @@ class SettingHighlightCell: UITableViewCell {
     
     highlightSwitch.isOn = Settings.shared.showMoves
     highlightSwitch.addTarget(self, action: #selector(onSwitchChange(_:)), for: .touchUpInside)
+    backgroundColor = UIColor.clear
   }
 
   @objc func onSwitchChange(_ sender: UISwitch) {

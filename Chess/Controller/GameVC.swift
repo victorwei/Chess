@@ -12,6 +12,7 @@ class GameVC: UIViewController {
   
   
   var chessboard: Chessboard!
+  var shouldDismiss: Bool = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -22,10 +23,19 @@ class GameVC: UIViewController {
     setupTapGesturesForChessboard()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    if shouldDismiss {
+      shouldDismiss = false
+      dismiss(animated: true, completion: nil)
+    }
+  }
+  
   func addNavigationBtns() {
     addBackBtn()
     addNotationBtn()
   }
+  
+  
   
   private func addBackBtn() {
     let button1 = UIBarButtonItem(barButtonSystemItem: .stop , target: self, action: #selector(onTapBackBtn(_:)))
@@ -41,8 +51,18 @@ class GameVC: UIViewController {
   
   @objc func onTapBackBtn(_ sender: UIBarButtonItem) {
 //    dismiss(animated: true, completion: nil)
-    let settingsVC = SettingsVC()
-    self.navigationController?.pushViewController(settingsVC, animated: false)
+//    let settingsVC = SettingsVC()
+//    self.navigationController?.pushViewController(settingsVC, animated: false)
+    
+    
+    let optionsAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CustomAlertVC") as! CustomAlertVC
+    optionsAlert.providesPresentationContextTransitionStyle = true
+    optionsAlert.definesPresentationContext = true
+    optionsAlert.modalPresentationStyle = .overCurrentContext
+    optionsAlert.modalTransitionStyle = .crossDissolve
+    optionsAlert.delegate = self
+    self.present(optionsAlert, animated: true, completion: nil)
+    
   }
   
   
@@ -91,6 +111,25 @@ class GameVC: UIViewController {
     }
   }
   
+}
+
+extension GameVC: CustomAlertDelegate {
+  func restartBtnTapped() {
+    
+  }
+  func mainMenuBtnTapped() {
+    
+    
+    shouldDismiss = true
+    dismiss(animated: true, completion: nil)
+    self.navigationController?.popViewController(animated: true)
+  }
+  
+  func optionsBtnTapped() {
+    let settingsVC = SettingsVC()
+    self.navigationController?.pushViewController(settingsVC, animated: false)
+
+  }
 }
 
 
