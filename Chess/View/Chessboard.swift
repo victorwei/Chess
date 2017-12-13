@@ -384,6 +384,7 @@ extension Chessboard {
         simulateMoveForCheck(chessPiece: selectedChessPiece, to: selectedBoardSquare)
         if checkIfInCheck() {
           undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: originalSquare)
+          selectedBoardSquare.flashErrorView()
           print("can't move you in check!")
           return
         }
@@ -430,13 +431,8 @@ extension Chessboard {
         
         if checkIfInCheck() {
           undoSimulateMoveForCheck(chessPiece: selectedChessPiece, to: originalSquare)
+          selectedBoardSquare.flashErrorView()
           print("can't move you in check!")
-          
-//          UIView.animate(withDuration: 1.0, animations: {
-//
-//          }, completion: { (<#Bool#>) in
-//            <#code#>
-//          })
           
           return
         }

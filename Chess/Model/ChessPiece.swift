@@ -569,6 +569,22 @@ extension ChessPiece {
     let moveRight = row + 1
     let moveLeft = row - 1
     let moveUp = height + 1
+    let moveUp2 = height + 2
+    
+    //check going up 1 step
+    let potentialSquare = chessboard[moveUp][row]
+    if !potentialSquare.checkIfPieceIsThere {
+      possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp))
+      
+      // Go up two steps forward
+      if height == 1 {
+        let potentialSquare = chessboard[moveUp2][row]
+        if !potentialSquare.checkIfPieceIsThere {
+          possibleMoves.append(BoardNotation(row: BoardNotation.RowNotation(rawValue: row)!, height: moveUp2))
+        }
+      }
+    }
+    
     
     //check to see if there is a piece to capture on the right
     if checkValidSquare(index: moveRight) {

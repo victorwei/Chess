@@ -105,7 +105,7 @@ class Square: UIView {
       }
     }
   }
-  
+
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -151,6 +151,30 @@ class Square: UIView {
     chessPiece = nil
   }
 
+  
+  func flashErrorView() {
+    highlightView.backgroundColor = UIColor.red
+    self.highlightView.alpha = 0.7
+    highlightView.isHidden = false
+    
+    DispatchQueue.main.async {
+      UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseOut, animations: {
+        self.highlightView.backgroundColor = UIColor.yellow
+        self.highlightView.alpha = 0.5
+      }) { (completed) in
+//        self.highlightView.alpha = 0.5
+//        self.highlightView.backgroundColor = UIColor.yellow
+      }
+    }
+    
+//    UIView.animate(withDuration: 1.5, animations: {
+//      //
+//      self.highlightView.backgroundColor = UIColor.red
+//    }) { [weak self] (completed) in
+////      self?.highlightView.backgroundColor = UIColor.yellow
+//    }
+    
+  }
   
   
 }
