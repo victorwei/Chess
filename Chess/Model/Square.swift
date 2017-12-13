@@ -161,19 +161,8 @@ class Square: UIView {
       UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseOut, animations: {
         self.highlightView.backgroundColor = UIColor.yellow
         self.highlightView.alpha = 0.5
-      }) { (completed) in
-//        self.highlightView.alpha = 0.5
-//        self.highlightView.backgroundColor = UIColor.yellow
-      }
+      }, completion: nil)
     }
-    
-//    UIView.animate(withDuration: 1.5, animations: {
-//      //
-//      self.highlightView.backgroundColor = UIColor.red
-//    }) { [weak self] (completed) in
-////      self?.highlightView.backgroundColor = UIColor.yellow
-//    }
-    
   }
   
   

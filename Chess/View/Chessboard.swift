@@ -446,6 +446,8 @@ extension Chessboard {
         //Make a check for pawn to see if it capturing another piece
         let currentRowForSelectedPiece = selectedChessPiece.square?.boardNotation.returnBoardNotation(whitesTurn: whiteTurn)
         
+        clearHighlightedSquares()
+        highlightPossibleSquares(boardSquares: [selectedBoardSquare.boardNotation])
         selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: { [weak self] captured in
           
           // Check if pawn reached the end of the square
