@@ -11,13 +11,13 @@
 		571307651F90321D0027CE2A /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307641F90321D0027CE2A /* GameVC.swift */; };
 		571307681F90321D0027CE2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 571307661F90321D0027CE2A /* Main.storyboard */; };
 		5713076B1F90321D0027CE2A /* Chess.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 571307691F90321D0027CE2A /* Chess.xcdatamodeld */; };
-		5713076D1F90321D0027CE2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5713076C1F90321D0027CE2A /* Assets.xcassets */; };
 		571307701F90321D0027CE2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5713076E1F90321D0027CE2A /* LaunchScreen.storyboard */; };
 		5713077B1F90321D0027CE2A /* ChessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5713077A1F90321D0027CE2A /* ChessTests.swift */; };
 		571307931F9034F90027CE2A /* Chessboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307921F9034F90027CE2A /* Chessboard.swift */; };
 		571307951F9182870027CE2A /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307941F9182870027CE2A /* Square.swift */; };
 		571307971F91898C0027CE2A /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571307961F91898C0027CE2A /* ChessPiece.swift */; };
 		5716B98D1FDF4AFA00446D41 /* CustomAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5716B98C1FDF4AFA00446D41 /* CustomAlertVC.swift */; };
+		5716B98F1FDF8C2800446D41 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5716B98E1FDF8C2800446D41 /* Assets.xcassets */; };
 		572357261FD7924600D959E3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572357251FD7924500D959E3 /* Settings.swift */; };
 		572357291FD7A0D100D959E3 /* SettingHighlightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572357271FD7A0D100D959E3 /* SettingHighlightCell.swift */; };
 		5723572A1FD7A0D100D959E3 /* SettingHighlightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 572357281FD7A0D100D959E3 /* SettingHighlightCell.xib */; };
@@ -46,7 +46,6 @@
 		571307641F90321D0027CE2A /* GameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
 		571307671F90321D0027CE2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5713076A1F90321D0027CE2A /* Chess.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chess.xcdatamodel; sourceTree = "<group>"; };
-		5713076C1F90321D0027CE2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5713076F1F90321D0027CE2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		571307711F90321D0027CE2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		571307761F90321D0027CE2A /* ChessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +55,7 @@
 		571307941F9182870027CE2A /* Square.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
 		571307961F91898C0027CE2A /* ChessPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiece.swift; sourceTree = "<group>"; };
 		5716B98C1FDF4AFA00446D41 /* CustomAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertVC.swift; sourceTree = "<group>"; };
+		5716B98E1FDF8C2800446D41 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		572357251FD7924500D959E3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		572357271FD7A0D100D959E3 /* SettingHighlightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHighlightCell.swift; sourceTree = "<group>"; };
 		572357281FD7A0D100D959E3 /* SettingHighlightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingHighlightCell.xib; sourceTree = "<group>"; };
@@ -111,9 +111,9 @@
 				572808051FA7DDFE00C0E47A /* View */,
 				571307911F9034CA0027CE2A /* Model */,
 				571307621F90321D0027CE2A /* AppDelegate.swift */,
-				5713076C1F90321D0027CE2A /* Assets.xcassets */,
 				5713076E1F90321D0027CE2A /* LaunchScreen.storyboard */,
 				571307711F90321D0027CE2A /* Info.plist */,
+				5716B98E1FDF8C2800446D41 /* Assets.xcassets */,
 				571307691F90321D0027CE2A /* Chess.xcdatamodeld */,
 			);
 			path = Chess;
@@ -252,7 +252,7 @@
 				578301A31FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib in Resources */,
 				5723572A1FD7A0D100D959E3 /* SettingHighlightCell.xib in Resources */,
 				57F30A441FBBCC8E008463DA /* NotationCell.xib in Resources */,
-				5713076D1F90321D0027CE2A /* Assets.xcassets in Resources */,
+				5716B98F1FDF8C2800446D41 /* Assets.xcassets in Resources */,
 				571307681F90321D0027CE2A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

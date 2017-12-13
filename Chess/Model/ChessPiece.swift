@@ -37,17 +37,17 @@ class ChessPiece: UIView {
     
     switch type {
     case .Pawn:
-      image = color == .white ? UIImage(named: "pawn_white") : UIImage(named: "pawn_black")
+      image = color == .white ? UIImage(named: "pawn_w") : UIImage(named: "pawn_b")
     case .King:
-      image = color == .white ? UIImage(named: "king_white") : UIImage(named: "king_black")
+      image = color == .white ? UIImage(named: "king_w") : UIImage(named: "king_b")
     case .Queen:
-      image = color == .white ? UIImage(named: "queen_white") : UIImage(named: "queen_black")
+      image = color == .white ? UIImage(named: "queen_w") : UIImage(named: "queen_b")
     case .Bishop:
-      image = color == .white ? UIImage(named: "bishop_white") : UIImage(named: "bishop_black")
+      image = color == .white ? UIImage(named: "bishop_w") : UIImage(named: "bishop_b")
     case .Knight:
-      image = color == .white ? UIImage(named: "knight_white") : UIImage(named: "knight_black")
+      image = color == .white ? UIImage(named: "knight_w") : UIImage(named: "knight_b")
     case .Rook:
-      image = color == .white ? UIImage(named: "rook_white") : UIImage(named: "rook_black")
+      image = color == .white ? UIImage(named: "rook_w") : UIImage(named: "rook_b")
     }
     
     imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))

@@ -56,6 +56,7 @@ class NotationVC: UIViewController {
     tableView.delegate = self
     tableView.dataSource = self
     self.view.addSubview(tableView)
+    tableView.allowsSelection = false
     
     let notationNib = UINib(nibName: "NotationCell", bundle: nil)
     tableView.register(notationNib, forCellReuseIdentifier: "notationCell")

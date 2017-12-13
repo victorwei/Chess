@@ -33,6 +33,8 @@ class Chessboard: UIView {
   var temporaryChessPiece: ChessPiece?
   var gameNotation: [String] = []
   
+  weak var delegate: ChessboardDelegate!
+  
   var castleAvailable: Bool {
     get {
       let castles = isCastleAvailable()
@@ -48,6 +50,9 @@ class Chessboard: UIView {
     setupTappableAreas()
     setupBoardNotation()
     
+    let backgroundImage = UIImageView(frame: self.frame)
+    backgroundImage.image = #imageLiteral(resourceName: "game_bg")
+    self.insertSubview(backgroundImage, at: 0)
     
     Settings.shared.addObserver(self, forKeyPath: #keyPath(Settings.boardColor), options: [.old, .new], context: nil)
   }
@@ -274,6 +279,7 @@ class Chessboard: UIView {
     }
   }
   
+  
   private func addPiece(square: Square, type: PiecesType, color: ChessPiece.Side) {
     
     let chessPiece = ChessPiece(frame: square.frame, color: color, type: type, square: square)
@@ -462,7 +468,6 @@ extension Chessboard {
           print(chessNotation)
           self?.gameNotation.append(chessNotation)
           
-//          print(self.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation))
           self?.finishMoveAndUpdateBoard()
         })
       } else {
@@ -537,6 +542,7 @@ extension Chessboard {
     
     self.clearHighlightedSquares()
     if checkIfCheckmate() {
+      delegate.showCheckMateAlert(whiteWins: whiteTurn)
       print("CHECKMATE")
       return
     }
@@ -1024,5 +1030,10 @@ extension Chessboard {
     return pieceNotation + boardSquareNotation
   }
   
+}
 
+
+
+protocol ChessboardDelegate: class {
+  func showCheckMateAlert(whiteWins: Bool)
 }

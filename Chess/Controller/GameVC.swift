@@ -14,20 +14,18 @@ class GameVC: UIViewController {
   var chessboard: Chessboard!
   var shouldDismiss: Bool = false
   
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     navBarSetup()
     addNavigationBtns()
     chessboard = Chessboard()
     chessboard.setup(viewController: self)
+    chessboard.delegate = self
     setupTapGesturesForChessboard()
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    if shouldDismiss {
-      shouldDismiss = false
-      dismiss(animated: true, completion: nil)
-    }
   }
   
   func addNavigationBtns() {
@@ -38,22 +36,60 @@ class GameVC: UIViewController {
   
   
   private func addBackBtn() {
-    let button1 = UIBarButtonItem(barButtonSystemItem: .stop , target: self, action: #selector(onTapBackBtn(_:)))
-    self.navigationItem.setLeftBarButton(button1, animated: true)
+    guard let navController = self.navigationController else {
+      return
+    }
+    
+    let button = UIButton()
+    button.setImage(#imageLiteral(resourceName: "return_regular"), for: .normal)
+    button.setImage(#imageLiteral(resourceName: "return_highlighted"), for: .highlighted)
+    button.imageView?.contentMode = .scaleAspectFit
+    button.addTarget(self, action: #selector(onTapBackBtn(_:)), for: .touchUpInside)
+    let barButton = barBtnItemWithView(view: button, rect: CGRect(x: 0,
+                                                                    y: 0,
+                                                                    width: navController.navigationBar.frame.height * 0.8,
+                                                                    height: navController.navigationBar.frame.height * 0.8))
+    self.navigationItem.setLeftBarButton(barButton, animated: true)
   }
   
   
   private func addNotationBtn() {
-    let button2 = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(onTapNotationBtn(_:)))
-    self.navigationItem.setRightBarButton(button2, animated: true)
+    
+    guard let navController = self.navigationController else {
+      return
+    }
+
+    let button2 = UIButton()
+    button2.setImage(#imageLiteral(resourceName: "notepad_regular"), for: .normal)
+    button2.setImage(#imageLiteral(resourceName: "notepad_highlighted"), for: .highlighted)
+    button2.imageView?.contentMode = .scaleAspectFit
+    button2.addTarget(self, action: #selector(onTapNotationBtn(_:)), for: .touchUpInside)
+    let barButton2 = barBtnItemWithView(view: button2, rect: CGRect(x: 0,
+                                                                    y: 0,
+                                                                    width: navController.navigationBar.frame.height * 0.8 + 5,
+                                                                    height: navController.navigationBar.frame.height * 0.8))
+    self.navigationItem.setRightBarButton(barButton2, animated: true)
+  }
+  
+  func barBtnItemWithView(view: UIView, rect: CGRect) -> UIBarButtonItem {
+    let container = UIView(frame: rect)
+    container.addSubview(view)
+    view.frame = rect
+    return UIBarButtonItem(customView: container)
+  }
+  
+  @objc func onTapBackBtn(_ sender: UIBarButtonItem) {
+    
+    showAlert(forCheckMate: false, whiteWin: nil)
+    
+    // idea for bg
+    // radial blur/gradient in corner of the screen
+    
   }
   
   
-  @objc func onTapBackBtn(_ sender: UIBarButtonItem) {
-//    dismiss(animated: true, completion: nil)
-//    let settingsVC = SettingsVC()
-//    self.navigationController?.pushViewController(settingsVC, animated: false)
-    
+  
+  private func showAlert(forCheckMate: Bool, whiteWin: Bool?) {
     
     let optionsAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CustomAlertVC") as! CustomAlertVC
     optionsAlert.providesPresentationContextTransitionStyle = true
@@ -61,8 +97,11 @@ class GameVC: UIViewController {
     optionsAlert.modalPresentationStyle = .overCurrentContext
     optionsAlert.modalTransitionStyle = .crossDissolve
     optionsAlert.delegate = self
+    optionsAlert.checkmateAlert = forCheckMate
+    if forCheckMate {
+      optionsAlert.whiteWin = whiteWin!
+    }
     self.present(optionsAlert, animated: true, completion: nil)
-    
   }
   
   
@@ -90,13 +129,10 @@ class GameVC: UIViewController {
   
   
   @objc func tapSquare(_ sender: UITapGestureRecognizer) {
-    
     guard let index = sender.view?.tag else {
       return
     }
     chessboard.selectSquare(index: index)
-    
-    
   }
   
   func setupTapGesturesForChessboard() {
@@ -118,20 +154,21 @@ extension GameVC: CustomAlertDelegate {
     
   }
   func mainMenuBtnTapped() {
-    
-    
-    shouldDismiss = true
     dismiss(animated: true, completion: nil)
-    self.navigationController?.popViewController(animated: true)
   }
   
   func optionsBtnTapped() {
     let settingsVC = SettingsVC()
     self.navigationController?.pushViewController(settingsVC, animated: false)
-
   }
 }
 
+
+extension GameVC: ChessboardDelegate {
+  func showCheckMateAlert(whiteWins: Bool) {
+    showAlert(forCheckMate: true, whiteWin: whiteWins)
+  }
+}
 
 extension UIViewController {
   

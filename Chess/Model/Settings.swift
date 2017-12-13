@@ -28,8 +28,8 @@ class Settings: NSObject {
 
 enum Colors {
   
-  static let green = UIColor.green
+  static let green = UIColor(displayP3Red: 40.0 / 256.0, green: 110.0 / 256.0, blue: 35.0 / 256.0, alpha: 1.0)
   static let brown = UIColor.brown
-  static let blue = UIColor.blue
+  static let blue = UIColor(displayP3Red: 50.0 / 256.0, green: 50.0 / 256.0, blue: 150.0 / 256.0, alpha: 1.0)
   
 }
