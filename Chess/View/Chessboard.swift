@@ -319,7 +319,68 @@ class Chessboard: UIView {
     boardBorderView.backgroundColor = Settings.shared.boardColor
   }
   
+  
+  
+   func resetGame() {
+    
+    resetBoard()
+    resetGameState()
+  }
+  
+  private func resetGameState() {
+    whiteTurn = true
+    gameNotation.removeAll()
+    self.clearHighlightedSquares()
+    self.selectedChessPiece = nil
+    canEnPassant.removeAll()
+  }
+  
+  private func resetBoard() {
+    
+    for height in (0..<board.count) {
+      for row in (0..<board[height].count) {
+        let boardSquare = board[height][row]
+        if height == (board.count - 1) || height == 0 {
+          
+          DispatchQueue.global(qos: .userInitiated).async {
+            let piece: ChessPiece = height == 0 ? self.blackChessPieces[row] : self.whiteChessPieces[row + 8]
+            piece.square = boardSquare
+            boardSquare.chessPiece = piece
+            piece.hasMoved = false
+            
+            DispatchQueue.main.async {
+              piece.alpha = 1.0
+              piece.moveToSquare(square: boardSquare, completion: { (captured) in
+              })
+            }
+          }
+          
+          
+          
+        } else if height == 1 || height == (board.count - 2) {
+          
+          DispatchQueue.global(qos: .userInitiated).async {
+            let piece: ChessPiece = height == 1 ? self.blackChessPieces[row + 8] : self.whiteChessPieces[row]
+            piece.square = boardSquare
+            boardSquare.chessPiece = piece
+            
+            DispatchQueue.main.async {
+              piece.alpha = 1.0
+              piece.moveToSquare(square: boardSquare, completion: { (captured) in
+              })
+            }
+          }
+          
+        }
+      }
+    }
+    
+    
+  }
+  
 }
+
+
 
 
 
@@ -514,6 +575,7 @@ extension Chessboard {
         return
       }
       
+      chessPiece.selected = true
       selectedChessPiece = chessPiece
       selectedBoardSquare.highlighted = true
       highlightPossibleMovesForSelectedPiece()

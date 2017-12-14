@@ -28,6 +28,45 @@ class ChessPiece: UIView {
   var hasMoved: Bool = false
   
   
+  var selected: Bool = false {
+    didSet {
+      switch selected {
+      case true:
+        switch type {
+        case .Pawn:
+          image = side == .white ? UIImage(named: "wp") : UIImage(named: "bp_selected")
+        case .King:
+          image = side == .white ? UIImage(named: "wk") : UIImage(named: "bk_selected")
+        case .Queen:
+          image = side == .white ? UIImage(named: "wq") : UIImage(named: "bq_selected")
+        case .Bishop:
+          image = side == .white ? UIImage(named: "wb") : UIImage(named: "bishop_b_selected")
+        case .Knight:
+          image = side == .white ? UIImage(named: "wn") : UIImage(named: "bn_selected")
+        case .Rook:
+          image = side == .white ? UIImage(named: "wr") : UIImage(named: "br_selected")
+        }
+      case false:
+        switch type {
+        case .Pawn:
+          image = side == .white ? UIImage(named: "wp") : UIImage(named: "bp")
+        case .King:
+          image = side == .white ? UIImage(named: "wk") : UIImage(named: "bk")
+        case .Queen:
+          image = side == .white ? UIImage(named: "wq") : UIImage(named: "bq")
+        case .Bishop:
+          image = side == .white ? UIImage(named: "wb") : UIImage(named: "bishop_b")
+        case .Knight:
+          image = side == .white ? UIImage(named: "wn") : UIImage(named: "bn")
+        case .Rook:
+          image = side == .white ? UIImage(named: "wr") : UIImage(named: "br")
+        }
+      }
+      imageView.image = image
+    }
+  }
+  
+  
   init(frame: CGRect, color: ChessPiece.Side, type: PiecesType, square: Square) {
     self.type = type
     self.side = color
@@ -37,17 +76,17 @@ class ChessPiece: UIView {
     
     switch type {
     case .Pawn:
-      image = color == .white ? UIImage(named: "pawn_w") : UIImage(named: "pawn_b")
+      image = color == .white ? UIImage(named: "wp") : UIImage(named: "bp")
     case .King:
-      image = color == .white ? UIImage(named: "king_w") : UIImage(named: "king_b")
+      image = color == .white ? UIImage(named: "wk") : UIImage(named: "bk")
     case .Queen:
-      image = color == .white ? UIImage(named: "queen_w") : UIImage(named: "queen_b")
+      image = color == .white ? UIImage(named: "wq") : UIImage(named: "bq")
     case .Bishop:
-      image = color == .white ? UIImage(named: "bishop_w") : UIImage(named: "bishop_b")
+      image = color == .white ? UIImage(named: "wb") : UIImage(named: "bishop_b")
     case .Knight:
-      image = color == .white ? UIImage(named: "knight_w") : UIImage(named: "knight_b")
+      image = color == .white ? UIImage(named: "wn") : UIImage(named: "bn")
     case .Rook:
-      image = color == .white ? UIImage(named: "rook_w") : UIImage(named: "rook_b")
+      image = color == .white ? UIImage(named: "wr") : UIImage(named: "br")
     }
     
     imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
@@ -110,7 +149,7 @@ class ChessPiece: UIView {
         oldPiece.alpha = 0
       }, completion: { (finished) in
         if finished {
-          oldPiece.removeFromSuperview()
+//          oldPiece.removeFromSuperview()
           oldPiece.square = nil
           completion(true)
         }
@@ -122,6 +161,8 @@ class ChessPiece: UIView {
         completion(false)
       })
     }
+    
+    self.selected = false
     square.chessPiece = self
     self.square = square
     self.hasMoved = true

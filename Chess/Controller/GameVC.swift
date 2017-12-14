@@ -151,7 +151,7 @@ class GameVC: UIViewController {
 
 extension GameVC: CustomAlertDelegate {
   func restartBtnTapped() {
-    
+    chessboard.resetGame()
   }
   func mainMenuBtnTapped() {
     dismiss(animated: true, completion: nil)
