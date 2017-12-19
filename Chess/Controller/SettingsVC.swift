@@ -86,7 +86,6 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
       
     }
     
-    
     let cell = UITableViewCell()
     cell.backgroundColor =  indexPath.row % 2 == 0 ? UIColor.green : UIColor.blue
     

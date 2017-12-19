@@ -202,17 +202,17 @@ class ChessPiece: UIView {
     switch type {
       
     case .Pawn:
-      image = getColor() == .white ? UIImage(named: "pawn_white") : UIImage(named: "pawn_black")
+      image = getColor() == .white ? UIImage(named: "wp") : UIImage(named: "bp")
     case .King:
-      image = getColor() == .white ? UIImage(named: "king_white") : UIImage(named: "king_black")
+      image = getColor() == .white ? UIImage(named: "wk") : UIImage(named: "bk")
     case .Queen:
-      image = getColor() == .white ? UIImage(named: "queen_white") : UIImage(named: "queen_black")
+      image = getColor() == .white ? UIImage(named: "wq") : UIImage(named: "bq")
     case .Bishop:
-      image = getColor() == .white ? UIImage(named: "bishop_white") : UIImage(named: "bishop_black")
+      image = getColor() == .white ? UIImage(named: "wb") : UIImage(named: "bb")
     case .Knight:
-      image = getColor() == .white ? UIImage(named: "knight_white") : UIImage(named: "knight_black")
+      image = getColor() == .white ? UIImage(named: "wn") : UIImage(named: "bn")
     case .Rook:
-      image = getColor() == .white ? UIImage(named: "rook_white") : UIImage(named: "rook_black")
+      image = getColor() == .white ? UIImage(named: "wr") : UIImage(named: "br")
     }
     imageView.image = image
     self.type = type

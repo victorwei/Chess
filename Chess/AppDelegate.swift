@@ -12,11 +12,21 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+  var window: UIWindow?
+  let defaults = UserDefaults.standard
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
       application.statusBarStyle = .lightContent
+      
+//      Settings.shared.showMoves
+      
+      if let showPieceMoves = defaults.value(forKey: "showMove") as? Bool {
+        Settings.shared.showMoves = showPieceMoves
+      }
+      if let boardColor = defaults.colorForKey(key: "boardColor") {
+        Settings.shared.boardColor = boardColor
+      }
       
         return true
     }

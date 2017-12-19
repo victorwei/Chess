@@ -80,13 +80,23 @@ class GameVC: UIViewController {
   
   @objc func onTapBackBtn(_ sender: UIBarButtonItem) {
     
+//    showChoosePieceView(forWhite: true)
     showAlert(forCheckMate: false, whiteWin: nil)
-    
-    // idea for bg
-    // radial blur/gradient in corner of the screen
-    
   }
   
+  
+  
+  private func showChoosePieceView(forWhite: Bool) {
+  
+    let selectPieceAlertVC = ChoosePieceVC(whiteSide: forWhite)
+    selectPieceAlertVC.delegate = self
+    selectPieceAlertVC.providesPresentationContextTransitionStyle = true
+    selectPieceAlertVC.definesPresentationContext = true
+    selectPieceAlertVC.modalPresentationStyle = .overCurrentContext
+    selectPieceAlertVC.modalTransitionStyle = .crossDissolve
+    
+    self.present(selectPieceAlertVC, animated: true, completion: nil)
+  }
   
   
   private func showAlert(forCheckMate: Bool, whiteWin: Bool?) {
@@ -167,6 +177,17 @@ extension GameVC: CustomAlertDelegate {
 extension GameVC: ChessboardDelegate {
   func showCheckMateAlert(whiteWins: Bool) {
     showAlert(forCheckMate: true, whiteWin: whiteWins)
+  }
+  
+  func showChooseNewPieceAlert(whiteTurn: Bool) {
+    showChoosePieceView(forWhite: whiteTurn)
+  }
+}
+
+
+extension GameVC: ChoosePieceDelegate {
+  func selectedPiece(piece: PiecesType) {
+    chessboard.promotePawn?.changePieceType(type: piece)
   }
 }
 

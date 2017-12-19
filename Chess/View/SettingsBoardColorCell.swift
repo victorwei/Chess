@@ -52,6 +52,7 @@ class SettingsBoardColorCell: UITableViewCell {
   @objc func onTapColorView(_ sender: AnyObject) {
     let tag = sender.view.tag
     selectColorView(selectedView: viewsArr[tag])
+    
   }
   
   private func selectColorView(selectedView: UIView) {
@@ -61,6 +62,7 @@ class SettingsBoardColorCell: UITableViewCell {
         selectedView.layer.borderColor = UIColor.red.cgColor
         selectedView.layer.borderWidth = 2.0
         Settings.shared.boardColor = colorView.backgroundColor!
+        UserDefaults.standard.setColor(value: Settings.shared.boardColor, forKey: "boardColor")
       } else {
         deselectColorView(selectedView: colorView)
       }

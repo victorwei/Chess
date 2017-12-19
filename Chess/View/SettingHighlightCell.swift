@@ -22,6 +22,8 @@ class SettingHighlightCell: UITableViewCell {
 
   @objc func onSwitchChange(_ sender: UISwitch) {
     Settings.shared.showMoves = highlightSwitch.isOn
+    
+    UserDefaults.standard.set(Settings.shared.showMoves, forKey: "showMove")
   }
   
   override func setSelected(_ selected: Bool, animated: Bool) {

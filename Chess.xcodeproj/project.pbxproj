@@ -24,6 +24,8 @@
 		577E3A8A1FB6798400EA08B8 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577E3A891FB6798400EA08B8 /* WelcomeVC.swift */; };
 		578301A21FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578301A01FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift */; };
 		578301A31FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 578301A11FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib */; };
+		579DB72D1FE8BFEA0001B64F /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DB72C1FE8BFEA0001B64F /* Defaults.swift */; };
+		57BB360E1FE211E80052B21F /* ChoosePieceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BB360D1FE211E80052B21F /* ChoosePieceVC.swift */; };
 		57C646641FCD106B00766805 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C646631FCD106B00766805 /* SettingsVC.swift */; };
 		57F30A3F1FBBC2C7008463DA /* NotationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F30A3E1FBBC2C7008463DA /* NotationVC.swift */; };
 		57F30A431FBBCC8E008463DA /* NotationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F30A411FBBCC8E008463DA /* NotationCell.swift */; };
@@ -62,6 +64,8 @@
 		577E3A891FB6798400EA08B8 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		578301A01FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBoardColorCell.swift; sourceTree = "<group>"; };
 		578301A11FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsBoardColorCell.xib; sourceTree = "<group>"; };
+		579DB72C1FE8BFEA0001B64F /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		57BB360D1FE211E80052B21F /* ChoosePieceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePieceVC.swift; sourceTree = "<group>"; };
 		57C646631FCD106B00766805 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		57F30A3E1FBBC2C7008463DA /* NotationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotationVC.swift; sourceTree = "<group>"; };
 		57F30A411FBBCC8E008463DA /* NotationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotationCell.swift; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 				571307961F91898C0027CE2A /* ChessPiece.swift */,
 				572357251FD7924500D959E3 /* Settings.swift */,
 				571307941F9182870027CE2A /* Square.swift */,
+				579DB72C1FE8BFEA0001B64F /* Defaults.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 				571307641F90321D0027CE2A /* GameVC.swift */,
 				57C646631FCD106B00766805 /* SettingsVC.swift */,
 				5716B98C1FDF4AFA00446D41 /* CustomAlertVC.swift */,
+				57BB360D1FE211E80052B21F /* ChoosePieceVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -272,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				571307651F90321D0027CE2A /* GameVC.swift in Sources */,
+				579DB72D1FE8BFEA0001B64F /* Defaults.swift in Sources */,
 				571307931F9034F90027CE2A /* Chessboard.swift in Sources */,
 				572357261FD7924600D959E3 /* Settings.swift in Sources */,
 				577E3A8A1FB6798400EA08B8 /* WelcomeVC.swift in Sources */,
@@ -279,6 +286,7 @@
 				571307971F91898C0027CE2A /* ChessPiece.swift in Sources */,
 				571307951F9182870027CE2A /* Square.swift in Sources */,
 				572357291FD7A0D100D959E3 /* SettingHighlightCell.swift in Sources */,
+				57BB360E1FE211E80052B21F /* ChoosePieceVC.swift in Sources */,
 				5716B98D1FDF4AFA00446D41 /* CustomAlertVC.swift in Sources */,
 				57F30A3F1FBBC2C7008463DA /* NotationVC.swift in Sources */,
 				5713076B1F90321D0027CE2A /* Chess.xcdatamodeld in Sources */,

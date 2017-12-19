@@ -29,6 +29,7 @@ class Chessboard: UIView {
   var canEnPassant: [ChessPiece] = []
   var enPassantableSquare: Square?
   var enPassantablePawn: ChessPiece?
+  var promotePawn: ChessPiece?
   
   var temporaryChessPiece: ChessPiece?
   var gameNotation: [String] = []
@@ -340,6 +341,7 @@ class Chessboard: UIView {
     for height in (0..<board.count) {
       for row in (0..<board[height].count) {
         let boardSquare = board[height][row]
+        
         if height == (board.count - 1) || height == 0 {
           
           DispatchQueue.global(qos: .userInitiated).async {
@@ -355,14 +357,15 @@ class Chessboard: UIView {
             }
           }
           
-          
-          
         } else if height == 1 || height == (board.count - 2) {
           
           DispatchQueue.global(qos: .userInitiated).async {
             let piece: ChessPiece = height == 1 ? self.blackChessPieces[row + 8] : self.whiteChessPieces[row]
             piece.square = boardSquare
             boardSquare.chessPiece = piece
+            if piece.type != .Pawn {
+              piece.changePieceType(type: .Pawn)
+            }
             
             DispatchQueue.main.async {
               piece.alpha = 1.0
@@ -370,12 +373,9 @@ class Chessboard: UIView {
               })
             }
           }
-          
         }
       }
     }
-    
-    
   }
   
 }
@@ -513,7 +513,10 @@ extension Chessboard {
           
           // Check if pawn reached the end of the square
           if selectedChessPiece.type == .Pawn && selectedBoardSquare.boardNotation.returnArrayNotation().0 == 0 {
-            selectedChessPiece.changePieceType(type: PiecesType.Queen)
+            self?.promotePawn = selectedChessPiece
+            self?.delegate.showChooseNewPieceAlert(whiteTurn: (self?.whiteTurn)!)
+            //            selectedChessPiece.changePieceType(type: PiecesType.Queen)
+            return
           }
           
           // Used for getting game notation
@@ -1096,4 +1099,5 @@ extension Chessboard {
 
 protocol ChessboardDelegate: class {
   func showCheckMateAlert(whiteWins: Bool)
+  func showChooseNewPieceAlert(whiteTurn: Bool)
 }
