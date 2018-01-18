@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WuP-kV-QJ8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WuP-kV-QJ8">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -99,6 +99,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dH0-vV-8fk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1584.8" y="128.18590704647679"/>
+        </scene>
+        <!--Game AlertVC-->
+        <scene sceneID="bE3-W7-6I9">
+            <objects>
+                <viewController storyboardIdentifier="GameAlertVC" id="mLh-dp-Wn9" customClass="GameAlertVC" customModule="Chess" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LaR-ZS-Agp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hCF-rE-OHL">
+                                <rect key="frame" x="56.5" y="255" width="262.5" height="157.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pk0-dg-oh1">
+                                        <rect key="frame" x="33" y="32" width="196.5" height="31.5"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Resume Game">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPO-Qb-jcz">
+                                        <rect key="frame" x="33" y="94.5" width="196.5" height="31.5"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="New Game">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="hCF-rE-OHL" secondAttribute="height" multiplier="5:3" id="AT0-HZ-vvZ"/>
+                                    <constraint firstItem="Pk0-dg-oh1" firstAttribute="height" secondItem="hCF-rE-OHL" secondAttribute="height" multiplier="0.2" id="Dmg-I6-v9S"/>
+                                    <constraint firstItem="Pk0-dg-oh1" firstAttribute="centerX" secondItem="hCF-rE-OHL" secondAttribute="centerX" id="IaL-aP-SB8"/>
+                                    <constraint firstItem="VPO-Qb-jcz" firstAttribute="centerY" secondItem="hCF-rE-OHL" secondAttribute="baseline" multiplier="0.7" id="Yid-mx-bfA"/>
+                                    <constraint firstItem="Pk0-dg-oh1" firstAttribute="width" secondItem="hCF-rE-OHL" secondAttribute="width" multiplier="0.75" id="Z1y-gb-gZx"/>
+                                    <constraint firstItem="VPO-Qb-jcz" firstAttribute="centerX" secondItem="Pk0-dg-oh1" secondAttribute="centerX" id="bJg-Cx-K8h"/>
+                                    <constraint firstItem="Pk0-dg-oh1" firstAttribute="centerY" secondItem="hCF-rE-OHL" secondAttribute="baseline" multiplier="0.3" id="btg-1p-o27"/>
+                                    <constraint firstItem="VPO-Qb-jcz" firstAttribute="width" secondItem="Pk0-dg-oh1" secondAttribute="width" id="sMH-He-3WC"/>
+                                    <constraint firstItem="VPO-Qb-jcz" firstAttribute="height" secondItem="Pk0-dg-oh1" secondAttribute="height" id="yBJ-AV-osV"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="hCF-rE-OHL" firstAttribute="width" secondItem="LaR-ZS-Agp" secondAttribute="width" multiplier="0.7" id="Mim-1h-gWi"/>
+                            <constraint firstItem="hCF-rE-OHL" firstAttribute="centerY" secondItem="LaR-ZS-Agp" secondAttribute="centerY" id="QTJ-Th-SIT"/>
+                            <constraint firstItem="hCF-rE-OHL" firstAttribute="centerX" secondItem="LaR-ZS-Agp" secondAttribute="centerX" id="ala-0q-v8t"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="33r-2N-RbC"/>
+                    </view>
+                    <connections>
+                        <outlet property="alertContainerView" destination="hCF-rE-OHL" id="aRS-ZF-8ed"/>
+                        <outlet property="btn1" destination="Pk0-dg-oh1" id="A8W-g4-1aX"/>
+                        <outlet property="btn2" destination="VPO-Qb-jcz" id="uyZ-UK-Gk3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zdf-tS-vci" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="837.60000000000002" y="814.54272863568224"/>
         </scene>
         <!--Custom AlertVC-->
         <scene sceneID="8t2-TX-oqS">

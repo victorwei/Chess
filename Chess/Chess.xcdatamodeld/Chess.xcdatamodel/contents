@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Entity" representedClassName="Entity" syncable="YES" codeGenerationType="class"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ManagedChessPiece" representedClassName="ManagedChessPiece" syncable="YES" codeGenerationType="class">
+        <attribute name="frameRect" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="hasMoved" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="squareColumn" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="squareRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="whiteSide" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="ManagedGame" representedClassName="ManagedGame" syncable="YES" codeGenerationType="class">
+        <attribute name="resumeGame" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="whiteTurn" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="ManagedGameNotation" representedClassName="ManagedGameNotation" syncable="YES" codeGenerationType="class">
+        <attribute name="gameNotation" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Entity" positionX="-63" positionY="-18" width="128" height="45"/>
+        <element name="ManagedChessPiece" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="ManagedGame" positionX="-63" positionY="27" width="128" height="75"/>
+        <element name="ManagedGameNotation" positionX="-63" positionY="27" width="128" height="60"/>
     </elements>
 </model>

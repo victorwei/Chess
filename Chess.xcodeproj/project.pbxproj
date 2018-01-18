@@ -21,6 +21,7 @@
 		572357261FD7924600D959E3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572357251FD7924500D959E3 /* Settings.swift */; };
 		572357291FD7A0D100D959E3 /* SettingHighlightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572357271FD7A0D100D959E3 /* SettingHighlightCell.swift */; };
 		5723572A1FD7A0D100D959E3 /* SettingHighlightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 572357281FD7A0D100D959E3 /* SettingHighlightCell.xib */; };
+		5753FF462006AF37008A43B0 /* GameAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753FF452006AF37008A43B0 /* GameAlertVC.swift */; };
 		577E3A8A1FB6798400EA08B8 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577E3A891FB6798400EA08B8 /* WelcomeVC.swift */; };
 		578301A21FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578301A01FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift */; };
 		578301A31FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 578301A11FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib */; };
@@ -61,6 +62,7 @@
 		572357251FD7924500D959E3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		572357271FD7A0D100D959E3 /* SettingHighlightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHighlightCell.swift; sourceTree = "<group>"; };
 		572357281FD7A0D100D959E3 /* SettingHighlightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingHighlightCell.xib; sourceTree = "<group>"; };
+		5753FF452006AF37008A43B0 /* GameAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAlertVC.swift; sourceTree = "<group>"; };
 		577E3A891FB6798400EA08B8 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		578301A01FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBoardColorCell.swift; sourceTree = "<group>"; };
 		578301A11FD8DE4E007F2BA1 /* SettingsBoardColorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsBoardColorCell.xib; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				571307641F90321D0027CE2A /* GameVC.swift */,
 				57C646631FCD106B00766805 /* SettingsVC.swift */,
 				5716B98C1FDF4AFA00446D41 /* CustomAlertVC.swift */,
+				5753FF452006AF37008A43B0 /* GameAlertVC.swift */,
 				57BB360D1FE211E80052B21F /* ChoosePieceVC.swift */,
 			);
 			path = Controller;
@@ -290,6 +293,7 @@
 				5716B98D1FDF4AFA00446D41 /* CustomAlertVC.swift in Sources */,
 				57F30A3F1FBBC2C7008463DA /* NotationVC.swift in Sources */,
 				5713076B1F90321D0027CE2A /* Chess.xcdatamodeld in Sources */,
+				5753FF462006AF37008A43B0 /* GameAlertVC.swift in Sources */,
 				578301A21FD8DE4E007F2BA1 /* SettingsBoardColorCell.swift in Sources */,
 				57F30A431FBBCC8E008463DA /* NotationCell.swift in Sources */,
 				571307631F90321D0027CE2A /* AppDelegate.swift in Sources */,

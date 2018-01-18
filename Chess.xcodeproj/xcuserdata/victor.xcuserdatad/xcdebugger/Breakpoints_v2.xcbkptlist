@@ -28,12 +28,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/Model/ChessPiece.swift"
-            timestampString = "534922614.495175"
+            timestampString = "535515771.023357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "getAllPossibleMoves(chessboard:)"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "changePieceType(type:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -44,11 +44,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/View/Chessboard.swift"
-            timestampString = "535343514.141945"
+            timestampString = "537944052.517354"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
+            startingLineNumber = "708"
+            endingLineNumber = "708"
             landmarkName = "selectSquare(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -56,16 +56,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Chess/Model/ChessPiece.swift"
-            timestampString = "534922614.506373"
+            filePath = "Chess/Controller/WelcomeVC.swift"
+            timestampString = "537321666.8738821"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "moveToSquare(square:completion:)"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "resumePreviousGameForWhiteSide(managedObject:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chess/View/Chessboard.swift"
+            timestampString = "537944052.517758"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "651"
+            endingLineNumber = "651"
+            landmarkName = "selectSquare(index:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

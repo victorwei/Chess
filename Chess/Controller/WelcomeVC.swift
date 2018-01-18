@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+
 
 class WelcomeVC: UIViewController {
   
@@ -16,12 +18,18 @@ class WelcomeVC: UIViewController {
   @IBOutlet weak var btn1: UIButton!
   @IBOutlet weak var btn2: UIButton!
   
+  var resumeOldGame: (Bool, Bool) = (false, false)
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     setTitleShdadow()
     setGradientBackground()
     navBarSetup()
+    
+    
+//    deleteAllRecords()
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -68,13 +76,17 @@ class WelcomeVC: UIViewController {
   // MARK: - IBActions
   
   @IBAction func onClickBtn1(_ sender: Any) {
-    let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC")
-    let gameNC = UINavigationController(rootViewController: gameVC)
-    
-//    var modalStyle = UIModalTransitionStyle.crossDissolve
-//    gameNC.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-    present(gameNC, animated: true, completion: nil)
+//    presentNewGame()
+    checkForOldGame()
+
+    if resumeOldGame.0 == true {
+      displayGameAlert()
+    } else {
+      presentNewGame()
+    }
   }
+  
+  
   
   @IBAction func onClickBtn2(_ sender: Any) {
     
@@ -88,4 +100,106 @@ class WelcomeVC: UIViewController {
   }
   
   
+  func displayGameAlert() {
+    
+    let gameAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameAlertVC") as! GameAlertVC
+    gameAlert.providesPresentationContextTransitionStyle = true
+    gameAlert.definesPresentationContext = true
+    gameAlert.modalPresentationStyle = .overCurrentContext
+    gameAlert.modalTransitionStyle = .crossDissolve
+    gameAlert.delegate = self
+    
+    self.present(gameAlert, animated: true, completion: nil)
+    
+  }
+  
+  func presentNewGame() {
+    if let presented = self.presentedViewController {
+      presented.removeFromParentViewController()
+    }
+    let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as! GameVC
+    let gameNC = UINavigationController(rootViewController: gameVC)
+    present(gameNC, animated: true, completion: nil)
+  }
+  
+  func presentOldGame() {
+    if let presented = self.presentedViewController {
+      presented.removeFromParentViewController()
+    }
+    
+    let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as! GameVC
+    let gameNC = UINavigationController(rootViewController: gameVC)
+    gameVC.resumeOldGame = self.resumeOldGame
+    present(gameNC, animated: true, completion: nil)
+  }
 }
+
+
+
+// MARK: - CoreData Retrieval
+
+extension WelcomeVC {
+  
+  private func checkForOldGame() {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    let managedContext = appDelegate.persistentContainer.viewContext
+    
+    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: CoreDataGameKeys.entity)
+    
+    do {
+      let managedObjects = try managedContext.fetch(fetchRequest)
+      resumePreviousGameForWhiteSide(managedObject: managedObjects)
+      
+      // Delete the record
+      for managedObject in managedObjects {
+        managedContext.delete(managedObject)
+      }
+      try managedContext.save()
+
+    } catch let error as NSError {
+      print("Could not save. \(error), \(error.userInfo)")
+    }
+  }
+  
+  private func resumePreviousGameForWhiteSide(managedObject: [NSManagedObject]){
+    
+    if managedObject.count != 1 {
+      return
+    }
+    let resumeGame = managedObject[0].value(forKey: CoreDataGameKeys.resumeGame) as! Bool
+    let whitesTurn = managedObject[0].value(forKey: CoreDataGameKeys.whiteTurn) as! Bool
+    
+    self.resumeOldGame = (resumeGame, whitesTurn)
+  }
+  
+  private func clearCoreDataGame() {
+    //delete all data
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    let context = appDelegate.persistentContainer.viewContext
+    
+    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: CoreDataGameKeys.entity)
+    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+    
+    do {
+      try context.execute(deleteRequest)
+      try context.save()
+    } catch {
+      print ("There was an error")
+    }
+  }
+  
+}
+
+
+extension WelcomeVC: GamerAlertDelegate {
+  func startNewGame() {
+    presentNewGame()
+  }
+  
+  func resumeGame() {
+    presentOldGame()
+  }
+}
+
+

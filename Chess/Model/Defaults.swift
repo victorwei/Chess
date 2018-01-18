@@ -12,11 +12,7 @@ import UIKit
 extension UserDefaults {
   
   public func setColor(value: UIColor?, forKey: String ) {
-    guard let value = value else {
-      set(nil, forKey: forKey)
-      return
-    }
-    set(NSKeyedArchiver.archivedData(withRootObject: value), forKey: forKey)
+    set(NSKeyedArchiver.archivedData(withRootObject: value as Any), forKey: forKey)
   }
   
   public func colorForKey(key: String)-> UIColor? {
@@ -27,4 +23,31 @@ extension UserDefaults {
     return color
   }
   
+}
+
+
+
+enum CoreDataPieceKeys {
+  static let squareRow = "squareRow"
+  static let squareColumn = "squareColumn"
+  static let chessPieceFrame = "frameRect"
+  static let pieceHasMoved = "hasMoved"
+  static let type = "type"
+  static let whiteSide = "whiteSide"
+  
+  static let entity = "ManagedChessPiece"
+}
+
+
+enum CoreDataGameKeys {
+  static let whiteTurn = "whiteTurn"
+  static let resumeGame = "resumeGame"
+  
+  static let entity = "ManagedGame"
+}
+
+enum CoreDataGameNotation {
+  static let gameNotation = "gameNotation"
+  
+  static let entity = "ManagedGameNotation"
 }

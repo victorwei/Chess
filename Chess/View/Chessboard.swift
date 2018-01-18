@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class Chessboard: UIView {
   
@@ -45,18 +46,33 @@ class Chessboard: UIView {
   var whiteTurn: Bool = true
   
   
-  func setup(viewController: UIViewController) {
+  public func setupForGame(viewController: UIViewController, newGame: Bool, whitesTurn: Bool) {
     drawBoard(view: viewController.view)
-    setupPiecesForNewGame()
-    setupTappableAreas()
     setupBoardNotation()
     
-    let backgroundImage = UIImageView(frame: self.frame)
-    backgroundImage.image = #imageLiteral(resourceName: "game_bg")
-    self.insertSubview(backgroundImage, at: 0)
+    if !newGame {
+      self.whiteTurn = whitesTurn
+      loadPreviousGame()
+      if !whitesTurn {
+        swapBoardNotation()
+      }
+    } else {
+      setupPiecesForNewGame()
+    }
+    
+    setupTappableAreas()
+    
+    
+//    let backgroundImage = UIImageView(frame: self.frame)
+//    backgroundImage.image = #imageLiteral(resourceName: "game_bg")
+//    self.insertSubview(backgroundImage, at: 0)
+    self.backgroundColor = UIColor.lightGray
     
     Settings.shared.addObserver(self, forKeyPath: #keyPath(Settings.boardColor), options: [.old, .new], context: nil)
   }
+  
+  
+  public
   
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -108,8 +124,6 @@ class Chessboard: UIView {
     view.addSubview(self)
     addSquares(chessboardView: chessboardView)
     
-    
-    self.backgroundColor = UIColor.lightGray
     
   }
   
@@ -278,11 +292,14 @@ class Chessboard: UIView {
         
       }
     }
+    if !whiteTurn && !isBoardSetForWhitesTurn() {
+      swapBoardNotation()
+    }
   }
   
   
   private func addPiece(square: Square, type: PiecesType, color: ChessPiece.Side) {
-    
+   
     let chessPiece = ChessPiece(frame: square.frame, color: color, type: type, square: square)
     square.chessPiece = chessPiece
     
@@ -334,31 +351,36 @@ class Chessboard: UIView {
     self.clearHighlightedSquares()
     self.selectedChessPiece = nil
     canEnPassant.removeAll()
+    
+    if !isBoardSetForWhitesTurn() {
+      swapBoardNotation()
+    }
   }
   
   private func resetBoard() {
     
     for height in (0..<board.count) {
       for row in (0..<board[height].count) {
-        let boardSquare = board[height][row]
         
+        let boardSquare = board[height][row]
+
         if height == (board.count - 1) || height == 0 {
-          
+
           DispatchQueue.global(qos: .userInitiated).async {
-            let piece: ChessPiece = height == 0 ? self.blackChessPieces[row] : self.whiteChessPieces[row + 8]
+            let piece: ChessPiece = (height == 0) ? self.blackChessPieces[row] : self.whiteChessPieces[row + 8]
             piece.square = boardSquare
             boardSquare.chessPiece = piece
-            piece.hasMoved = false
             
             DispatchQueue.main.async {
               piece.alpha = 1.0
               piece.moveToSquare(square: boardSquare, completion: { (captured) in
+                piece.hasMoved = false
               })
             }
           }
-          
+
         } else if height == 1 || height == (board.count - 2) {
-          
+
           DispatchQueue.global(qos: .userInitiated).async {
             let piece: ChessPiece = height == 1 ? self.blackChessPieces[row + 8] : self.whiteChessPieces[row]
             piece.square = boardSquare
@@ -366,19 +388,257 @@ class Chessboard: UIView {
             if piece.type != .Pawn {
               piece.changePieceType(type: .Pawn)
             }
-            
+
             DispatchQueue.main.async {
               piece.alpha = 1.0
               piece.moveToSquare(square: boardSquare, completion: { (captured) in
               })
             }
           }
+        } else {
+          boardSquare.chessPiece = nil
         }
+      }
+    } // end of 1st forloop
+  }
+  
+}
+
+// MARK: - CoreData Methods
+// Functions to save and load game data
+
+extension Chessboard {
+  
+  public func saveCurrentState() {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    
+    let managedContext = appDelegate.persistentContainer.viewContext
+    
+    for piece in (whiteChessPieces + blackChessPieces) {
+      
+      guard let entity = NSEntityDescription.entity(forEntityName: "ManagedChessPiece", in: managedContext) else { return }
+      
+      let managedChessPieceObject = NSManagedObject(entity: entity, insertInto: managedContext)
+      
+      setChessPieceAsManagedObject(chessPiece: piece, managedObject: managedChessPieceObject)
+
+      do {
+        try managedContext.save()
+      } catch let error as NSError {
+        print("Could not save. \(error), \(error.userInfo)")
       }
     }
   }
   
+  private func setChessPieceAsManagedObject(chessPiece: ChessPiece, managedObject: NSManagedObject){
+    
+    let whiteSide: Bool = chessPiece.side == .white ? true : false
+    managedObject.setValue(whiteSide, forKey: CoreDataPieceKeys.whiteSide)
+    
+    let pieceType = chessPiece.type.rawValue
+    managedObject.setValue(pieceType, forKey: CoreDataPieceKeys.type)
+    
+    managedObject.setValue(chessPiece.hasMoved, forKey: CoreDataPieceKeys.pieceHasMoved)
+    
+    let pieceFrame = NSValue.init(cgRect: chessPiece.frame)
+    managedObject.setValue(pieceFrame, forKey: CoreDataPieceKeys.chessPieceFrame)
+    
+    let squareCoordinate = chessPiece.square?.boardNotation.returnArrayNotation()
+    managedObject.setValue(squareCoordinate?.0, forKey: CoreDataPieceKeys.squareColumn)
+    managedObject.setValue(squareCoordinate?.1, forKey: CoreDataPieceKeys.squareRow)
+  }
+  
+  
+  public func loadPreviousGame() {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    let managedContext = appDelegate.persistentContainer.viewContext
+    
+    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: CoreDataPieceKeys.entity)
+    
+    do {
+      let managedObjects = try managedContext.fetch(fetchRequest)
+      convertManagedObjectToChessPiece(objects: managedObjects)
+      
+      // Delete old record so we don't have duplicates later
+      for managedObject in managedObjects {
+        managedContext.delete(managedObject)
+      }
+      try managedContext.save()
+      
+    } catch let error as NSError {
+      print("Could not save. \(error), \(error.userInfo)")
+    }
+    
+    loadPreviousNotation()
+    
+  }
+  
+  private func loadPreviousNotation() {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    let managedContext = appDelegate.persistentContainer.viewContext
+    
+    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: CoreDataGameNotation.entity)
+    
+    do {
+      let managedObjects = try managedContext.fetch(fetchRequest)
+      
+      let oldGameNotation = managedObjects[0].value(forKey: CoreDataGameNotation.gameNotation) as! [String]
+      self.gameNotation = oldGameNotation
+      for managedObject in managedObjects {
+        managedContext.delete(managedObject)
+      }
+      try managedContext.save()
+    } catch let error as NSError {
+      print("Could not save. \(error), \(error.userInfo)")
+    }
+    
+  }
+  
+  
+  
+  private func convertManagedObjectToChessPiece(objects: [NSManagedObject]) {
+    
+    for object in objects {
+      
+      let type = object.value(forKey: CoreDataPieceKeys.type) as! String
+      let pieceType: PiecesType = PiecesType(rawValue: type)!
+      
+      
+      let whiteSide = object.value(forKey: CoreDataPieceKeys.whiteSide) as! Bool
+      let color = whiteSide ? ChessPiece.Side.white : ChessPiece.Side.black
+      
+      let hasMoved = object.value(forKey: CoreDataPieceKeys.pieceHasMoved) as! Bool
+      let frameValue = object.value(forKey: CoreDataPieceKeys.chessPieceFrame) as! NSValue
+      let pieceFrame = frameValue.cgRectValue
+      let squareColumn = object.value(forKey: CoreDataPieceKeys.squareColumn) as? Int
+      let squareRow = object.value(forKey: CoreDataPieceKeys.squareRow) as? Int
+      
+      
+      // Add the piece to the board.  if there is no row/column, that means the piece was captured already.
+      // Add the piece to the correct square if there is row/column values
+      // If piece doesn't have row/clumn value, Add piece to the board but keep it hidden
+      
+      addPieceFromPreviousGame(row: squareRow, column: squareColumn, type: pieceType, color: color, hasMoved: hasMoved)
+      
+    }
+    
+  }
+  
+  private func addPieceFromPreviousGame(row: Int?, column: Int?, type: PiecesType, color: ChessPiece.Side, hasMoved: Bool) {
+    
+    var chessPiece: ChessPiece!
+    
+    if let row = row,
+      let column = column {
+      
+      let square = board[column][row]
+      chessPiece = ChessPiece(frame: square.frame, color: color, type: type, square: square, hasMoved: hasMoved)
+      square.chessPiece = chessPiece
+      
+    } else {
+      chessPiece = ChessPiece(frame: board[0][0].frame , color: color, type: type, square: nil, hasMoved: hasMoved)
+    }
+    
+    
+    if color == .black {
+      self.blackChessPieces.append(chessPiece)
+      if type == .King {
+        blackKing = chessPiece
+      }
+    } else {
+      self.whiteChessPieces.append(chessPiece)
+      if type == .King {
+        whiteKing = chessPiece
+      }
+    }
+    
+    if row == nil {
+      chessPiece.alpha = 0
+    }
+    
+    chessboardView.addSubview(chessPiece)
+    
+  }
+    
+  
+  
+  private func addPieceFromPreviousGame1(square: Square?, type: PiecesType, color: ChessPiece.Side, hasMoved: Bool) {
+    
+    
+    guard let square = square else { return }
+    
+    let chessPiece = ChessPiece(frame: square.frame, color: color, type: type, square: square, hasMoved: hasMoved)
+    square.chessPiece = chessPiece
+    
+    if color == .black {
+      self.blackChessPieces.append(chessPiece)
+      if type == .King {
+        blackKing = chessPiece
+      }
+    } else {
+      self.whiteChessPieces.append(chessPiece)
+      if type == .King {
+        whiteKing = chessPiece
+      }
+    }
+
+    chessboardView.addSubview(chessPiece)
+  }
+  
+  
+  
+  
+  
+  public func saveGame() {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+
+    let managedContext = appDelegate.persistentContainer.viewContext
+
+    guard let entity = NSEntityDescription.entity(forEntityName: CoreDataGameKeys.entity, in: managedContext) else { return }
+
+    let managedGameObject = NSManagedObject(entity: entity, insertInto: managedContext)
+
+    managedGameObject.setValue(whiteTurn, forKey: CoreDataGameKeys.whiteTurn)
+    managedGameObject.setValue(true, forKey: CoreDataGameKeys.resumeGame)
+
+    do {
+      try managedContext.save()
+      saveCurrentState()
+      saveGameNotation()
+    } catch let error as NSError {
+      print("Could not save. \(error), \(error.userInfo)")
+    }
+  }
+  
+  
+  private func saveGameNotation() {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    
+    let managedContext = appDelegate.persistentContainer.viewContext
+    
+    guard let entity = NSEntityDescription.entity(forEntityName: CoreDataGameNotation.entity, in: managedContext) else { return }
+    
+    let managedNotationObject = NSManagedObject(entity: entity, insertInto: managedContext)
+    
+    managedNotationObject.setValue(gameNotation, forKey: CoreDataGameNotation.gameNotation)
+    
+    do {
+      try managedContext.save()
+    } catch let error as NSError {
+      print("Could not save. \(error), \(error.userInfo)")
+    }
+    
+    
+  }
+  
+  
 }
+
 
 
 
@@ -693,6 +953,12 @@ extension Chessboard {
       heightNotation[index].text = height2Text
       heightNotation[opposingIndex].text = height1Text
     }
+  }
+  
+  // Determine if the board is set for White or for black.
+  // Used for when resuming a game to see if board is already set to white or black.
+  private func isBoardSetForWhitesTurn()-> Bool {
+    return rowNotation[0].text == "a"
   }
   
   

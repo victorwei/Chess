@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import CoreData
+
 
 class GameVC: UIViewController {
   
   
   var chessboard: Chessboard!
   var shouldDismiss: Bool = false
+  var resumeOldGame: (Bool, Bool) = (false, false)
+  
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
@@ -20,11 +24,25 @@ class GameVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    self.view.backgroundColor = UIColor.purple
     navBarSetup()
     addNavigationBtns()
+    setupGame()
+  }
+  
+  
+  deinit {
+    
+    if chessboard == nil { return }
+    chessboard.saveGame()
+  }
+  
+  
+  private func setupGame() {
     chessboard = Chessboard()
-    chessboard.setup(viewController: self)
     chessboard.delegate = self
+    chessboard.setupForGame(viewController: self, newGame: !resumeOldGame.0, whitesTurn: resumeOldGame.1)
     setupTapGesturesForChessboard()
   }
   
@@ -32,7 +50,6 @@ class GameVC: UIViewController {
     addBackBtn()
     addNotationBtn()
   }
-  
   
   
   private func addBackBtn() {
@@ -157,7 +174,31 @@ class GameVC: UIViewController {
     }
   }
   
+  
+//  func saveCurrentGameState() {
+//    
+//    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+//    let managedContext = appDelegate.persistentContainer.viewContext
+//    
+//    let gameEntity = NSEntityDescription.entity(forEntityName: CoreDataGameKeys.entity, in: managedContext)!
+//    let gameObject = NSManagedObject(entity: gameEntity, insertInto: managedContext)
+//    gameObject.setValue(true, forKey: CoreDataGameKeys.resumeGame)
+//    gameObject.setValue(chessboard.whiteTurn, forKey: CoreDataGameKeys.whiteTurn)
+//    
+//    do {
+//      try managedContext.save()
+//      chessboard.saveGame()
+//    } catch let error as NSError {
+//      print("Could not save. \(error), \(error.userInfo)")
+//    }
+//  }
+  
 }
+
+
+
+
+
 
 extension GameVC: CustomAlertDelegate {
   func restartBtnTapped() {
