@@ -40,17 +40,17 @@ class ChessPiece: UIView {
       case true:
         switch type {
         case .Pawn:
-          image = side == .white ? UIImage(named: "wp") : UIImage(named: "bp_selected")
+          image = side == .white ? UIImage(named: "wp") : UIImage(named: "bp")
         case .King:
-          image = side == .white ? UIImage(named: "wk") : UIImage(named: "bk_selected")
+          image = side == .white ? UIImage(named: "wk") : UIImage(named: "bk")
         case .Queen:
-          image = side == .white ? UIImage(named: "wq") : UIImage(named: "bq_selected")
+          image = side == .white ? UIImage(named: "wq") : UIImage(named: "bq")
         case .Bishop:
-          image = side == .white ? UIImage(named: "wb") : UIImage(named: "bishop_b_selected")
+          image = side == .white ? UIImage(named: "wb") : UIImage(named: "bb")
         case .Knight:
-          image = side == .white ? UIImage(named: "wn") : UIImage(named: "bn_selected")
+          image = side == .white ? UIImage(named: "wn") : UIImage(named: "bn")
         case .Rook:
-          image = side == .white ? UIImage(named: "wr") : UIImage(named: "br_selected")
+          image = side == .white ? UIImage(named: "wr") : UIImage(named: "br")
         }
       case false:
         switch type {
@@ -61,7 +61,7 @@ class ChessPiece: UIView {
         case .Queen:
           image = side == .white ? UIImage(named: "wq") : UIImage(named: "bq")
         case .Bishop:
-          image = side == .white ? UIImage(named: "wb") : UIImage(named: "bishop_b")
+          image = side == .white ? UIImage(named: "wb") : UIImage(named: "bb")
         case .Knight:
           image = side == .white ? UIImage(named: "wn") : UIImage(named: "bn")
         case .Rook:
@@ -88,7 +88,7 @@ class ChessPiece: UIView {
     case .Queen:
       image = color == .white ? UIImage(named: "wq") : UIImage(named: "bq")
     case .Bishop:
-      image = color == .white ? UIImage(named: "wb") : UIImage(named: "bishop_b")
+      image = color == .white ? UIImage(named: "wb") : UIImage(named: "bb")
     case .Knight:
       image = color == .white ? UIImage(named: "wn") : UIImage(named: "bn")
     case .Rook:
