@@ -195,8 +195,12 @@ class ChessPiece: UIView {
     case .Rook:
       image = getColor() == .white ? UIImage(named: "wr") : UIImage(named: "br")
     }
-    imageView.image = image
+    DispatchQueue.main.async {
+      self.imageView.image = self.image
+    }
+//    imageView.image = image
     self.type = type
+    
     
   }
   

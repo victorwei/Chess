@@ -229,6 +229,8 @@ extension GameVC: ChessboardDelegate {
 extension GameVC: ChoosePieceDelegate {
   func selectedPiece(piece: PiecesType) {
     chessboard.promotePawn?.changePieceType(type: piece)
+    chessboard.setChessNotationForPawnPromotion(chessPiece: piece)
+    chessboard.finishMoveAndUpdateBoard()
   }
 }
 

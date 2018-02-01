@@ -34,6 +34,7 @@ class Chessboard: UIView {
   
   var temporaryChessPiece: ChessPiece?
   var gameNotation: [String] = []
+  var temporaryNotation: String?
   
   weak var delegate: ChessboardDelegate!
   
@@ -771,14 +772,6 @@ extension Chessboard {
         highlightPossibleSquares(boardSquares: [selectedBoardSquare.boardNotation])
         selectedChessPiece.moveToSquare(square: selectedBoardSquare, completion: { [weak self] captured in
           
-          // Check if pawn reached the end of the square
-          if selectedChessPiece.type == .Pawn && selectedBoardSquare.boardNotation.returnArrayNotation().0 == 0 {
-            self?.promotePawn = selectedChessPiece
-            self?.delegate.showChooseNewPieceAlert(whiteTurn: (self?.whiteTurn)!)
-            //            selectedChessPiece.changePieceType(type: PiecesType.Queen)
-            return
-          }
-          
           // Used for getting game notation
           var chessNotation = ""
           if selectedChessPiece.type == .Pawn && captured {
@@ -788,6 +781,19 @@ extension Chessboard {
             chessNotation = (self?.getChessNotationForMove(chessPiece: selectedChessPiece, boardSquare: selectedBoardSquare.boardNotation, pawnSquare: nil))!
           }
           print(chessNotation)
+          
+          
+          // Check if pawn reached the end of the square
+          if selectedChessPiece.type == .Pawn && selectedBoardSquare.boardNotation.returnArrayNotation().0 == 0 {
+
+            self?.temporaryNotation = chessNotation
+            self?.promotePawn = selectedChessPiece
+            self?.delegate.showChooseNewPieceAlert(whiteTurn: (self?.whiteTurn)!)
+            
+            return
+          }
+          
+          
           self?.gameNotation.append(chessNotation)
           
           self?.finishMoveAndUpdateBoard()
@@ -861,7 +867,7 @@ extension Chessboard {
   }
   
   // Helper function used after player moves a chess piece
-  private func finishMoveAndUpdateBoard() {
+  public func finishMoveAndUpdateBoard() {
     
     self.clearHighlightedSquares()
     if checkIfCheckmate() {
@@ -1334,7 +1340,7 @@ extension Chessboard {
   }
   
   // Helper function to help print the board square
-  private func getChessNotationForMove(chessPiece: ChessPiece, boardSquare: BoardNotation, pawnSquare: String?)-> String {
+  public func getChessNotationForMove(chessPiece: ChessPiece, boardSquare: BoardNotation, pawnSquare: String?)-> String {
     
     var pieceNotation = ""
     switch chessPiece.type {
@@ -1357,6 +1363,29 @@ extension Chessboard {
       return pawnSquare + pieceNotation + boardSquareNotation
     }
     return pieceNotation + boardSquareNotation
+  }
+  
+  
+  // Helper function to add notation after pawn has been promoted {
+  public func setChessNotationForPawnPromotion(chessPiece: PiecesType) {
+    guard var notation = temporaryNotation else {
+      return
+    }
+    switch chessPiece {
+    case .Bishop:
+      notation += "=B"
+    case .Knight:
+      notation += "=N"
+    case .Rook:
+      notation += "=R"
+    case .Queen:
+      notation += "=Q"
+    default:
+      break
+    }
+    temporaryNotation = nil
+    gameNotation.append(notation)
+    
   }
   
 }
